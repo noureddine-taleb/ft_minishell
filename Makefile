@@ -6,7 +6,7 @@
 #    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/11/18 01:02:27 by kadjane          ###   ########.fr        #
+#    Updated: 2022/11/20 03:28:32 by kadjane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-lreadline
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 

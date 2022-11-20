@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/18 01:00:38 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/20 04:07:01 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,70 +17,138 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && *str)
+	{
 		i++;
+		str++;
+	}
 	return (i);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+char	*ft_strdup(char *src)
 {
-	int	i;
+	int		len;
+	int		i;
+	char	*ptr;
+	char	*string;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	i = -1;
+	if (!src)
+		return (NULL);
+	len = ft_strlen(src) + 1;
+	ptr = (char *)malloc(len);
+	if(!ptr)
+		return (NULL);
+	string = ptr;
+	while (src[++i])
+		*ptr++ = src[i];
+	*ptr = '\0';
+	return (string);
 }
 
-void	ft_putstr(char *str)
+int	ft_isalpha(int c)
 {
-	char	*null;
-
-	null = "(null)";
-	if (!str)
-	{
-		while (*null)
-			write (1, null++, 1);
-	}
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
 	else
-	{
-		while (*str)
-			write(1, str++, 1);
-		write (1, "\n", 1);
-	}
+		return (0);
 }
 
-int	ft_atoi_help(char *str, unsigned int cmp)
+char	*ft_strjoin(char *string, char c, t_lexer *lexer)
 {
-	while (*str)
+	int		i;
+	char	*new_string;
+	char	*str;
+
+	i = -1;
+	str = string;
+	new_string = malloc(ft_strlen(string) + 2);
+	if (!new_string)
+		return (NULL);
+	while (string && *string)
+		new_string[++i] = *string++;
+	new_string[++i] = c;
+	get_next_char(lexer);
+	new_string[++i] = '\0';
+	if (str)
 	{
-		while (*str && ((*str >= 9 && *str <= 13) || *str == ' '))
-			str++;
-		if (*str == '+')
-			str++;
-		if (*str && *str >= '0' && *str <= '9')
-		{
-			while (*str && *str >= '0' && *str <= '9')
-			{
-				cmp = (cmp * 10) + (*str++ - '0');
-				if (cmp > 4294967295 || (*str == '+'))
-					return (-1);
-			}
-		}
-		else
-			return (-1);
+		free(str);
+		str = NULL;
 	}
-	return (cmp);
+	return (new_string);
 }
 
-int	ft_atoi(char *str)
+char	*char_convert_string(char c)
 {
-	unsigned int	cmp;
+	char	*string;
 
-	cmp = 0;
-	if (ft_strcmp(str, "") == 0 || (ft_strlen(str) == 1 && *str == '+'))
-		return (-1);
-	else
-		return (ft_atoi_help(str, cmp));
-	return (0);
+	string = malloc(2);
+	if (!string)
+		return (NULL);
+	*string = c;
+	*(string + 1) = '\0';
+	return (string);
 }
+
+// int	ft_strcmp(char *s1, char *s2)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (s1[i] && s2[i] && s1[i] == s2[i])
+// 		i++;
+// 	return (s1[i] - s2[i]);
+// }
+
+// void	ft_putstr(char *str)
+// {
+// 	char	*null;
+
+// 	null = "(null)";
+// 	if (!str)
+// 	{
+// 		while (*null)
+// 			write (1, null++, 1);
+// 	}
+// 	else
+// 	{
+// 		while (*str)
+// 			write(1, str++, 1);
+// 		write (1, "\n", 1);
+// 	}
+// }
+
+// int	ft_atoi_help(char *str, unsigned int cmp)
+// {
+// 	while (*str)
+// 	{
+// 		while (*str && ((*str >= 9 && *str <= 13) || *str == ' '))
+// 			str++;
+// 		if (*str == '+')
+// 			str++;
+// 		if (*str && *str >= '0' && *str <= '9')
+// 		{
+// 			while (*str && *str >= '0' && *str <= '9')
+// 			{
+// 				cmp = (cmp * 10) + (*str++ - '0');
+// 				if (cmp > 4294967295 || (*str == '+'))
+// 					return (-1);
+// 			}
+// 		}
+// 		else
+// 			return (-1);
+// 	}
+// 	return (cmp);
+// }
+
+// int	ft_atoi(char *str)
+// {
+// 	unsigned int	cmp;
+
+// 	cmp = 0;
+// 	if (ft_strcmp(str, "") == 0 || (ft_strlen(str) == 1 && *str == '+'))
+// 		return (-1);
+// 	else
+// 		return (ft_atoi_help(str, cmp));
+// 	return (0);
+// }

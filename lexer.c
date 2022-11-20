@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:26:21 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/18 03:03:42 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/20 00:58:08 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,24 @@ t_lexer *init_lexer(char *ling_command)
 	lexer = malloc(sizeof(t_lexer));
 	if(!lexer)
 		return (NULL);
-	lexer->command_ling = ling_command;//lexer->command[lexer->index+ 1]
+	lexer->command_ling = ft_strdup(ling_command);
 	lexer->index = 0;
 	lexer->c = lexer->command_ling[lexer->index];
 	return (lexer);
+}
+
+void	get_next_char(t_lexer *lexer)
+{
+	if (lexer->c != '\0' && lexer-> index < ft_strlen(lexer->command_ling))
+	{
+		lexer->index += 1;
+		lexer->c = lexer->command_ling[lexer->index];
+	}
+}
+
+void	skip_whitespace(t_lexer *lexer)
+{
+	while((lexer->c != '\0' && lexer->index < ft_strlen(lexer->command_ling))
+			&& (lexer->c == ' ' || lexer->c == '\t'))
+				get_next_char(lexer);
 }
