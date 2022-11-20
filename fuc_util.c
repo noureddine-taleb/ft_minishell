@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/20 04:07:01 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/20 10:06:45 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_isalpha(int c)
 		return (0);
 }
 
-char	*ft_strjoin(char *string, char c, t_lexer *lexer)
+char	*ft_strjoin(char *string, t_lexer *lexer)
 {
 	int		i;
 	char	*new_string;
@@ -67,7 +67,8 @@ char	*ft_strjoin(char *string, char c, t_lexer *lexer)
 		return (NULL);
 	while (string && *string)
 		new_string[++i] = *string++;
-	new_string[++i] = c;
+	new_string[++i] = lexer->c;
+	printf("--->%c\n",lexer->c);
 	get_next_char(lexer);
 	new_string[++i] = '\0';
 	if (str)
@@ -90,15 +91,15 @@ char	*char_convert_string(char c)
 	return (string);
 }
 
-// int	ft_strcmp(char *s1, char *s2)
-// {
-// 	int	i;
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (s1[i] && s2[i] && s1[i] == s2[i])
-// 		i++;
-// 	return (s1[i] - s2[i]);
-// }
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
 
 // void	ft_putstr(char *str)
 // {
