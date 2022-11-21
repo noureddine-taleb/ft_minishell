@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/20 10:06:45 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/21 16:57:59 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,8 @@ char	*ft_strjoin(char *string, t_lexer *lexer)
 	while (string && *string)
 		new_string[++i] = *string++;
 	new_string[++i] = lexer->c;
-	printf("--->%c\n",lexer->c);
-	get_next_char(lexer);
 	new_string[++i] = '\0';
+	get_next_char(lexer);
 	if (str)
 	{
 		free(str);

@@ -3,5 +3,8 @@
 		"APPAND",
 		"HERDOC",
 		"REDI"
-	]
+	],
+	"files.associations": {
+		"fcntl.h": "c"
+	}
 }

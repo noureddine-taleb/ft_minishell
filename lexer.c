@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:26:21 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/20 00:58:08 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/21 17:12:48 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_lexer *init_lexer(char *ling_command)
 
 void	get_next_char(t_lexer *lexer)
 {
-	if (lexer->c != '\0' && lexer-> index < ft_strlen(lexer->command_ling))
+	if (lexer->c != '\0' /* && lexer-> index <= ft_strlen(lexer->command_ling)*/)
 	{
 		lexer->index += 1;
 		lexer->c = lexer->command_ling[lexer->index];
