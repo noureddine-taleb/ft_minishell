@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/21 17:38:37 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/22 13:05:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ t_token	*get_word_token(t_lexer *lexer)
 	
 	token = NULL;
 	word = NULL;
-	printf("char = %c\n", lexer->c);
-	while(lexer->c && !get_quote(lexer) 
-		&& !get_dollar_pipe_token(lexer) && !get_redirection_token(lexer))
+	while(lexer->c && lexer->c != ' ' && lexer->c != '\t'
+			&& !get_quote(lexer) && !get_dollar_pipe_token(lexer)
+			&& !get_redirection_token(lexer))
 		word = ft_strjoin(word, lexer);
 	token = init_token(TOKEN_WORD, word);
 	return (token);

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/21 17:39:03 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:26:35 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token)
 		else
 			token = get_word_token(lexer);
 		add_node(&list_token,node(&token));
-		while(list_token)
-		{
-			// printf("type = %d\n",list_token->token->type);
-			// printf("value = %s\n\n",list_token->token->val);
-			list_token = list_token->next;
-		}
 	}
 	return (list_token);
 }
-
-
