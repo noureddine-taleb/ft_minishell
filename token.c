@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/22 15:26:35 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/23 17:53:12 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token)
 	t_token *token;
 	
 	token = NULL;
-	if (lexer->c == '\0')
-	{
-		token = init_token(-1, NULL);
-		add_node(&list_token,node(&token));
-		return (list_token);
-	}
+	// if (lexer->c == '\0')
+	// {
+		
+	// 	token = init_token(-1, NULL);
+	// 	add_node(&list_token,node(&token));
+	// 	return (list_token);
+	// }
+	while (lexer->c == ' ' || lexer->c == '\t')
+		skip_whitespace(lexer);
 	while (lexer->c != '\0')
 	{
 		if (lexer->c == ' ' || lexer->c == '\t')
@@ -49,5 +52,19 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token)
 			token = get_word_token(lexer);
 		add_node(&list_token,node(&token));
 	}
+	// while(list_token)
+	// {
+	// 	printf("********%p\n",list_token->token);
+	// 	// if(!list_token->token)
+	// 	// {
+	// 	// 	printf("syntax error");
+	// 	// 	return (0);
+	// 	// }
+	// 	// printf("type = %d\n",list_token->token->type);
+	// 	// printf("value = %s\n\n",list_token->token->val);
+	// 	list_token = list_token->next;
+	// }
+	token = init_token(-1, NULL);
+	add_node(&list_token,node(&token));
 	return (list_token);
 }
