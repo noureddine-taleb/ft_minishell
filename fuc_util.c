@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/21 16:57:59 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/24 20:51:05 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_isalpha(int c)
 		return (0);
 }
 
-char	*ft_strjoin(char *string, t_lexer *lexer)
+char	*ft_strjoin2(char *string, t_lexer *lexer)
 {
 	int		i;
 	char	*new_string;
@@ -78,6 +78,26 @@ char	*ft_strjoin(char *string, t_lexer *lexer)
 	return (new_string);
 }
 
+char	*ft_strjoin(char *str1, char *str2)
+{
+	char	*str;
+	char	*ptr;
+
+	if (!str1)
+		return (ft_strdup((char *)str2));
+	if (!str2)
+		return (ft_strdup((char *)str1));
+	str = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
+	if (!str)
+		return (0);
+	ptr = str;
+	while (*str1)
+		*str++ = *str1++;
+	while (*str2)
+		*str++ = *str2++;
+	*str = '\0';
+	return (ptr);
+}
 char	*char_convert_string(char c)
 {
 	char	*string;
@@ -98,6 +118,14 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
+		return (1);
+	else
+		return (0);
 }
 
 // void	ft_putstr(char *str)

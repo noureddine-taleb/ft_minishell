@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/23 17:52:56 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/24 21:26:01 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@ int main()
 	while((input_commands = init_lexer(readline("Minishell$ "))) != NULL)
 	{
 		if (ft_strcmp(input_commands->command_ling, "") != 0)
-			add_history(input_commands->command_ling);
-		list_token = get_token(input_commands, list_token);
-		while(list_token)
 		{
-			if(!list_token->token)
+			add_history(input_commands->command_ling);
+			list_token = get_token(input_commands, list_token);
+			while(list_token)
 			{
-				printf("syntax error");
-				return (0);
+				if(!list_token->token)
+				{
+					printf("syntax error");
+					return (0);
+				}
+				// printf("type = %d\n",list_token->token->type);
+				printf("\033[91mvalue = %s\n\n\033[00m",list_token->token->val);
+				list_token = list_token->next;
 			}
-			printf("type = %d\n",list_token->token->type);
-			printf("value = %s\n\n",list_token->token->val);
-			list_token = list_token->next;
 		}
 	}
 

@@ -6,7 +6,7 @@ struct cmd {
 	char **cmd;
 	char **env;
 	char *outfile;
-	int	 outflags;
+	bool append;
 	char *infile;
 	char *herdoc;
 	struct cmd *next;
