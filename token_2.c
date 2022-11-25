@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/24 21:57:51 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/25 20:06:58 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,30 @@ char	*get_dollar_pipe_token(t_lexer *lexer)
 	return (string);
 }
 
+int	is_whitespace(char c)
+{
+	if ((c >= 9 && c <= 13 )|| c == ' ')
+		return (1);
+	return (0);
+}
+
+int	is_token(char *lexer)
+{
+	 
+	if (!ft_strcmp(lexer,">") || !ft_strcmp(lexer,">>")
+		|| !ft_strcmp(lexer,"<") || !ft_strcmp(lexer,"<<")
+		|| !ft_strcmp(lexer,"$") || !ft_strcmp(lexer,"|")
+		|| !ft_strcmp(lexer,"'") || !ft_strcmp(lexer,"\""))
+			return (1);
+	return (0);
+}
+
 char	*get_word_token(t_lexer *lexer)
 {
 	char	*word;
 	
 	word = NULL;
-	while(lexer->c && lexer->c != ' ' && lexer->c != '\t' && lexer->c != '"' && lexer->c != '\'')
+	while(lexer->c && !is_whitespace(lexer->c) && !is_token(char_convert_string(lexer->c)))
 		word = ft_strjoin2(word, lexer);
 	return (word);
 }
