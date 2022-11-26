@@ -6,11 +6,11 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/24 20:51:05 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/26 22:21:01 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 int	ft_strlen(char *str)
 {
@@ -37,7 +37,7 @@ char	*ft_strdup(char *src)
 		return (NULL);
 	len = ft_strlen(src) + 1;
 	ptr = (char *)malloc(len);
-	if(!ptr)
+	if (!ptr)
 		return (NULL);
 	string = ptr;
 	while (src[++i])
@@ -77,106 +77,3 @@ char	*ft_strjoin2(char *string, t_lexer *lexer)
 	}
 	return (new_string);
 }
-
-char	*ft_strjoin(char *str1, char *str2)
-{
-	char	*str;
-	char	*ptr;
-
-	if (!str1)
-		return (ft_strdup((char *)str2));
-	if (!str2)
-		return (ft_strdup((char *)str1));
-	str = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
-	if (!str)
-		return (0);
-	ptr = str;
-	while (*str1)
-		*str++ = *str1++;
-	while (*str2)
-		*str++ = *str2++;
-	*str = '\0';
-	return (ptr);
-}
-char	*char_convert_string(char c)
-{
-	char	*string;
-
-	string = malloc(2);
-	if (!string)
-		return (NULL);
-	*string = c;
-	*(string + 1) = '\0';
-	return (string);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-int	ft_isalnum(int c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
-		return (1);
-	else
-		return (0);
-}
-
-// void	ft_putstr(char *str)
-// {
-// 	char	*null;
-
-// 	null = "(null)";
-// 	if (!str)
-// 	{
-// 		while (*null)
-// 			write (1, null++, 1);
-// 	}
-// 	else
-// 	{
-// 		while (*str)
-// 			write(1, str++, 1);
-// 		write (1, "\n", 1);
-// 	}
-// }
-
-// int	ft_atoi_help(char *str, unsigned int cmp)
-// {
-// 	while (*str)
-// 	{
-// 		while (*str && ((*str >= 9 && *str <= 13) || *str == ' '))
-// 			str++;
-// 		if (*str == '+')
-// 			str++;
-// 		if (*str && *str >= '0' && *str <= '9')
-// 		{
-// 			while (*str && *str >= '0' && *str <= '9')
-// 			{
-// 				cmp = (cmp * 10) + (*str++ - '0');
-// 				if (cmp > 4294967295 || (*str == '+'))
-// 					return (-1);
-// 			}
-// 		}
-// 		else
-// 			return (-1);
-// 	}
-// 	return (cmp);
-// }
-
-// int	ft_atoi(char *str)
-// {
-// 	unsigned int	cmp;
-
-// 	cmp = 0;
-// 	if (ft_strcmp(str, "") == 0 || (ft_strlen(str) == 1 && *str == '+'))
-// 		return (-1);
-// 	else
-// 		return (ft_atoi_help(str, cmp));
-// 	return (0);
-// }

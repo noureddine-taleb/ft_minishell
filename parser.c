@@ -6,29 +6,26 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/26 01:10:20 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/27 00:07:17 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"parsing.h"
+#include"minishell.h"
 
 int	check_quote(t_list_token *list_token)
 {
 	while(list_token)
 	{
 		if(!list_token->token)
-		{
-			printf("syntax error");
-			return (0);
-		}
+			return (1);
 		list_token = list_token->next;
 	}
-	return (1);
+	return (0);
 }
 
 int main()
 {
-	t_lexer	*input_commands;
+	t_lexer			*input_commands;
 	t_list_token	*list_token;
 
 	list_token = NULL;
@@ -38,16 +35,18 @@ int main()
 		{
 			add_history(input_commands->command_ling);
 			list_token = get_token(input_commands, list_token);
-			if (!check_quote(list_token))
-				return (0);
-			while(list_token)
+			
+			if (check_quote(list_token))
 			{
-				printf("\033[92mtype = %d\n",list_token->token->type);
+				printf("syntax error\n");
+				free_list(&list_token);
+			}
+			while(list_token && list_token->token)
+			{
+				printf("\033[92mtype = %d\n",list_token->token->e_type);
 				printf("\033[91mvalue = %s\n\n\033[00m",list_token->token->val);
 				list_token = list_token->next;
 			}
 		}
-		// while (1)
-		// 	;
 	}
 }

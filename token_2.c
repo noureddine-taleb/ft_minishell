@@ -6,11 +6,11 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/25 23:45:54 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/26 22:21:54 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"parsing.h"
+#include"minishell.h"
 
 char	*get_redirection_token(t_lexer *lexer)
 {
@@ -105,24 +105,6 @@ char	*get_dollar_pipe_token(t_lexer *lexer)
 		get_next_char(lexer);
 	}
 	return (string);
-}
-
-int	is_whitespace(char c)
-{
-	if ((c >= 9 && c <= 13 )|| c == ' ')
-		return (1);
-	return (0);
-}
-
-int	is_token(char *lexer)
-{
-	 
-	if (!ft_strcmp(lexer,">") || !ft_strcmp(lexer,">>")
-		|| !ft_strcmp(lexer,"<") || !ft_strcmp(lexer,"<<")
-		|| !ft_strcmp(lexer,"$") || !ft_strcmp(lexer,"|")
-		|| !ft_strcmp(lexer,"'") || !ft_strcmp(lexer,"\""))
-			return (1);
-	return (0);
 }
 
 char	*get_word_token(t_lexer *lexer)

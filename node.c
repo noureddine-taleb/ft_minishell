@@ -6,11 +6,11 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 08:16:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/26 01:10:35 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/26 22:21:42 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 t_list_token	*node(t_token **token)
 {
