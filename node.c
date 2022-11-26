@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 08:16:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/22 15:23:37 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/26 01:10:35 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	add_node(t_list_token **list_token, t_list_token *new_token)
 	{
 		while(tmp->next)
 			tmp = tmp->next;
-		(tmp)->next = new_token;//+ lmochkil sa_handler
+		(tmp)->next = new_token;
 	}
 }

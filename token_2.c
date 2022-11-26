@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/25 20:06:58 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/25 23:45:54 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ char	*get_redirection_token(t_lexer *lexer)
 
 char *s_quote(t_lexer *lexer)
 {
-	t_token	*token;
 	char	*string;
 	
-	token = NULL;
 	string = NULL;
 	if (lexer->c == '\'')
 	{

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/25 19:37:07 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/25 23:33:08 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,4 @@ char	*get_dollar_pipe_token(t_lexer *lexer);
 char	*get_word_token(t_lexer *lexer);
 int		check_quote(t_list_token *list_token);
 int		is_token(char *lexer);
+int		is_whitespace(char c);
