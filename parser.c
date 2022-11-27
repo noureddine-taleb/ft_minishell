@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/27 04:50:32 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 00:11:11 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main()
 
 	list_token = NULL;
 	input_commands = init_lexer(readline("Minishell$ "));
-	printf("------%p\n",input_commands);
 	while (input_commands)
 	{
 		if (ft_strcmp(input_commands->command_ling, "") != 0)
@@ -44,15 +43,13 @@ int	main()
 			}
 			while (list_token && list_token->token)
 			{
-				printf("********%p\n",list_token->token);
 				printf("\033[92mtype = %d\n",list_token->token->e_type);
 				printf("\033[91mvalue = %s\n\n\033[00m", list_token->token->val);
 				list_token = list_token->next;
 			}
+			free_lexer(&input_commands);
+			free_list(&list_token);
 		}
-		free(input_commands->command_ling);
-		free (input_commands);
-		free_list(&list_token);
 		while (1)
 			;
 		input_commands = init_lexer(readline("Minishell$ "));

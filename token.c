@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/27 03:55:31 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 00:38:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
 			if (!lexer->c || data->nbr_space)
 				add_token_2(&list_token, data);
 		}
+		ft_free(&data->value);
 	}
 	return (list_token);
 }

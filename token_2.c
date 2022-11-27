@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/27 04:01:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 00:09:03 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,15 @@ char	*get_dollar_pipe_token(t_lexer *lexer)
 char	*get_word_token(t_lexer *lexer)
 {
 	char	*word;
+	char	*str;
 
 	word = NULL;
-	while (lexer->c && !is_whitespace(lexer->c)
-		&& !is_token(char_convert_string(lexer->c)))
-		word = ft_strjoin2(word, lexer);
+	while (lexer->c && !is_whitespace(lexer->c))
+		{
+			str = char_convert_string(lexer->c);
+			if (!is_token(str))
+				word = ft_strjoin2(word, lexer);
+			ft_free(&str);
+		}
 	return (word);
 }

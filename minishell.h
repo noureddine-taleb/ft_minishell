@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/27 03:37:33 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/27 23:03:25 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ int				ft_isalnum(int c);
 char			*char_convert_string(char c);
 int				skip_whitespace(t_lexer *lexer);
 int				check_quote(t_list_token *list_token);
-void			free_list(t_list_token **list_token);
-void			ft_free(char **value);
 int				is_whitespace(char c);
 int				is_token(char *lexer);
+void			free_list(t_list_token **list_token);
+void			ft_free(char **value);
+void			free_lexer(t_lexer  **lexer);
 
 t_lexer			*init_lexer(char *ling_command);
 void			get_next_char(t_lexer *lexer);
