@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:52:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/28 00:20:56 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 17:17:01 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strjoin(char *str1, char *str2)
 {
 	char	*str;
 	char	*ptr;
-
+	
 	if (!str1)
 		return (ft_strdup((char *)str2));
 	if (!str2)
@@ -60,6 +60,5 @@ char	*ft_strjoin(char *str1, char *str2)
 	while (*str2)
 		*str++ = *str2++;
 	*str = '\0';
-	ft_free(&str1);
 	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/26 22:21:01 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 18:23:14 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_isalpha(int c)
 		return (0);
 }
 
-char	*ft_strjoin2(char *string, t_lexer *lexer)
+char	*ft_strjoin2(char *string, char c, t_lexer *lexer)
 {
 	int		i;
 	char	*new_string;
@@ -67,7 +67,7 @@ char	*ft_strjoin2(char *string, t_lexer *lexer)
 		return (NULL);
 	while (string && *string)
 		new_string[++i] = *string++;
-	new_string[++i] = lexer->c;
+	new_string[++i] = c;
 	new_string[++i] = '\0';
 	get_next_char(lexer);
 	if (str)

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/28 00:10:00 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 01:41:30 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_list(t_list_token **list_token)
 	*list_token = NULL;
 }
 
-void	free_lexer(t_lexer  **lexer)
+void	free_lexer(t_lexer **lexer)
 {
 	ft_free(&(*lexer)->command_ling);
 	free(*lexer);
@@ -44,16 +44,6 @@ int	is_whitespace(char c)
 {
 	if ((c >= 9 && c <= 13) || c == ' ')
 		return (1);
-	return (0);
-}
-
-int	is_token(char *lexer)
-{
-	if (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
-			|| !ft_strcmp(lexer, "<") || !ft_strcmp(lexer, "<<")
-			|| !ft_strcmp(lexer, "$") || !ft_strcmp(lexer, "|")
-			|| !ft_strcmp(lexer, "'") || !ft_strcmp(lexer, "\"")))
-				return (1);
 	return (0);
 }
 
