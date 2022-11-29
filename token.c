@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/28 17:22:47 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/28 21:41:55 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_value(t_lexer *lexer, t_data **data)
 		return (d_quote(lexer));
 	else if (lexer->c == '\'')
 		return (s_quote(lexer));
-	else if (lexer->c == '$' || lexer->c == '|')
+	else if (lexer->c == '|')////////////////////////////
 		return (get_dollar_pipe_token(lexer));
 	else if (lexer->c == '>' || lexer->c == '<')
 		return (get_redirection_token(lexer));
