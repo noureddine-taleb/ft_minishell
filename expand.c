@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 12:40:49 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/29 21:56:27 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 	found = NULL;
 	env = (*data)->env;
 	ptr = &lexer->command_ling[lexer->index + 1];
-	while (env)
+	while (env && *env)
 	{
 		str = *env;
 		while (*ptr && *ptr == *str && *str != '=')
@@ -33,7 +33,7 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 			str++;
 			i++;
 		}
-		if (*str == '=')
+		if (*str == '=' && !ft_isalnum(*ptr))
 		{
 			str++;
 			found = ft_strjoin(word, str);

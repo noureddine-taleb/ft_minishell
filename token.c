@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/28 21:41:55 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:02:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ int	is_token(char *lexer)
 {
 	if (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
 			|| !ft_strcmp(lexer, "<") || !ft_strcmp(lexer, "<<")
-			/*|| !ft_strcmp(lexer, "$")*/ || !ft_strcmp(lexer, "|")
-			|| !ft_strcmp(lexer, "'") || !ft_strcmp(lexer, "\"")))
+			|| !ft_strcmp(lexer, "|") || !ft_strcmp(lexer, "'")
+			|| !ft_strcmp(lexer, "\"")))
 		return (1);
 	return (0);
 }
 
 char	*get_value(t_lexer *lexer, t_data **data)
 {
+	char	*word;
 	if (lexer->c == '\"')
 		return (d_quote(lexer));
 	else if (lexer->c == '\'')
@@ -45,7 +46,12 @@ char	*get_value(t_lexer *lexer, t_data **data)
 	else if (lexer->c == '>' || lexer->c == '<')
 		return (get_redirection_token(lexer));
 	else
-		return (get_word_token(lexer, data));
+	{
+		word = get_word_token(lexer, data);
+		if(!word)
+			return(ft_strdup(""));
+		return (word);
+	}
 }
 
 t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token, t_data **data)
