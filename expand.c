@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/01 02:56:41 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 18:15:34 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,43 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 	i = 1;
 	found = NULL;
 	env = (*data)->env;
-	found = expand_digit(lexer, word);
-	if (found)
-		return(found);
+	if(ft_isalnum(lexer->command_ling[lexer->index + 1])
+		|| lexer->command_ling[lexer->index + 1] == '$')
+	{
+		found = expand_digit(lexer, word);
+		if (found)
+			return(found);
+		else
+		{
+			while (env && *env)
+			{
+				str = *env;
+				ptr = &lexer->command_ling[lexer->index + 1];
+				while (*ptr && *ptr == *str && *str != '=')
+				{
+					ptr++;
+					str++;
+					i++;
+				}
+				if (*str == '=' && !ft_isalnum(*ptr))
+				{
+					str++;
+					found = ft_strjoin(word, str);
+					while(i--)
+						get_next_char(lexer);
+					break ;
+				}
+				env++;
+			}
+			if (!found)
+				return (NULL);
+			else
+				return (found);
+		}
+	}
 	else
 	{
-		while (env && *env)
-		{
-			str = *env;
-			ptr = &lexer->command_ling[lexer->index + 1];
-			while (*ptr && *ptr == *str && *str != '=')
-			{
-				ptr++;
-				str++;
-				i++;
-			}
-			if (*str == '=' && !ft_isalnum(*ptr))
-			{
-				str++;
-				found = ft_strjoin(word, str);
-				while(i--)
-					get_next_char(lexer);
-				break ;
-			}
-			env++;
-		}
-		if (!found)
-			return (NULL);
-		else
-		return (found);
+		get_next_char(lexer);
+		return(ft_strjoin(word, "$"));
 	}
 }

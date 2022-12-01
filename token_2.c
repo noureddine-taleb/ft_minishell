@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/01 01:03:36 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 18:47:10 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,42 @@ char	*s_quote(t_lexer *lexer)
 	return (string);
 }
 
-char	*d_quote(t_lexer *lexer)
+char	*d_quote(t_lexer *lexer, t_data **data)
 {
 	char	*string;
+	char	*new_string;
+	char	*str;
 
 	string = NULL;
 	if (lexer->c == '"')
 	{
 		get_next_char(lexer);
 		while (lexer->c && lexer->c != '"')
-			string = ft_strjoin2(string, lexer->c, lexer);
+		{
+			if (lexer->c == '$')
+			{
+				new_string = ft_expand(string, lexer, data);
+				if(new_string)
+				{
+					ft_free(&string);
+					string = new_string;
+				}
+				else
+				{
+					get_next_char(lexer);
+					str = NULL;
+					str = char_convert_string(lexer->c);
+					while(lexer->c != '$' && lexer->c != '"' && lexer->c)
+					{
+						get_next_char(lexer);
+						str = NULL;
+						str = char_convert_string(lexer->c);
+					}
+				}
+			}
+			else
+				string = ft_strjoin2(string, lexer->c, lexer);
+		}
 		if (lexer->c == '"')
 		{
 			get_next_char(lexer);
@@ -87,12 +113,14 @@ char	*d_quote(t_lexer *lexer)
 		}
 		else
 		{
+			printf("lexer->c == %c\n",lexer->c);
 			free (string);
 			string = NULL;
 		}
 	}
 	return (string);
 }
+
 
 char	*get_dollar_pipe_token(t_lexer *lexer)
 {
@@ -107,7 +135,6 @@ char	*get_dollar_pipe_token(t_lexer *lexer)
 	return (string);
 }
 
-
 char	*get_word_token(t_lexer *lexer, t_data **data)
 {
 	char	*word;
@@ -115,7 +142,6 @@ char	*get_word_token(t_lexer *lexer, t_data **data)
 	char	*str;
 
 	word = NULL;
-	(void)data;
 	while (lexer->c && !is_whitespace(lexer->c))
 	{
 		str = char_convert_string(lexer->c);
@@ -123,25 +149,33 @@ char	*get_word_token(t_lexer *lexer, t_data **data)
 		{
 			if (lexer->c == '$')
 			{
-				new_word = ft_expand(word, lexer, data);
-				if(new_word)
+				if (lexer->command_ling[lexer->index + 1] == '"')
 				{
-					ft_free(&word);
-					word = new_word;
+					get_next_char(lexer);
+					return(ft_strjoin(word, d_quote(lexer, data)));
 				}
 				else
 				{
-					get_next_char(lexer);
-					str = NULL;
-					str = char_convert_string(lexer->c);
-					while(!is_token(str) && lexer->c != '$' && lexer->c)
+					new_word = ft_expand(word, lexer, data);
+					if(new_word)
+					{
+						ft_free(&word);
+						word = new_word;
+					}
+					else
 					{
 						get_next_char(lexer);
 						str = NULL;
 						str = char_convert_string(lexer->c);
+						while(!is_token(str) && lexer->c != '$' && lexer->c)
+						{
+							get_next_char(lexer);
+							str = NULL;
+							str = char_convert_string(lexer->c);
+						}
 					}
 				}
-			}
+			}	
 			else
 				word = ft_strjoin2(word, lexer->c, lexer);
 		}

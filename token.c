@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 22:02:21 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 18:14:23 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ int	is_token(char *lexer)
 char	*get_value(t_lexer *lexer, t_data **data)
 {
 	char	*word;
-	if (lexer->c == '\"')
-		return (d_quote(lexer));
+	if (lexer->c == '$' && lexer->command_ling[lexer->index + 1] == '"')
+	{
+		get_next_char(lexer);
+		return(d_quote(lexer, data));
+	}
+	else if (lexer->c == '\"')
+		return (d_quote(lexer, data));
 	else if (lexer->c == '\'')
 		return (s_quote(lexer));
 	else if (lexer->c == '|')////////////////////////////

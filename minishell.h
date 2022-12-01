@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/01 02:19:21 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 18:16:33 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void			add_token(t_list_token **list_token, t_data **data);
 void			add_token_2(t_list_token **list_token, t_data **data);
 char			*get_redirection_token(t_lexer *lexer);
 char			*s_quote(t_lexer *lexer);
-char			*d_quote(t_lexer *lexer);
+char			*d_quote(t_lexer *lexer, t_data **data);
 char			*get_dollar_pipe_token(t_lexer *lexer);
 char			*get_word_token(t_lexer *lexer, t_data **data);
 char			*get_value(t_lexer *lexer, t_data **data);
