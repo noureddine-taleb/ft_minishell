@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 11:57:50 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 00:14:44 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
+		return (0);
+}
+
 
 char	*ft_strjoin2(char *string, char c, t_lexer *lexer)
 {

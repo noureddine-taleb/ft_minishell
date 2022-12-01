@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 10:53:29 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/30 23:56:13 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	main(int ac, char **av, char **env)
 	}
 	// char **tmp;
 	
-	// tmp = envp;
+	// tmp = env;
 	// while (*tmp)
 	// {
-	// 	printf ("---%s\n",*tmp);
+	// 	printf ("%s\n",*tmp);
 	// 	tmp++;
 	// }
 }

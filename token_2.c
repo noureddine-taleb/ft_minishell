@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 21:57:21 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 01:03:36 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,5 @@ char	*get_word_token(t_lexer *lexer, t_data **data)
 			break ;
 		}
 	}
-	printf("----------> %s\n",word);
 	return (word);
 }

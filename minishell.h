@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/29 12:38:57 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/01 02:19:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int				ft_isalpha(int c);
 int				ft_strcmp(char *s1, char *s2);
 char			*ft_strjoin(char *str1, char *str2);
 int				ft_isalnum(int c);
+int				ft_isdigit(int c);
 
 char			*char_convert_string(char c);
 int				skip_whitespace(t_lexer *lexer);
