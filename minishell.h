@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/01 18:16:33 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/02 02:49:25 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ typedef struct s_data
 	char		*join_value;
 	int			nbr_space;
 	char		**env;
+	char		*ptr;
+	char		*str;
+	char		*found;
+	char		*new_string;
 }	t_data;
 
 typedef struct s_lexer
@@ -89,7 +93,7 @@ void			add_token_2(t_list_token **list_token, t_data **data);
 char			*get_redirection_token(t_lexer *lexer);
 char			*s_quote(t_lexer *lexer);
 char			*d_quote(t_lexer *lexer, t_data **data);
-char			*get_dollar_pipe_token(t_lexer *lexer);
+char			*get_pipe_token(t_lexer *lexer);
 char			*get_word_token(t_lexer *lexer, t_data **data);
 char			*get_value(t_lexer *lexer, t_data **data);
 

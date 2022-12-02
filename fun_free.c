@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/28 01:41:30 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/02 01:20:50 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_free(char **value)
 {
-	if (*value != NULL)
+	if (*value)
 	{
 		free (*value);
 		*value = NULL;
