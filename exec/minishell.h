@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/11/25 12:18:04 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/02 16:46:38 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ struct s_cmd
 	int			append;
 	char		*infile;
 	char		*herdoc;
-	struct cmd	*next;
-	struct cmd	*prev;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
 };
 
 int	exec(struct s_cmd *cmd);

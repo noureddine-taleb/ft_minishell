@@ -3,3 +3,12 @@ handle in/out files
 builtins
 pipes
 heredoc
+
+
+
+env variables
+builtins(echo, cd)
+interactive mode, interpreter mode (shiband)
+PS1
+$$
+handle signals to shell (^C, ^D)
