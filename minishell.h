@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/02 02:49:25 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:52:40 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	char		*str;
 	char		*found;
 	char		*new_string;
+	int			sign_d_quote;
 }	t_data;
 
 typedef struct s_lexer
@@ -84,7 +85,8 @@ t_list_token	*node(t_token **token);
 void			add_node(t_list_token **list_token, t_list_token *new_token);
 
 t_token			*init_token(int type, char *value);
-t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token, t_data **data);
+t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token,
+					t_data **data);
 t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
 					t_lexer *lexer, t_data **data);
 int				get_type_token(char *value);

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 01:00:01 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/01 23:37:03 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/03 22:53:58 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	ft_isdigit(int c)
 	else
 		return (0);
 }
-
 
 char	*ft_strjoin2(char *string, char c, t_lexer *lexer)
 {

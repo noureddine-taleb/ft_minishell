@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/02 01:46:45 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:58:51 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ int	is_token(char *lexer)
 char	*get_value(t_lexer *lexer, t_data **data)
 {
 	char	*word;
+
 	if (lexer->c == '$' && lexer->command_ling[lexer->index + 1] == '"')
 	{
 		get_next_char(lexer);
-		return(d_quote(lexer, data));
+		return (d_quote(lexer, data));
 	}
 	else if (lexer->c == '\"')
 		return (d_quote(lexer, data));
@@ -53,15 +54,16 @@ char	*get_value(t_lexer *lexer, t_data **data)
 	else
 	{
 		word = get_word_token(lexer, data);
-		if(!word)
-			return(ft_strdup(""));
+		if (!word)
+			return (ft_strdup(""));
 		return (word);
 	}
 }
 
-t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token, t_data **data)
+t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token,
+	t_data **data)
 {
-	t_token		*token;
+	t_token	*token;
 
 	token = NULL;
 	(*data)->nbr_space = 0;
@@ -72,6 +74,17 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token, t_data **data)
 	list_token = get_token_2(list_token, &token, lexer, data);
 	add_node(&list_token, NULL);
 	return (list_token);
+}
+
+void	get_token_3(t_data **data, t_lexer *lexer)
+{
+	if ((*data)->nbr_space == 0)
+		(*data)->join_value = ft_strjoin((*data)->join_value, (*data)->value);
+	if (is_whitespace(lexer->c))
+	{
+		((*data)->nbr_space)++;
+		skip_whitespace(lexer);
+	}
 }
 
 t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
@@ -85,13 +98,7 @@ t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
 			add_token(&list_token, data);
 		else
 		{
-			if ((*data)->nbr_space == 0)
-				(*data)->join_value = ft_strjoin((*data)->join_value, (*data)->value);
-			if (is_whitespace(lexer->c))
-			{
-				((*data)->nbr_space)++;
-				skip_whitespace(lexer);
-			}
+			get_token_3(data, lexer);
 			if (!((*data)->value) && !(*data)->nbr_space)
 			{
 				add_node(&list_token, node(token));
