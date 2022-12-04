@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 01:48:30 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:22:19 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token,
 	(*data)->nbr_space = 0;
 	(*data)->join_value = NULL;
 	(*data)->value = NULL;
+	(*data)->sign_exp_digit = 0;
 	while (is_whitespace(lexer->c))
 		skip_whitespace(lexer);
 	list_token = get_token_2(list_token, &token, lexer, data);

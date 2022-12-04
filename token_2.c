@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:05:26 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 02:05:32 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:46:03 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	get_type_token(char *value, t_data **data)
 {
 	if (!value)
 		return (-1);
-	if(!(*data)->sign_d_quote)
+	if (!(*data)->sign_d_quote)
 	{
 		if (!ft_strcmp(value, ">"))
 			return (TOKEN_REDI_INPUT);
@@ -41,7 +41,6 @@ void	add_token(t_list_token **list_token, t_data **data)
 	{
 		type_token = get_type_token((*data)->join_value, data);
 		token = init_token(type_token, (*data)->join_value);
-		
 		ft_free(&((*data)->join_value));
 		add_node(list_token, node(&token));
 	}

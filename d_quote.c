@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 01:57:49 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 02:00:31 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:42:23 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,15 @@ char	*d_quote_2(t_lexer *lexer, char *string, t_data **data)
 	}
 	else
 	{
-		if (lexer->c != '"')
+		if (!(*data)->sign_exp_digit)
+		{
 			get_next_char(lexer);
-		while (lexer->c && lexer->c != '$' && lexer->c != '"'
-			&& !is_whitespace(lexer->c) && ft_isalnum(lexer->c))
-			get_next_char(lexer);
+			while (lexer->c && lexer->c != '$' && lexer->c != '"'
+				&& !is_whitespace(lexer->c) && ft_isalnum(lexer->c))
+				get_next_char(lexer);
+		}
+		else
+			(*data)->sign_exp_digit = 0;
 	}
 	return (string);
 }
@@ -68,4 +72,3 @@ char	*d_quote_3(t_lexer *lexer, t_data **data, char **string)
 	}
 	return (*string);
 }
-

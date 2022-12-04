@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_4.c                                          :+:      :+:    :+:   */
+/*   red_squote_pip.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 23:01:55 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 01:45:59 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:45:05 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ char	*s_quote(t_lexer *lexer)
 	return (string);
 }
 
-char	*get_pipe_token(t_lexer *lexer,t_data **data)
+char	*get_pipe_token(t_lexer *lexer, t_data **data)
 {
 	char	*string;
-	
+
 	(*data)->sign_d_quote = 0;
 	string = char_convert_string(lexer->c);
 	get_next_char(lexer);

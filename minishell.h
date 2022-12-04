@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 02:11:13 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:35:35 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	char		*found;
 	char		*new_string;
 	int			sign_d_quote;
+	int			sign_exp_digit;
 }	t_data;
 
 typedef struct s_lexer
@@ -101,7 +102,7 @@ char			*d_quote_3(t_lexer *lexer, t_data **data, char **string);
 char			*get_pipe_token(t_lexer *lexer, t_data **data);
 char			*get_word_token(t_lexer *lexer, t_data **data);
 char			*get_word_token_2(t_lexer *lexer, t_data **data, char **word);
-void			get_word_token_3(t_lexer *lexer);
+void			get_word_token_3(t_lexer *lexer, t_data **data);
 char			*get_value(t_lexer *lexer, t_data **data);
 
 char			*ft_expand(char *word, t_lexer *lexer, t_data **data);

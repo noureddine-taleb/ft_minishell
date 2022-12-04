@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 22:53:29 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:47:43 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 	return (found);
 }
 
-char	*expand_digit(t_lexer *lexer, char *word)
+char	*expand_digit(t_lexer *lexer, char *word, t_data **data)
 {
 	char	*ptr;
 
 	ptr = &lexer->command_ling[lexer->index + 1];
 	if (ft_isdigit(*ptr))
+	{
+		(*data)->sign_exp_digit = 1;
 		return (expand_digit_2(lexer, word));
+	}
 	if (*ptr == '$')
 	{
 		get_next_char(lexer);
@@ -98,7 +101,7 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 	if (ft_isalnum(lexer->command_ling[lexer->index + 1])
 		|| lexer->command_ling[lexer->index + 1] == '$')
 	{
-		found = expand_digit(lexer, word);
+		found = expand_digit(lexer, word, data);
 		if (found)
 			return (found);
 		else

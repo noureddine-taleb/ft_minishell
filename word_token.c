@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:02:10 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 02:11:36 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 07:46:47 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*get_word_token_2(t_lexer *lexer, t_data **data, char **word)
 				*word = new_word;
 			}
 			else
-				get_word_token_3(lexer);
+				get_word_token_3(lexer, data);
 		}
 	}
 	else
@@ -63,17 +63,22 @@ char	*get_word_token_2(t_lexer *lexer, t_data **data, char **word)
 	return (*word);
 }
 
-void	get_word_token_3(t_lexer *lexer)
+void	get_word_token_3(t_lexer *lexer, t_data **data)
 {
 	char	*str;
 
-	get_next_char(lexer);
-	str = char_convert_string(lexer->c);
-	while (lexer->c && ft_isalnum(lexer->c) && !is_token(str)
-		&& lexer->c != '$' && !is_whitespace(lexer->c))
+	if (!(*data)->sign_exp_digit)
 	{
 		get_next_char(lexer);
-		ft_free(&str);
 		str = char_convert_string(lexer->c);
+		while (lexer->c && ft_isalnum(lexer->c) && !is_token(str)
+			&& lexer->c != '$' && !is_whitespace(lexer->c))
+		{
+			get_next_char(lexer);
+			ft_free(&str);
+			str = char_convert_string(lexer->c);
+		}
 	}
+	else
+		(*data)->sign_exp_digit = 0;
 }
