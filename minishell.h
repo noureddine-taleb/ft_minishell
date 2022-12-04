@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 01:46:07 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 02:11:13 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,19 @@ t_list_token	*get_token(t_lexer *lexer, t_list_token *list_token,
 					t_data **data);
 t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
 					t_lexer *lexer, t_data **data);
+void			get_token_3(t_data **data, t_lexer *lexer);
 int				get_type_token(char *value, t_data **data);
 void			add_token(t_list_token **list_token, t_data **data);
 void			add_token_2(t_list_token **list_token, t_data **data);
 char			*get_redirection_token(t_lexer *lexer, t_data **data);
 char			*s_quote(t_lexer *lexer);
 char			*d_quote(t_lexer *lexer, t_data **data);
+char			*d_quote_2(t_lexer *lexer, char *string, t_data **data);
+char			*d_quote_3(t_lexer *lexer, t_data **data, char **string);
 char			*get_pipe_token(t_lexer *lexer, t_data **data);
 char			*get_word_token(t_lexer *lexer, t_data **data);
+char			*get_word_token_2(t_lexer *lexer, t_data **data, char **word);
+void			get_word_token_3(t_lexer *lexer);
 char			*get_value(t_lexer *lexer, t_data **data);
 
 char			*ft_expand(char *word, t_lexer *lexer, t_data **data);

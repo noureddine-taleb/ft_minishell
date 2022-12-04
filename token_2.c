@@ -5,126 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 01:24:22 by kadjane          ###   ########.fr       */
+/*   Created: 2022/12/04 02:05:26 by kadjane           #+#    #+#             */
+/*   Updated: 2022/12/04 02:05:32 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*d_quote_2(t_lexer *lexer, char *string, t_data **data)
+int	get_type_token(char *value, t_data **data)
 {
-	char	*new_string;
-
-	new_string = ft_expand(string, lexer, data);
-	if (new_string)
+	if (!value)
+		return (-1);
+	if(!(*data)->sign_d_quote)
 	{
-		ft_free(&string);
-		string = new_string;
+		if (!ft_strcmp(value, ">"))
+			return (TOKEN_REDI_INPUT);
+		if (!ft_strcmp(value, "<"))
+			return (TOKEN_REDI_OUTPUT);
+		if (!ft_strcmp(value, "<<"))
+			return (TOKEN_HERDOC);
+		if (!ft_strcmp(value, ">>"))
+			return (TOKEN_APPAND);
+		if (!ft_strcmp(value, "|"))
+			return (TOKEN_PIPE);
 	}
-	else
-	{
-		if (lexer->c != '"')
-			get_next_char(lexer);
-		while (lexer->c && lexer->c != '$' && lexer->c != '"'
-			&& !is_whitespace(lexer->c) && ft_isalnum(lexer->c))
-			get_next_char(lexer);
-	}
-	return (string);
+	return (TOKEN_WORD);
 }
 
-char	*d_quote(t_lexer *lexer, t_data **data)
+void	add_token(t_list_token **list_token, t_data **data)
 {
-	char	*string;
+	t_token		*token;
+	int			type_token;
 
-	string = NULL;
-	if (lexer->c == '"')
+	if ((*data)->join_value)
 	{
-		get_next_char(lexer);
-		while (lexer->c && lexer->c != '"')
-		{
-			if (lexer->c == '$')
-				string = d_quote_2(lexer, string, data);
-			else
-				string = ft_strjoin2(string, lexer->c, lexer);
-		}
-		if (lexer->c == '"')
-		{
-			(*data)->sign_d_quote = 1;
-			get_next_char(lexer);
-			if (string)
-				return (string);
-			else
-				return (ft_strdup(""));
-		}
-		else
-			ft_free (&string);
+		type_token = get_type_token((*data)->join_value, data);
+		token = init_token(type_token, (*data)->join_value);
+		
+		ft_free(&((*data)->join_value));
+		add_node(list_token, node(&token));
 	}
-	return (string);
-}
-
-void	get_word_token_3(t_lexer *lexer)
-{
-	char	*str;
-
-	get_next_char(lexer);
-	str = char_convert_string(lexer->c);
-	while (lexer->c && ft_isalnum(lexer->c) && !is_token(str)
-		&& lexer->c != '$' && !is_whitespace(lexer->c))
+	if ((*data)->value)
 	{
-		get_next_char(lexer);
-		ft_free(&str);
-		str = char_convert_string(lexer->c);
+		type_token = get_type_token((*data)->value, data);
+		token = init_token(type_token, (*data)->value);
+		ft_free(&((*data)->value));
+		add_node(list_token, node(&token));
 	}
 }
 
-char	*get_word_token_2(t_lexer *lexer, t_data **data, char **word)
+void	add_token_2(t_list_token **list_token, t_data **data)
 {
-	char	*new_word;
+	t_token	*token;
+	int		type_token;
 
-	if (lexer->c == '$')
+	(*data)->nbr_space = 0;
+	if ((*data)->join_value)
 	{
-		if (lexer->command_ling[lexer->index + 1] == '"')
-		{
-			get_next_char(lexer);
-			*word = ft_strjoin(*word, d_quote(lexer, data));
-		}
-		else
-		{
-			new_word = ft_expand(*word, lexer, data);
-			if (new_word)
-			{
-				ft_free(word);
-				*word = new_word;
-			}
-			else
-				get_word_token_3(lexer);
-		}
+		type_token = get_type_token((*data)->join_value, data);
+		token = init_token(type_token, (*data)->join_value);
+		ft_free (&((*data)->join_value));
+		ft_free(&((*data)->value));
+		add_node(list_token, node(&token));
 	}
-	else
-		*word = ft_strjoin2(*word, lexer->c, lexer);
-	return (*word);
+	(*data)->sign_d_quote = 0;
 }
 
-char	*get_word_token(t_lexer *lexer, t_data **data)
+int	is_token(char *lexer)
 {
-	char	*word;
-	char	*str;
-
-	word = NULL;
-	while (lexer->c && !is_whitespace(lexer->c))
-	{
-		str = char_convert_string(lexer->c);
-		if (!is_token(str))
-		{
-			ft_free(&str);
-			get_word_token_2(lexer, data, &word);
-		}
-		else
-		{
-			ft_free(&str);
-			break ;
-		}
-	}
-	return (word);
+	if (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
+			|| !ft_strcmp(lexer, "<") || !ft_strcmp(lexer, "<<")
+			|| !ft_strcmp(lexer, "|") || !ft_strcmp(lexer, "'")
+			|| !ft_strcmp(lexer, "\"")))
+		return (1);
+	return (0);
 }
