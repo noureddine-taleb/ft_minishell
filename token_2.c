@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:41:13 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 23:54:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 01:24:22 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*d_quote_2(t_lexer *lexer, char *string, t_data **data)
 	{
 		if (lexer->c != '"')
 			get_next_char(lexer);
-		while (lexer->c != '$' && lexer->c != '"' && lexer->c
-			&& !is_whitespace(lexer->c))
+		while (lexer->c && lexer->c != '$' && lexer->c != '"'
+			&& !is_whitespace(lexer->c) && ft_isalnum(lexer->c))
 			get_next_char(lexer);
 	}
 	return (string);
@@ -50,6 +50,7 @@ char	*d_quote(t_lexer *lexer, t_data **data)
 		}
 		if (lexer->c == '"')
 		{
+			(*data)->sign_d_quote = 1;
 			get_next_char(lexer);
 			if (string)
 				return (string);

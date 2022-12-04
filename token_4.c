@@ -6,17 +6,18 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 23:01:55 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 23:02:53 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 01:45:59 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*get_redirection_token(t_lexer *lexer)
+char	*get_redirection_token(t_lexer *lexer, t_data **data)
 {
 	char	*string;
 
 	string = NULL;
+	(*data)->sign_d_quote = 0;
 	if (lexer->c == '<' && lexer->command_ling[lexer->index + 1] != '<')
 	{
 		string = char_convert_string('<');
@@ -67,10 +68,11 @@ char	*s_quote(t_lexer *lexer)
 	return (string);
 }
 
-char	*get_pipe_token(t_lexer *lexer)
+char	*get_pipe_token(t_lexer *lexer,t_data **data)
 {
 	char	*string;
-
+	
+	(*data)->sign_d_quote = 0;
 	string = char_convert_string(lexer->c);
 	get_next_char(lexer);
 	skip_whitespace(lexer);

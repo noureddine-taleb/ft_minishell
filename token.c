@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 23:58:51 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/04 01:48:30 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ t_token	*init_token(int type, char *value)
 	return (token);
 }
 
-int	is_token(char *lexer)
-{
-	if (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
-			|| !ft_strcmp(lexer, "<") || !ft_strcmp(lexer, "<<")
-			|| !ft_strcmp(lexer, "|") || !ft_strcmp(lexer, "'")
-			|| !ft_strcmp(lexer, "\"")))
-		return (1);
-	return (0);
-}
-
 char	*get_value(t_lexer *lexer, t_data **data)
 {
 	char	*word;
@@ -48,9 +38,9 @@ char	*get_value(t_lexer *lexer, t_data **data)
 	else if (lexer->c == '\'')
 		return (s_quote(lexer));
 	else if (lexer->c == '|')
-		return (get_pipe_token(lexer));
+		return (get_pipe_token(lexer, data));
 	else if (lexer->c == '>' || lexer->c == '<')
-		return (get_redirection_token(lexer));
+		return (get_redirection_token(lexer, data));
 	else
 	{
 		word = get_word_token(lexer, data);
@@ -94,7 +84,8 @@ t_list_token	*get_token_2(t_list_token *list_token, t_token **token,
 	{
 		skip_whitespace(lexer);
 		(*data)->value = get_value(lexer, data);
-		if ((*data)->value && is_token((*data)->value))
+		if ((*data)->value && is_token((*data)->value)
+			&& !(*data)->sign_d_quote)
 			add_token(&list_token, data);
 		else
 		{
