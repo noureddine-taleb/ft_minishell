@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   strtrim.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/05 16:12:36 by ntaleb           ###   ########.fr       */
+/*   Created: 2021/12/04 10:05:16 by ntaleb            #+#    #+#             */
+/*   Updated: 2021/12/04 16:23:39 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#include <unistd.h>
+#include "libft.h"
 
-#define INPUT_HEREDOC 1
-#define INPUT_FILE 2
-struct s_cmd
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	char		**cmd;
-	char		**env;
-	char		*outfile;
-	int			append;
-	int			input;
-// union {
-	char		*infile;
-	char		*heredoc;
-// }
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	int		len;
+	char	*str;
 
-	pid_t			__pid;
-};
-
-int		exec(struct s_cmd *cmd);
-void	die(char *msg, int status);
-
-#endif // MINISHELL_H
+	len = 0;
+	if (!s1)
+		return (NULL);
+	if (!set)
+		return (ft_strdup((char *)s1));
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	len = ft_strlen(s1);
+	while (len && ft_strchr(set, s1[len - 1]))
+		len--;
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, len + 1);
+	return (str);
+}

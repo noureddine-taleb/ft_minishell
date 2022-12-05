@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/05 16:12:36 by ntaleb           ###   ########.fr       */
+/*   Created: 2021/12/05 13:04:59 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/08/07 12:45:41 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#include <unistd.h>
+#include "libft.h"
 
-#define INPUT_HEREDOC 1
-#define INPUT_FILE 2
-struct s_cmd
+t_list	*ft_lstlast(t_list *lst)
 {
-	char		**cmd;
-	char		**env;
-	char		*outfile;
-	int			append;
-	int			input;
-// union {
-	char		*infile;
-	char		*heredoc;
-// }
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	t_list	*last;
 
-	pid_t			__pid;
-};
-
-int		exec(struct s_cmd *cmd);
-void	die(char *msg, int status);
-
-#endif // MINISHELL_H
+	last = lst;
+	if (last)
+		while (last->next)
+			last = last->next;
+	return (last);
+}

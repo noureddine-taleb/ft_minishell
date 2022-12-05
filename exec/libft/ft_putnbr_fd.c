@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/05 16:12:36 by ntaleb           ###   ########.fr       */
+/*   Created: 2021/12/04 10:11:20 by ntaleb            #+#    #+#             */
+/*   Updated: 2021/12/05 15:18:08 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#include <unistd.h>
+#include "libft.h"
 
-#define INPUT_HEREDOC 1
-#define INPUT_FILE 2
-struct s_cmd
+void	ft_putnbr_fd(int n, int fd)
 {
-	char		**cmd;
-	char		**env;
-	char		*outfile;
-	int			append;
-	int			input;
-// union {
-	char		*infile;
-	char		*heredoc;
-// }
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	unsigned int	nb;
 
-	pid_t			__pid;
-};
-
-int		exec(struct s_cmd *cmd);
-void	die(char *msg, int status);
-
-#endif // MINISHELL_H
+	if (fd < 0)
+		return ;
+	nb = n;
+	if (n < 0)
+	{
+		nb = -n;
+		ft_putchar_fd('-', fd);
+	}
+	if (nb < 10)
+	{
+		ft_putchar_fd(nb + '0', fd);
+		return ;
+	}
+	if (nb >= 10)
+	{
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd(nb % 10 + '0', fd);
+	}
+}

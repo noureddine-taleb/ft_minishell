@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/05 16:12:36 by ntaleb           ###   ########.fr       */
+/*   Created: 2021/12/05 13:05:08 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/08/07 12:45:45 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#include <unistd.h>
+#include "libft.h"
 
-#define INPUT_HEREDOC 1
-#define INPUT_FILE 2
-struct s_cmd
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char		**cmd;
-	char		**env;
-	char		*outfile;
-	int			append;
-	int			input;
-// union {
-	char		*infile;
-	char		*heredoc;
-// }
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	t_list	*new;
+	t_list	*el;
+	void	*content;
 
-	pid_t			__pid;
-};
-
-int		exec(struct s_cmd *cmd);
-void	die(char *msg, int status);
-
-#endif // MINISHELL_H
+	new = NULL;
+	while (lst)
+	{
+		content = f(lst->content);
+		el = ft_lstnew(content);
+		if (!el)
+		{
+			del(content);
+			ft_lstclear(&new, del);
+			break ;
+		}
+		else
+			ft_lstadd_back(&new, el);
+		lst = lst->next;
+	}
+	return (new);
+}

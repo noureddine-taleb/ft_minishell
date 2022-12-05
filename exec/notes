@@ -1,14 +1,14 @@
 parse PATH
-handle in/out files
 builtins
-pipes
-heredoc
-
-
++ handle in/out files
++ pipes
++ heredoc
++ wait
++ exit status
 
 env variables
 builtins(echo, cd)
 interactive mode, interpreter mode (shiband)
 PS1
 $$
-handle signals to shell (^C, ^D)
+handle signals to shell (^C, ^D, ^L)
