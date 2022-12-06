@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 08:16:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/27 04:10:56 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/06 05:55:14 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list_token	*node(t_token **token)
 
 	new_token = malloc(sizeof(t_list_token));
 	if (!new_token)
-		return (0);
+		return (NULL);
 	new_token->token = *token;
 	new_token->next = NULL;
 	return (new_token);

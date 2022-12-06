@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:05:26 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 07:46:03 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/06 07:59:14 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	get_type_token(char *value, t_data **data)
 	if (!(*data)->sign_d_quote)
 	{
 		if (!ft_strcmp(value, ">"))
-			return (TOKEN_REDI_INPUT);
-		if (!ft_strcmp(value, "<"))
 			return (TOKEN_REDI_OUTPUT);
+		if (!ft_strcmp(value, "<"))
+			return (TOKEN_REDI_INPUT);
 		if (!ft_strcmp(value, "<<"))
 			return (TOKEN_HERDOC);
 		if (!ft_strcmp(value, ">>"))

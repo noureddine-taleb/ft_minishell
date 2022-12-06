@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 07:35:35 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/06 07:57:17 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,17 @@ typedef struct s_token
 {
 	enum
 	{
-		TOKEN_REDI_INPUT,
-		TOKEN_REDI_OUTPUT,
-		TOKEN_APPAND,
-		TOKEN_HERDOC,
-		TOKEN_WORD,
-		TOKEN_DOLLAR,
-		TOKEN_PIPE,
-		TOKEN_FIlE,
+		TOKEN_REDI_INPUT = 0,
+		TOKEN_REDI_OUTPUT = 1,
+		TOKEN_APPAND = 2,
+		TOKEN_HERDOC = 3,
+		TOKEN_WORD = 4,
+		TOKEN_DOLLAR = 5,
+		TOKEN_PIPE = 6,
+		TOKEN_FIlE_INP = 7,
+		TOKEN_FIlE_APPAND = 8,
+		TOKEN_FIlE_OUT = 9,
+		TOKEN_FIlE_HERDOC = 10,
 	} e_type;
 	char	*val;
 }	t_token;
@@ -61,6 +64,16 @@ typedef struct s_list_token
 	t_token				*token;
 	struct s_list_token	*next;
 }	t_list_token;
+
+typedef struct s_list_cmd
+{
+	char				**cmds_args;
+	int					fd_inputs;
+	int					fd_outputs;
+	struct s_list_cmd	*next;
+	
+}	t_list_cmd;
+
 
 int				ft_strlen(char *str);
 char			*ft_strdup(char *src);
@@ -106,4 +119,11 @@ void			get_word_token_3(t_lexer *lexer, t_data **data);
 char			*get_value(t_lexer *lexer, t_data **data);
 
 char			*ft_expand(char *word, t_lexer *lexer, t_data **data);
+char			*ft_expand_2(char *word, t_lexer *lexer, t_data **data);
+int				ft_expand_3(t_lexer *lexer, char **str, char **ptr, char **env);
+char			*expand_digit(t_lexer *lexer, char *word, t_data **data);
+char			*expand_digit_2(t_lexer *lexer, char *word);
+
+void			convert_type_word(t_list_token **list_token);
+t_list_cmd		*get_list_cmd(t_list_token *list_token, t_list_cmd ** list_cmds);
 #endif

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 22:56:32 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/06 07:55:08 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ int	main(int ac, char **av, char **env)
 	t_lexer			*input_commands;
 	t_list_token	*list_token;
 	t_data			*data;
+	// t_list_cmd		*list_cmds;
 
 	list_token = NULL;
 	data = malloc(sizeof(t_data));
 	data->env = env;
+	
+	
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
@@ -46,6 +49,8 @@ int	main(int ac, char **av, char **env)
 				printf("syntax error\n");
 				free_list(&list_token);
 			}
+			convert_type_word(&list_token);
+			// list_cmds = get_list_cmd(list_token, &list_cmds);
 			while (list_token && list_token->token)
 			{
 				printf("\033[92mtype = %d\n", list_token->token->e_type);
