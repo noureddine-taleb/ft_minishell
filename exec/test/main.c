@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 
-// /bin/ls .
+extern char **env;
+// ls .
 void test1()
 {
 	struct s_cmd cmd = {
-		.cmd = (char *[]){ "/bin/ls", "." , NULL },
-		.env = NULL,
+		.cmd = (char *[]){ "ls", "." , NULL },
 	};
 
-	printf("/bin/ls .\n");
+	printf("ls .\n");
 	printf("$?=%d\n", exec(&cmd));
 }
 
@@ -20,12 +20,10 @@ void test2()
 {
 	struct s_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
-		.env = NULL,
 	};
 
 	struct s_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
-		.env = NULL,
 	};
 
 	cat.next = &wc;
@@ -40,12 +38,10 @@ void test3()
 {
 	struct s_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
-		.env = NULL,
 	};
 
 	struct s_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
-		.env = NULL,
 		.input = INPUT_FILE,
 		.infile = "main.c",
 	};
@@ -62,12 +58,10 @@ void test4()
 {
 	struct s_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
-		.env = NULL,
 	};
 
 	struct s_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
-		.env = NULL,
 		.outfile = "filex",
 	};
 
@@ -84,12 +78,10 @@ void test5()
 {
 	struct s_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", NULL },
-		.env = NULL,
 	};
 
 	struct s_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
-		.env = NULL,
 	};
 
 	cat.next = &wc;
@@ -104,13 +96,11 @@ void test6()
 {
 	struct s_cmd cat1 = {
 		.cmd = (char *[]){ "./cat1", NULL },
-		.env = NULL,
 	};
 
 
 	struct s_cmd cat2 = {
 		.cmd = (char *[]){ "./cat2", NULL },
-		.env = NULL,
 	};
 
 	cat1.next = &cat2;
@@ -127,7 +117,6 @@ void test7()
 {
 	struct s_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", NULL },
-		.env = NULL,
 		.input = INPUT_HEREDOC,
 		.heredoc = "hello world!\n",
 	};
@@ -137,12 +126,23 @@ void test7()
 	printf("$?=%d\n", exec(&wc));
 }
 
-
-int main(int argc, char **argv)
+// hello (local binary with no path var)
+void test8()
 {
+	struct s_cmd cmd = {
+		.cmd = (char *[]){ "hello", NULL },
+	};
+
+	printf("hello\n");
+	printf("$?=%d\n", exec(&cmd));
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	env = envp;
 	argc--;
 	argv++;
-	for (int i=0; i < argc; i++)
+	for (int i = 0; i < argc; i++)
 	{
 		if (!strcmp("1", *argv))
 			test1();
@@ -158,6 +158,8 @@ int main(int argc, char **argv)
 			test6();
 		if (!strcmp("7", *argv))
 			test7();
+		if (!strcmp("8", *argv))
+			test8();
 		argv++;
 	}
 	return 0;

@@ -1,11 +1,13 @@
-parse PATH
++ parse PATH
 builtins
 + handle in/out files
 + pipes
 + heredoc
 + wait
 + exit status
-
+norm
+figure out how to handle prev pipe without the prev pointer
+intergrate changes of the interface between the parser and the exec
 env variables
 builtins(echo, cd)
 interactive mode, interpreter mode (shiband)

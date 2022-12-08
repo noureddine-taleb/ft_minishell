@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/05 18:07:01 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/08 13:20:59 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@
  * parent: close pipes in the parent
  * parent: wait for the pocess group to exit
 */
-
-void print_info(char *process)
-{
-	pid_t pid;
-
-	pid = getpid();
-	printf("%s: pid=%d pgid=%d sid=%d\n", process, pid, getpgid(pid), getsid(pid));
-}
 
 int	count_processes(struct s_cmd *cmd)
 {
@@ -121,6 +113,107 @@ void	close_unused_pipes(int pipe[2], int pipes[][2], int len)
 	}
 }
 
+char **env;
+
+char *get_env(char *name)
+{
+	char **_env;
+	char *value;
+
+	_env = env;
+	value = NULL;
+	name = ft_strjoin(name, "=");
+	if (!name)
+		die("out of memory", 9);
+	while (*_env)
+	{
+		if (!ft_strncmp(*_env, name, ft_strlen(name)))
+		{
+			value = ft_strchr(*_env, '=') + 1;
+			break;
+		}
+		_env++;
+	}
+	free(name);
+	return (value);
+}
+
+/**
+ * result should be freed
+*/
+char *combine_path_with_exec(char *path, char *exec)
+{
+	char *full_path;
+
+	if (path[ft_strlen(path) - 1] == '/')
+		return ft_strjoin(path, exec);
+	path = ft_strjoin(path, "/");
+	full_path = ft_strjoin(path, exec);
+	free(path);
+	return (full_path);
+}
+
+void	free_path(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
+}
+
+int	path_size(char **path)
+{
+	int	len;
+
+	len = 0;
+	while (*path)
+	{
+		len++;
+		path++;
+	}
+	return (len);
+}
+
+/**
+ * if path is empty look for the exec in the current dir
+ * if path is sane look for the exec starting from the first value, if the file
+ * 	is found and it is executable, we return a result otherwise throw an error
+*/
+char	*find_exec(char *exec)
+{
+	char	**path;
+	int		i;
+	char	*full_path;
+	int		path_len;
+
+	if (ft_strchr(exec, '/'))
+		return (ft_strdup(exec));
+	path = ft_split(get_env("PATH"), ':');
+	path_len = path_size(path);
+	if (!path_len)
+		return (free_path(path), ft_strjoin("./", exec));
+	i = 0;
+	while (path[i])
+	{
+		full_path = combine_path_with_exec(path[i], exec);
+		if (!access(full_path, F_OK))
+		{
+			if (!access(full_path, X_OK))
+				return (free_path(path), full_path);
+			else if (!path[i + 1])
+				die(exec, 12);
+		}
+		free(full_path);
+		i++;
+	}
+	die("command not found", 13);
+}
+
 int	create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 {
 	int		ret;
@@ -135,7 +228,6 @@ int	create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 		cmd->__pid = ret;
 		return (0);
 	}
-	print_info(cmd->cmd[0]);
 	if (cmd->next)
 		if (dup2(_pipe[1], STDOUT_FILENO) < 0)
 			die("create_child(dup2 outpipe)", 3);
@@ -187,7 +279,7 @@ int	create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 			exit(0);
 		}
 	}
-
+	cmd->cmd[0] = find_exec(cmd->cmd[0]);
 	execve(cmd->cmd[0], cmd->cmd, cmd->env);
 	die("create_child(execve)", 7);
 	return (0);
@@ -201,7 +293,6 @@ int	create_children(struct s_cmd *cmd, int pipe_count, int pipes[][2])
 
 	i = 0;
 	pipe_i = 0;
-	print_info("minishell");
 	while (cmd)
 	{
 		get_pipe(pipes, pipe, &pipe_i);
@@ -226,6 +317,7 @@ void ignore(int signal)
 {
 	printf("ignoring %d\n", signal);
 }
+
 // TODO: free pipes
 int	exec(struct s_cmd *cmd)
 {
