@@ -49,7 +49,7 @@ void test3()
 	cat.next = &wc;
 	wc.prev = &cat;
 
-	printf("/bin/cat Makefile | /bin/wc -l < filex\n");
+	printf("/bin/cat Makefile | /bin/wc -l < main.c\n");
 	printf("$?=%d\n", exec(&cat));
 }
 

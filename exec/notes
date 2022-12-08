@@ -1,10 +1,12 @@
 + parse PATH
-builtins
 + handle in/out files
 + pipes
 + heredoc
 + wait
 + exit status
+builtins
+error messages
+program shouldn't exit on error
 norm
 figure out how to handle prev pipe without the prev pointer
 intergrate changes of the interface between the parser and the exec
