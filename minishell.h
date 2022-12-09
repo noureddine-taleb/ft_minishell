@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/09 11:43:16 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/09 12:18:42 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ typedef struct s_data
 	char	*new_string;
 	int		sign_d_quote;
 	int		sign_exp_digit;
-	// int		nbr_arg;
-	// int		nbr_input_file;
-	// int		nbr_file_to_open;
-	// int		nbr_herdoc;
 }	t_data;
 
 typedef struct s_lexer
@@ -70,15 +66,13 @@ typedef struct s_list_token
 	struct s_list_token	*next;
 }	t_list_token;
 
-struct cmd {
-};
 
 typedef struct s_list_cmd
 {
 	char	**cmds_args;
 	char	**file_input;
 	char	**file_to_open;
-	char	**herdoc;
+	char	*herdoc;
 	char	*file_output;
 	int		input_source_flag; // file=/heredoc=/nothing=0
 	int		outflags; // is append ?

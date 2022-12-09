@@ -1,2 +1,41 @@
-<<>>
-<>
+<> f <> g <> d > a > b => open f, g, d, a and write to b
+>| == >
+read env from global variable
+remove i = 3;
+all ** are null terminated
+suppport multiple heredoc
+
+exec: parsing stops on sigint
+
+
+norm
+merge
+memory leaks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+echo hello || cat lexer.c => ||: stop parsing, requires parsing heredoc

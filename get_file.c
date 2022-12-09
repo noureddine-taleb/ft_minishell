@@ -219,9 +219,10 @@ t_list_cmd	*node_list(t_list_token **list_token)
 	init_node(&new_cmd);
 	if (nbr_arg != 0)
 	{
-		new_cmd->cmds_args = malloc(sizeof (char **) * nbr_arg);
+		new_cmd->cmds_args = malloc(sizeof (char **) * (nbr_arg + 1));
 		if (!new_cmd->cmds_args)
 			return (NULL);
+		new_cmd->cmds_args[nbr_arg] = NULL;
 	}
 	if (nbr_input_file != 0)
 	{
@@ -229,7 +230,7 @@ t_list_cmd	*node_list(t_list_token **list_token)
 		if (!new_cmd->file_input)
 			return (NULL);
 	}
-	if (nbr_herdoc != 0)
+	if (nbr_herdoc)
 	{
 		new_cmd->herdoc = malloc(sizeof (char **) * nbr_herdoc);
 		if (!new_cmd->file_input)
