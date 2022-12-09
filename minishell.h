@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/09 08:14:00 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/09 11:43:16 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct s_data
 	char	*new_string;
 	int		sign_d_quote;
 	int		sign_exp_digit;
-	int		nbr_arg;
-	int		nbr_input_file;
-	int		nbr_file_to_open;
-	int		nbr_herdoc;
+	// int		nbr_arg;
+	// int		nbr_input_file;
+	// int		nbr_file_to_open;
+	// int		nbr_herdoc;
 }	t_data;
 
 typedef struct s_lexer
@@ -43,6 +43,8 @@ typedef struct s_lexer
 	int		index;
 	char	c;
 }	t_lexer;
+
+char	**g_env;
 
 typedef struct s_token
 {
@@ -80,15 +82,9 @@ typedef struct s_list_cmd
 	char	*file_output;
 	int		input_source_flag; // file=/heredoc=/nothing=0
 	int		outflags; // is append ?
-	// t_data	*data;
 	struct s_list_cmd	*next;
 	
 }	t_list_cmd;
-
-// struct {
-// 	char **env;
-// 	char **local;
-// };
 
 int				ft_strlen(char *str);
 char			*ft_strdup(char *src);
