@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/02 01:20:50 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/09 08:24:06 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,44 @@ void	ft_free(char **value)
 	}
 }
 
-void	free_list(t_list_token **list_token)
+void	free_list_token(t_list_token **list_token)
 {
+	t_list_token	*tmp;
+	
 	while (*list_token && (*list_token)->next)
 	{
 		ft_free(&(*list_token)->token->val);
 		free((*list_token)->token);
 		(*list_token)->token = NULL;
+		tmp = *list_token;
 		*list_token = (*list_token)->next;
+		free (tmp);
+		tmp = NULL;
 	}
+	free(*list_token);
 	*list_token = NULL;
+}
+
+void	free_list_cmds(t_list_cmd **list_cmds)
+{
+	t_list_cmd	*tmp;
+	
+	while (*list_cmds)
+	{
+		free ((*list_cmds)->cmds_args);
+		(*list_cmds)->cmds_args = NULL;
+		free ((*list_cmds)->file_input);
+		(*list_cmds)->file_input = NULL;
+		free ((*list_cmds)->file_to_open);
+		(*list_cmds)->file_to_open = NULL;
+		free ((*list_cmds)->herdoc);
+		(*list_cmds)->herdoc = NULL;
+		tmp = *list_cmds;
+		*list_cmds = (*list_cmds)->next;
+		free (tmp);
+	}
+	free(*list_cmds);
+	*list_cmds= NULL;
 }
 
 void	free_lexer(t_lexer **lexer)
