@@ -4,9 +4,8 @@ suppport multiple heredoc
 echo oooo <<h | <<k : no execution
 cat << "'h'"
 cat << '"h"'
-exec: parsing stops on sigint
 
 
 norm
-merge
 memory leaks
+merge
