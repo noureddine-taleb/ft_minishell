@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/08 19:18:15 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/09 15:46:44 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,17 @@ int	get_append_flag(struct s_cmd *cmd)
 		return (O_APPEND);
 	else
 		return (0);
+}
+
+int	arr_size(char **path)
+{
+	int	len;
+
+	len = 0;
+	while (*path)
+	{
+		len++;
+		path++;
+	}
+	return (len);
 }

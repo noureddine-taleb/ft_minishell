@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-extern char **env;
 // ls .
 void test1()
 {
@@ -139,7 +138,7 @@ void test8()
 
 int main(int argc, char **argv, char **envp)
 {
-	env = envp;
+	g_env = envp;
 	argc--;
 	argv++;
 	for (int i = 0; i < argc; i++)

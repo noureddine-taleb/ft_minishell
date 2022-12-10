@@ -4,9 +4,11 @@
 + heredoc
 + wait
 + exit status
+expand ~
 builtins
 error messages
-program shouldn't exit on error
+get_env should return null if var doesn't exist
+parent (minishell) shouldn't exit on error, only children does
 norm
 figure out how to handle prev pipe without the prev pointer
 intergrate changes of the interface between the parser and the exec
@@ -16,3 +18,9 @@ interactive mode, interpreter mode (shiband)
 PS1
 $$
 handle signals to shell (^C, ^D, ^L)
+
+export a="kh          hhh": remove spaces from var value
+
+
+try global alloc, memory leak
+try to access static var from different routine

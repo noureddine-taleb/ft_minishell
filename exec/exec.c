@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/08 19:24:21 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/10 13:45:38 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 	handle_output(cmd);
 	handle_input(cmd);
 	cmd->cmd[0] = find_exec(cmd->cmd[0]);
-	execve(cmd->cmd[0], cmd->cmd, cmd->env);
+	execve(cmd->cmd[0], cmd->cmd, g_env);
 	die("create_child(execve)", 7);
 }
 

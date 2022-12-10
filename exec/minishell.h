@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/08 19:20:29 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/10 13:46:30 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 struct s_cmd
 {
 	char			**cmd;
-	char			**env;
 	char			*outfile;
 	int				append;
 	int				input;
@@ -37,13 +36,19 @@ struct s_cmd
 	pid_t			__pid;
 };
 
+extern char **g_env;
+
 void	die(char *msg, int status) __dead2;
 int		count_processes(struct s_cmd *cmd);
 int		get_append_flag(struct s_cmd *cmd);
+int		arr_size(char **path);
 
 void	handle_signals(void);
 
 char	*get_env(char *name);
+void	print_env(void);
+int		valid_env_name(char *var);
+int		unset_env(char *name);
 
 void	init_pipes(int count, int pipes[][2]);
 void	get_pipe(int pipes[][2], int pipe[2], int *i);

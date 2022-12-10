@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/08 19:25:35 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/09 15:46:44 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,6 @@ static void	free_path(char **path)
 		i++;
 	}
 	free(path);
-}
-
-static int	path_size(char **path)
-{
-	int	len;
-
-	len = 0;
-	while (*path)
-	{
-		len++;
-		path++;
-	}
-	return (len);
 }
 
 /**
