@@ -1,38 +1,12 @@
 read env from global variable
 all ** are null terminated
 suppport multiple heredoc
-
+echo oooo <<h | <<k : no execution
+cat << "'h'"
+cat << '"h"'
 exec: parsing stops on sigint
 
 
 norm
 merge
 memory leaks
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-echo hello || cat lexer.c => ||: stop parsing, requires parsing heredoc
