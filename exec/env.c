@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/10 15:19:52 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/12 12:23:38 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,94 @@ int	valid_env_name(char *var)
 }
 
 /**
- * allocate new env with 1 extra slot, if the var doesn't already exists
- * duplicate name_value after checking its validity
- * insert it into the env
- * free the old env
- * change g_env global variable
+ * parse and sanity check name_value:
+ * name_value includes =
+ * name is valid env string
 */
 int	set_env(char *name_value)
-{
-	/**
-	 * do the parsing and sanity checks
-	*/
-	
+{	
 	char *name;
 	char *value;
 
-	ft_strchr(name_value, '=');
+	value = ft_strchr(name_value, '=');
+	if (!value)
+		return (-1);
+	*value = 0;
+	value++;
+	name = name_value;
+	if (!valid_env_name(name))
+		return (-1);
 	__set_env(name, value);
+	value[-1] = '=';
+	return (0);
 }
 
-int	__set_env(char *name, char *value)
+char	*init_env_entry(char *name, char *value)
+{
+	char	*slot;
+	int		size;
+
+	size = ft_strlen(name) + ft_strlen(value) + 2;
+	slot = malloc(size);
+	slot[0] = 0;
+	ft_strlcat(slot, name, size);
+	ft_strlcat(slot, "=", size);
+	ft_strlcat(slot, value, size);
+	return (slot);
+}
+
+char	**get_entry_location(char *addr)
+{
+	char	**env;
+
+	env = g_env;
+	while (*env)
+	{
+		if (*env == addr)
+			return env;
+		env++;
+	}
+	return (NULL);
+}
+
+/**
+ * if (env_doesnt_exist)
+ * 	alloc_new_env_with_extra_slot && free_old_env_if_applicable
+ * else
+ * 	if (old_spot_can_hold_new_value)
+ * 		overwrite_old_value
+ * else
+ * 	allocate_new_spot && free_old_one_if_applicable
+*/
+// TODO: handle extra spaces in value
+void	__set_env(char *name, char *value)
 {
 	char	*old_value;
+	char	**new_env;
+	int		new_slot_size;
 
-	old_value = getenv(name);
+	old_value = get_env(name);
 	if (!old_value)
 	{
-		// allocated new slot
+		new_env = malloc((arr_size(g_env) + 2) * sizeof (char **));
+		ft_memcpy(new_env, g_env, arr_size(g_env) * sizeof (char **));
+		new_env[arr_size(g_env)] = init_env_entry(name, value);
+		new_env[arr_size(g_env) + 1] = NULL;
+		if (env_allocated)
+			free(g_env);
+		g_env = new_env;
+		env_allocated = 1;
+		return ;
 	}
-	else
+	if (ft_strlen(value) <= ft_strlen(old_value))
 	{
-		// check if the old slot is capable of holding the new value
-		// otherwise allocated a new buffer
-		
+		ft_strlcpy(old_value, value, ft_strlen(old_value));
+		old_value[ft_strlen(value)] = 0;
+		return ;
 	}
+	old_value -= ft_strlen(name) + 1;
+	*get_entry_location(old_value) = init_env_entry(name, value);
+	// TODO: old_value_is_leaked
 }
 
 int	unset_env(char *name)
@@ -90,7 +144,8 @@ int	unset_env(char *name)
 			break ;
 		env++;
 	}
-	free(*env);
+	// TODO: this may not work
+	// free(*env);
 	ft_memmove(env, env + 1, (arr_size(env + 1) + 1) * sizeof (char **));
 	return (1);
 }
@@ -104,7 +159,6 @@ void	print_env(void)
 		ft_printf("%s\n", *env++);
 }
 
-
 /**
  * result need not be freed
  * TODO: to be removed because it is already allowed to use the one from standard library
@@ -117,8 +171,6 @@ char	*get_env(char *name)
 	_env = g_env;
 	value = NULL;
 	name = ft_strjoin(name, "=");
-	if (!name)
-		die("out of memory", 9);
 	while (*_env)
 	{
 		if (!ft_strncmp(*_env, name, ft_strlen(name)))
