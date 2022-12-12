@@ -1,10 +1,6 @@
 read env from global variable
-all ** are null terminated
-suppport multiple heredoc
 echo oooo <<h | <<k : no execution
-cat << "'h'"
-cat << '"h"'
-
+ambiguous redirect
 
 norm
 memory leaks
