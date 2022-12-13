@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/12 12:23:38 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/13 09:39:33 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	**get_entry_location(char *addr)
  * else
  * 	allocate_new_spot && free_old_one_if_applicable
 */
-// TODO: handle extra spaces in value
 void	__set_env(char *name, char *value)
 {
 	char	*old_value;
@@ -161,7 +160,6 @@ void	print_env(void)
 
 /**
  * result need not be freed
- * TODO: to be removed because it is already allowed to use the one from standard library
 */
 char	*get_env(char *name)
 {

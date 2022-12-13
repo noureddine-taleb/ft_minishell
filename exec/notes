@@ -1,26 +1,52 @@
-+ parse PATH
-+ handle in/out files
-+ pipes
-+ heredoc
-+ wait
-+ exit status
-expand ~
-builtins
+tty ????
 error messages
-get_env should return null if var doesn't exist
 parent (minishell) shouldn't exit on error, only children does
-norm
 figure out how to handle prev pipe without the prev pointer
-intergrate changes of the interface between the parser and the exec
-env variables
-builtins(echo, cd)
 interactive mode, interpreter mode (shiband)
-PS1
-$$
 handle signals to shell (^C, ^D, ^L)
-
-export a="kh          hhh": remove spaces from var value
-
-
+export with pipe doesn't do anything
+norm
 try global alloc, memory leak
 try to access static var from different routine
+does shell receive signint when another process is running
+
+
+
+bash semantics
+
+pipe means start a new node
+if there is multiple input sources the last one is taken (wether heredoc or file)
+if multiple out files are provided the last one is used but others should be opened(created) as well
+if error encountered when trying to open a file the exec fails
+exit status of pgroup = exit status of last command in the chain
+io takes procsedance over pipe
+if a node doesn't have any command the shell still has to open io streams
+when builtins are in pipeline they run in subshells
+
+sigaction
+sigemptyset
+sigaddset
+kill
+stat
+lstat
+fstat
+unlink
+opendir
+readdir
+closedir
+strerror
+ioctl
+
+ttyname
+isatty
+ttyslot
+
+tcsetattr
+tcgetattr
+
+tgetent
+tgetflag
+tgetnum
+tgetstr
+tgoto
+tputs

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/10 13:46:30 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/13 18:23:47 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,46 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
-# define INPUT_HEREDOC 1
-# define INPUT_FILE 2
+# define TYPE_FILE 0
+# define TYPE_HEREDOC 1
 
-struct s_cmd
+# define IO_OUT_FILE 0
+# define IO_IN_FILE 1
+# define IO_APPEND 2
+
+typedef int (*builtin_t)(struct s_list_cmd *cmd);
+struct s_list_io_stream
 {
-	char			**cmd;
-	char			*outfile;
-	int				append;
-	int				input;
-// union {
-	char			*infile;
-	char			*heredoc;
-// }
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-
-	pid_t			__pid;
+	int						type;
+	char					*target;
+	int						flags;
+	struct s_list_io_stream	*next;
 };
+
+// TODO: io files should be in one structure (exec needs to be aware of the order)
+typedef struct s_list_cmd
+{
+	char						**cmds_args;
+	struct s_list_io_stream		*io;
+	struct s_list_cmd			*next;
+	struct s_list_cmd			*prev;
+
+	pid_t						__pid;
+	builtin_t					__builtin;
+	int							__builtin_exit_status;
+	int							__builtin_stdin;
+	int							__builtin_stdout;
+	int							__in_subshell;
+}	t_list_cmd;
+
 
 extern char **g_env;
 
 void	die(char *msg, int status) __dead2;
-int		count_processes(struct s_cmd *cmd);
-int		get_append_flag(struct s_cmd *cmd);
+int		count_processes(struct s_list_cmd *cmd);
+int		get_append_flag(struct s_list_io_stream *io);
 int		arr_size(char **path);
+void	init_prev(struct s_list_cmd *cmd);
 
 void	handle_signals(void);
 
@@ -54,16 +69,20 @@ void	init_pipes(int count, int pipes[][2]);
 void	get_pipe(int pipes[][2], int pipe[2], int *i);
 void	close_unused_pipes(int pipe[2], int pipes[][2], int len);
 
-char	*find_exec(char *exec);
+builtin_t	get_builtin(char *cmd);
+char		*find_exec(char *exec);
 
-void	handle_pipe(struct s_cmd *cmd, int pipe[2], int pipes[][2], int len);
-void	handle_output(struct s_cmd *cmd);
-void	handle_input(struct s_cmd *cmd);
+void	handle_pipe(struct s_list_cmd *cmd,
+			int pipe[2], int pipes[][2], int len);
+void	handle_io(struct s_list_cmd *cmd);
+void	save_stdin_stdout(struct s_list_cmd *cmd);
+void	restore_stdin_stdout(struct s_list_cmd *cmd);
 
-int		create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len);
-int		create_children(struct s_cmd *cmd, int pipe_count, int pipes[][2]);
+int		create_child(struct s_list_cmd *cmd, int _pipe[2],
+			int pipes[][2], int len);
+int		create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2]);
 int		get_exit_code(int status);
-int		wait_children(struct s_cmd *cmd);
-int		exec(struct s_cmd *cmd);
+int		wait_children(struct s_list_cmd *cmd);
+int		exec(struct s_list_cmd *cmd);
 
 #endif // MINISHELL_H

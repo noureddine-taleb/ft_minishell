@@ -6,13 +6,13 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/12 11:51:05 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/13 12:36:52 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	builtin_echo(struct s_cmd *cmd)
+static int	builtin_echo(struct s_list_cmd *cmd)
 {
 	int		new_line;
 	char	**argv;
@@ -35,7 +35,7 @@ static int	builtin_echo(struct s_cmd *cmd)
 	return (0);
 }
 
-static int	builtin_cd(struct s_cmd *cmd)
+static int	builtin_cd(struct s_list_cmd *cmd)
 {
 	char	*path;
 
@@ -50,7 +50,7 @@ static int	builtin_cd(struct s_cmd *cmd)
 	return (0);
 }
 
-static int	builtin_pwd(struct s_cmd *cmd)
+static int	builtin_pwd(struct s_list_cmd *cmd)
 {
 	char	*pwd;
 
@@ -61,7 +61,7 @@ static int	builtin_pwd(struct s_cmd *cmd)
 	return (0);
 }
 
-static int	builtin_export(struct s_cmd *cmd)
+static int	builtin_export(struct s_list_cmd *cmd)
 {
 	char	**name_values;
 
@@ -78,7 +78,7 @@ static int	builtin_export(struct s_cmd *cmd)
 	return (0);
 }
 
-static int	builtin_unset(struct s_cmd *cmd)
+static int	builtin_unset(struct s_list_cmd *cmd)
 {
 	char	**vars;
 
@@ -97,7 +97,7 @@ static int	builtin_unset(struct s_cmd *cmd)
 	return (0);
 }
 
-static int	builtin_env(struct s_cmd *cmd)
+static int	builtin_env(struct s_list_cmd *cmd)
 {
 	print_env();
 	return (0);
@@ -115,7 +115,7 @@ static int	builtin_env(struct s_cmd *cmd)
  * else
  * 	perror("exit: {argv[0]}: numeric argument required"), exit(255)
 */
-static int	builtin_exit(struct s_cmd *cmd)
+static int	builtin_exit(struct s_list_cmd *cmd)
 {
 	int	len;
 	int	error;
@@ -141,7 +141,7 @@ static int	builtin_exit(struct s_cmd *cmd)
 	}
 }
 
-static int	get_builtin(char *cmd)
+builtin_t	get_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (builtin_echo);

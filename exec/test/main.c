@@ -6,7 +6,7 @@
 // ls .
 void test1()
 {
-	struct s_cmd cmd = {
+	struct s_list_cmd cmd = {
 		.cmd = (char *[]){ "ls", "." , NULL },
 	};
 
@@ -17,11 +17,11 @@ void test1()
 // /bin/cat Makefile | /bin/wc -l
 void test2()
 {
-	struct s_cmd cat = {
+	struct s_list_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
 	};
 
-	struct s_cmd wc = {
+	struct s_list_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
 	};
 
@@ -35,11 +35,11 @@ void test2()
 // /bin/cat Makefile | /bin/wc -l < main.c
 void test3()
 {
-	struct s_cmd cat = {
+	struct s_list_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
 	};
 
-	struct s_cmd wc = {
+	struct s_list_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
 		.input = INPUT_FILE,
 		.infile = "main.c",
@@ -55,11 +55,11 @@ void test3()
 // /bin/cat Makefile | /bin/wc -l > filex
 void test4()
 {
-	struct s_cmd cat = {
+	struct s_list_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", "Makefile" , NULL },
 	};
 
-	struct s_cmd wc = {
+	struct s_list_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
 		.outfile = "filex",
 	};
@@ -75,11 +75,11 @@ void test4()
 // /bin/cat | /bin/wc -l # test signal exit code
 void test5()
 {
-	struct s_cmd cat = {
+	struct s_list_cmd cat = {
 		.cmd = (char *[]){ "/bin/cat", NULL },
 	};
 
-	struct s_cmd wc = {
+	struct s_list_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", "-l" , NULL },
 	};
 
@@ -93,12 +93,12 @@ void test5()
 // ./cat1 | ./cat2 # test that cat2 exit status is what is reported
 void test6()
 {
-	struct s_cmd cat1 = {
+	struct s_list_cmd cat1 = {
 		.cmd = (char *[]){ "./cat1", NULL },
 	};
 
 
-	struct s_cmd cat2 = {
+	struct s_list_cmd cat2 = {
 		.cmd = (char *[]){ "./cat2", NULL },
 	};
 
@@ -114,7 +114,7 @@ void test6()
 // EOF # test that cat2 exit status is what is reported
 void test7()
 {
-	struct s_cmd wc = {
+	struct s_list_cmd wc = {
 		.cmd = (char *[]){ "/usr/bin/wc", NULL },
 		.input = INPUT_HEREDOC,
 		.heredoc = "hello world!\n",
@@ -128,7 +128,7 @@ void test7()
 // hello (local binary with no path var)
 void test8()
 {
-	struct s_cmd cmd = {
+	struct s_list_cmd cmd = {
 		.cmd = (char *[]){ "hello", NULL },
 	};
 

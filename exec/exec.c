@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/10 13:45:38 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/13 18:23:16 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,48 @@
  * parent: close pipes in the parent
  * parent: wait for the pocess group to exit
 */
-
-int	create_child(struct s_cmd *cmd, int _pipe[2], int pipes[][2], int len)
+void	execute_cmd(struct s_list_cmd *cmd)
 {
-	int		ret;
-
-	ret = fork();
-	if (ret < 0)
-		die("create_child(fork)", 2);
-	if (ret > 0)
-		return (cmd->__pid = ret, 0);
-	handle_pipe(cmd, _pipe, pipes, len);
-	handle_output(cmd);
-	handle_input(cmd);
-	cmd->cmd[0] = find_exec(cmd->cmd[0]);
-	execve(cmd->cmd[0], cmd->cmd, g_env);
-	die("create_child(execve)", 7);
+	if (cmd->__builtin)
+	{
+		cmd->__builtin_exit_status = cmd->__builtin(cmd);
+		if (cmd->__in_subshell)
+			exit(cmd->__builtin_exit_status);
+		return (cmd->__builtin_exit_status);
+	}
+	// TODO: this is a leak
+	cmd->cmds_args[0] = find_exec(cmd->cmds_args[0]);
+	if (execve(cmd->cmds_args[0], cmd->cmds_args, g_env) < 0)
+		die(cmd->cmds_args[0], 126);
 }
 
-int	create_children(struct s_cmd *cmd, int pipe_count, int pipes[][2])
+int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
+{
+	int			ret;
+
+	cmd->__builtin = get_builtin(cmd);
+	cmd->__in_subshell = !cmd->__builtin || cmd->next || cmd->prev;
+	if (cmd->__in_subshell)
+	{
+		ret = fork();
+		if (ret < 0)
+			die("create_child(fork)", 2);
+		if (ret > 0)
+			return (cmd->__pid = ret, 0);
+	}
+	else
+		save_stdin_stdout(cmd);
+	handle_pipe(cmd, _pipe, pipes, len);
+	handle_io(cmd);
+	if (!cmd->cmds_args || *cmd->cmds_args)
+		exit(0);
+	execute_cmd(cmd);
+	if (!cmd->__in_subshell)
+		restore_stdin_stdout(cmd);
+	return (0);
+}
+
+int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
 {
 	int	i;
 	int	pipe_i;
@@ -75,20 +98,24 @@ int	get_exit_code(int status)
 	return (0);
 }
 
-int	wait_children(struct s_cmd *cmd)
+int	wait_children(struct s_list_cmd *cmd)
 {
 	int	status;
 
 	while (cmd)
 	{
-		if (waitpid(cmd->__pid, &status, 0) < 0)
+		if (!cmd->__in_subshell)
+			status = cmd->__builtin_exit_status;
+		else if (waitpid(cmd->__pid, &status, 0) > 0)
+			status = get_exit_code(status);
+		else
 			die("exec(wait)", 8);
 		cmd = cmd->next;
 	}
 	return (status);
 }
 
-int	exec(struct s_cmd *cmd)
+int	exec(struct s_list_cmd *cmd)
 {
 	int	status;
 	int	process_count;
@@ -96,6 +123,7 @@ int	exec(struct s_cmd *cmd)
 	int	(*pipes)[2];
 
 	handle_signals();
+	init_prev(cmd);
 	process_count = count_processes(cmd);
 	pipe_count = process_count - 1;
 	pipes = malloc(pipe_count * sizeof (int [2]));
@@ -104,5 +132,5 @@ int	exec(struct s_cmd *cmd)
 	close_unused_pipes((int [2]){-1, -1}, pipes, pipe_count);
 	free(pipes);
 	status = wait_children(cmd);
-	return (get_exit_code(status));
+	return (status);
 }
