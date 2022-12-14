@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 15:06:14 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 11:14:07 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,6 @@ void	restore_stdin_stdout(struct s_list_cmd *cmd)
 		die("dup2(restore_stdin_stdout)", 1);
 	if (dup2(cmd->__builtin_stdout, STDOUT_FILENO) < 0)
 		die("dup2(restore_stdin_stdout)", 1);
+	close(cmd->__builtin_stdin);
+	close(cmd->__builtin_stdout);
 }

@@ -1,14 +1,8 @@
-tty ????
 error messages
 parent (minishell) shouldn't exit on error, only children does
 figure out how to handle prev pipe without the prev pointer
 interactive mode, interpreter mode (shiband)
-handle signals to shell (^C, ^D, ^L)
-export with pipe doesn't do anything
 norm
-try global alloc, memory leak
-try to access static var from different routine
-does shell receive signint when another process is running
 
 
 
