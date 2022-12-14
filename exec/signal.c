@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 11:27:27 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 17:58:38 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,10 @@
 
 void	handle_signals(void)
 {
-	sigaction(SIGINT, &(struct sigaction){.sa_handler = SIG_IGN}, NULL);
+	struct sigaction	sa;
+
+	sa = (struct sigaction){.sa_handler = SIG_IGN};
+
+	if (sigaction(SIGINT, &sa, NULL) < 0)
+		die("handle_signals(sigaction)", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/09 15:46:44 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 19:13:14 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	free_path(char **path)
  * 	is found and it is executable, we return a result otherwise throw an error
  * return should be freed
 */
+// TODO: return the exec if the command could not be found in the path
 char	*find_exec(char *exec)
 {
 	char	**path;

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 18:22:08 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 19:26:55 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	count_processes(struct s_list_cmd *cmd)
 
 void	die(char *msg, int status)
 {
-	perror(msg);
+	char	*toprint;
+
+	toprint = ft_strjoin("bash: ", msg);
+	perror(toprint);
 	exit(status);
 }
 

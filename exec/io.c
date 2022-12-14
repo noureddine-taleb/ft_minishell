@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 11:14:07 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 19:13:14 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ static void	__handle_io_file(struct s_list_cmd *cmd,
 		file = open(io->target, O_CREAT | O_WRONLY | get_append_flag(cmd),
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file < 0)
-		die(io->target, 5);
+		die(io->target, 1);
 	if (io->flags & IO_IN_FILE)
 		ret = dup2(file, STDIN_FILENO);
 	else if (io->flags & IO_IN_FILE)
 		ret = dup2(file, STDOUT_FILENO);
 	if (ret < 0)
-		die("create_child(dup2 file)", 6);
+		die("__handle_io_file(dup2)", 1);
 }
 
 static void	__handle_heredoc(struct s_list_cmd *cmd,
@@ -52,26 +52,28 @@ static void	__handle_heredoc(struct s_list_cmd *cmd,
 	int	local_pipe[2];
 	int	ret;
 
-	pipe(local_pipe);
+	if (pipe(local_pipe) < 0)
+		die("__handle_heredoc(pipe)", 1);
 	ret = fork();
 	if (ret < 0)
-		die("create_child(fork heredoc)", 2);
+		die("__handle_heredoc(fork)", 1);
 	else if (ret > 0)
 	{
 		close(local_pipe[1]);
 		if (dup2(local_pipe[0], STDIN_FILENO) < 0)
-			die("create_child(dup2 heredoc)", 6);
+			die("__handle_heredoc(dup2)", 1);
 	}
 	else
 	{
 		close(local_pipe[0]);
 		if (dup2(local_pipe[1], STDOUT_FILENO) < 0)
-			die("create_child(dup2 heredoc)", 6);
+			die("__handle_heredoc(dup2)", 1);
 		write(STDOUT_FILENO, io->target, ft_strlen(io->target));
 		exit(0);
 	}
 }
 
+// TODO: this should fail gracefully because it could run in the parent
 void	handle_io(struct s_list_cmd *cmd)
 {
 	struct s_list_io_stream	*io;

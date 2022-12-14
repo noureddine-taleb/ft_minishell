@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 18:23:16 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 19:25:40 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
  * parent: close pipes in the parent
  * parent: wait for the pocess group to exit
 */
+
+// TODO: this should fail gracefully because it could run in the parent
 void	execute_cmd(struct s_list_cmd *cmd)
 {
 	if (cmd->__builtin)
@@ -50,7 +52,7 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 	int			ret;
 
 	cmd->__builtin = get_builtin(cmd);
-	cmd->__in_subshell = !cmd->__builtin || cmd->next || cmd->prev;
+	cmd->__in_subshell = (!cmd->__builtin || cmd->next || cmd->prev);
 	if (cmd->__in_subshell)
 	{
 		ret = fork();
@@ -62,10 +64,21 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 	else
 		save_stdin_stdout(cmd);
 	handle_pipe(cmd, _pipe, pipes, len);
-	handle_io(cmd);
+	if (handle_io(cmd) < 0)
+	{
+		if (cmd->__in_subshell)
+			exit(1);
+		return (cmd->__builtin_exit_status = 1);
+	}
 	if (!cmd->cmds_args || *cmd->cmds_args)
-		exit(0);
-	execute_cmd(cmd);
+			exit(0);
+	if (execute_cmd(cmd) < 0)
+	{
+		if (cmd->__in_subshell)
+			exit(1);
+		return (cmd->__builtin_exit_status = 1);
+	}
+
 	if (!cmd->__in_subshell)
 		restore_stdin_stdout(cmd);
 	return (0);
@@ -109,7 +122,7 @@ int	wait_children(struct s_list_cmd *cmd)
 		else if (waitpid(cmd->__pid, &status, 0) > 0)
 			status = get_exit_code(status);
 		else
-			die("exec(wait)", 8);
+			die("wait_children(wait)", 8);
 		cmd = cmd->next;
 	}
 	return (status);

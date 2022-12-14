@@ -2,8 +2,12 @@ error messages
 parent (minishell) shouldn't exit on error, only children does
 figure out how to handle prev pipe without the prev pointer
 interactive mode, interpreter mode (shiband)
+wait syscall could fail
 norm
 
+exec errors:
+cmd not found || permission denied
+file not found || permission denied
 
 
 bash semantics

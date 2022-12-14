@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:53:43 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/08 18:58:36 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/14 17:58:06 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_pipes(int count, int pipes[][2])
 	{
 		ret = pipe(pipes[i]);
 		if (ret < 0)
-			die("init_pipes", 1);
+			die("init_pipes(pipe)", 1);
 		i++;
 	}
 }
