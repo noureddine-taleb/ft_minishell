@@ -7,7 +7,7 @@
 void test1()
 {
 	struct s_list_cmd cmd = {
-		.cmds_args = (char *[]){ "ls", "." , NULL },
+		.cmds_args = (char *[]){ ft_strdup("ls"), "." , NULL },
 	};
 
 	printf("ls .\n");

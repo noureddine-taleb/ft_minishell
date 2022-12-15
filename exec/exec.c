@@ -38,10 +38,10 @@ int	execute_cmd(struct s_list_cmd *cmd)
 	char	*full_path;
 
 	if (cmd->__builtin)
-		return (-cmd->__builtin(cmd));
+		return (cmd->__builtin(cmd));
 	ret = find_exec(cmd->cmds_args[0], &full_path);
 	if (ret < 0)
-		return (ret);
+		return (-ret);
 	free(cmd->cmds_args[0]);
 	cmd->cmds_args[0] = full_path;
 	if (execve(cmd->cmds_args[0], cmd->cmds_args, g_env) < 0)
@@ -73,19 +73,13 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 			exit(-ret);
 		return (restore_stdin_stdout(cmd), cmd->__builtin_exit_status = -ret);
 	}
-	if (!cmd->cmds_args || *cmd->cmds_args)
+	if (!*cmd->cmds_args)
 		exit(0);
 	ret = execute_cmd(cmd);
-	if (ret < 0)
-	{
-		if (cmd->__in_subshell)
-			exit(-ret);
-		return (restore_stdin_stdout(cmd), cmd->__builtin_exit_status = -ret);
-	}
 
-	if (!cmd->__in_subshell)
-		restore_stdin_stdout(cmd);
-	return (0);
+	if (cmd->__in_subshell)
+		exit(ret);
+	return (restore_stdin_stdout(cmd), cmd->__builtin_exit_status = ret);
 }
 
 int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
