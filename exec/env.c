@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 09:39:33 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 19:57:06 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,6 @@ int	valid_env_name(char *var)
 		var++;
 	}
 	return (1);
-}
-
-/**
- * parse and sanity check name_value:
- * name_value includes =
- * name is valid env string
-*/
-int	set_env(char *name_value)
-{	
-	char *name;
-	char *value;
-
-	value = ft_strchr(name_value, '=');
-	if (!value)
-		return (-1);
-	*value = 0;
-	value++;
-	name = name_value;
-	if (!valid_env_name(name))
-		return (-1);
-	__set_env(name, value);
-	value[-1] = '=';
-	return (0);
 }
 
 char	*init_env_entry(char *name, char *value)
@@ -99,7 +76,6 @@ void	__set_env(char *name, char *value)
 {
 	char	*old_value;
 	char	**new_env;
-	int		new_slot_size;
 
 	old_value = get_env(name);
 	if (!old_value)
@@ -123,6 +99,29 @@ void	__set_env(char *name, char *value)
 	old_value -= ft_strlen(name) + 1;
 	*get_entry_location(old_value) = init_env_entry(name, value);
 	// TODO: old_value_is_leaked
+}
+
+/**
+ * parse and sanity check name_value:
+ * name_value includes =
+ * name is valid env string
+*/
+int	set_env(char *name_value)
+{	
+	char *name;
+	char *value;
+
+	value = ft_strchr(name_value, '=');
+	if (!value)
+		return (-1);
+	*value = 0;
+	value++;
+	name = name_value;
+	if (!valid_env_name(name))
+		return (-1);
+	__set_env(name, value);
+	value[-1] = '=';
+	return (0);
 }
 
 int	unset_env(char *name)

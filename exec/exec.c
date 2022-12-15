@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 19:25:40 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 19:50:27 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,28 @@
 */
 
 // TODO: this should fail gracefully because it could run in the parent
-void	execute_cmd(struct s_list_cmd *cmd)
+int	execute_cmd(struct s_list_cmd *cmd)
 {
+	int		ret;
+	char	*full_path;
+
 	if (cmd->__builtin)
-	{
-		cmd->__builtin_exit_status = cmd->__builtin(cmd);
-		if (cmd->__in_subshell)
-			exit(cmd->__builtin_exit_status);
-		return (cmd->__builtin_exit_status);
-	}
-	// TODO: this is a leak
-	cmd->cmds_args[0] = find_exec(cmd->cmds_args[0]);
+		return (-cmd->__builtin(cmd));
+	ret = find_exec(cmd->cmds_args[0], &full_path);
+	if (ret < 0)
+		return (ret);
+	free(cmd->cmds_args[0]);
+	cmd->cmds_args[0] = full_path;
 	if (execve(cmd->cmds_args[0], cmd->cmds_args, g_env) < 0)
-		die(cmd->cmds_args[0], 126);
+		die(cmd->cmds_args[0], 1);
+	return (0);
 }
 
 int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 {
 	int			ret;
 
-	cmd->__builtin = get_builtin(cmd);
+	cmd->__builtin = get_builtin(cmd->cmds_args[0]);
 	cmd->__in_subshell = (!cmd->__builtin || cmd->next || cmd->prev);
 	if (cmd->__in_subshell)
 	{
@@ -64,19 +66,21 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 	else
 		save_stdin_stdout(cmd);
 	handle_pipe(cmd, _pipe, pipes, len);
-	if (handle_io(cmd) < 0)
+	ret = handle_io(cmd);
+	if (ret < 0)
 	{
 		if (cmd->__in_subshell)
-			exit(1);
-		return (cmd->__builtin_exit_status = 1);
+			exit(-ret);
+		return (restore_stdin_stdout(cmd), cmd->__builtin_exit_status = -ret);
 	}
 	if (!cmd->cmds_args || *cmd->cmds_args)
-			exit(0);
-	if (execute_cmd(cmd) < 0)
+		exit(0);
+	ret = execute_cmd(cmd);
+	if (ret < 0)
 	{
 		if (cmd->__in_subshell)
-			exit(1);
-		return (cmd->__builtin_exit_status = 1);
+			exit(-ret);
+		return (restore_stdin_stdout(cmd), cmd->__builtin_exit_status = -ret);
 	}
 
 	if (!cmd->__in_subshell)

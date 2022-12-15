@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 12:36:52 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 20:28:00 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	builtin_echo(struct s_list_cmd *cmd)
 	char	**argv;
 
 	new_line = 1;
-	argv = &cmd->cmd[1];
+	argv = &cmd->cmds_args[1];
 	if (*argv && ft_strcmp(*argv, "-n"))
 	{
 		new_line = 0;
@@ -39,7 +39,7 @@ static int	builtin_cd(struct s_list_cmd *cmd)
 {
 	char	*path;
 
-	path = cmd->cmd[1];
+	path = cmd->cmds_args[1];
 	if (!path)
 	{
 		path = get_env("HOME");
@@ -54,6 +54,7 @@ static int	builtin_pwd(struct s_list_cmd *cmd)
 {
 	char	*pwd;
 
+	(void)cmd;
 	pwd = getcwd(NULL, 0);
 	ft_putstr_fd(pwd, 1);
 	ft_putchar_fd('\n', 1);
@@ -65,10 +66,10 @@ static int	builtin_export(struct s_list_cmd *cmd)
 {
 	char	**name_values;
 
-	if (arr_size(cmd->cmd) < 2)
+	if (arr_size(cmd->cmds_args) < 2)
 		return (0);
 
-	name_values = &cmd->cmd[1];
+	name_values = &cmd->cmds_args[1];
 	while (*name_values)
 	{
 		if (set_env(*name_values) < 0)
@@ -82,7 +83,7 @@ static int	builtin_unset(struct s_list_cmd *cmd)
 {
 	char	**vars;
 
-	vars = &cmd->cmd[1];
+	vars = &cmd->cmds_args[1];
 	if (!*vars)
 		return (0);
 	while (*vars)
@@ -99,6 +100,7 @@ static int	builtin_unset(struct s_list_cmd *cmd)
 
 static int	builtin_env(struct s_list_cmd *cmd)
 {
+	(void)cmd;
 	print_env();
 	return (0);
 }
@@ -124,20 +126,24 @@ static int	builtin_exit(struct s_list_cmd *cmd)
 	len = -1;
 	error = 0;
 	ft_putstr_fd("exit\n", 1);
-	while (cmd->cmd[len])
+	while (cmd->cmds_args[len])
 		len++;
 	if (len == 0)
 		exit(0);
-	code = ft_atoi_err(cmd->cmd[1], &error);
+	code = ft_atoi_err(cmd->cmds_args[1], &error);
 	if (!error)
 	{
 		if (len > 1)
-			die("exit: too many arguments", 1);
+			return (pr_error("exit: too many arguments", 1));
+		exit(code);
 	}
 	else
 	{
-		perror("exit: {argv[0]}: numeric argument required");
-		exit(255);
+		exit(pr_error(
+				ft_strjoin(ft_strjoin("exit: ", cmd->cmds_args[1]),
+					": numeric argument required"),
+				255)
+			);
 	}
 }
 

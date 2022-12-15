@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 19:13:14 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 20:01:19 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,28 @@ void	handle_pipe(struct s_list_cmd *cmd, int pipe[2],
 	close_unused_pipes(pipe, pipes, len);
 }
 
-static void	__handle_io_file(struct s_list_cmd *cmd,
-				struct s_list_io_stream *io)
+static int	__handle_io_file(struct s_list_io_stream *io)
 {
 	int	file;
 	int	ret;
 
 	if (io->flags & IO_IN_FILE)
 		file = open(io->target, O_RDONLY);
-	else if (io->flags & IO_IN_FILE)
-		file = open(io->target, O_CREAT | O_WRONLY | get_append_flag(cmd),
+	else
+		file = open(io->target, O_CREAT | O_WRONLY | get_append_flag(io),
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file < 0)
-		die(io->target, 1);
+		return (pr_error(io->target, -1));
 	if (io->flags & IO_IN_FILE)
 		ret = dup2(file, STDIN_FILENO);
-	else if (io->flags & IO_IN_FILE)
+	else
 		ret = dup2(file, STDOUT_FILENO);
 	if (ret < 0)
 		die("__handle_io_file(dup2)", 1);
+	return (0);
 }
 
-static void	__handle_heredoc(struct s_list_cmd *cmd,
-				struct s_list_io_stream *io)
+static void	__handle_heredoc(struct s_list_io_stream *io)
 {
 	int	local_pipe[2];
 	int	ret;
@@ -74,7 +73,7 @@ static void	__handle_heredoc(struct s_list_cmd *cmd,
 }
 
 // TODO: this should fail gracefully because it could run in the parent
-void	handle_io(struct s_list_cmd *cmd)
+int	handle_io(struct s_list_cmd *cmd)
 {
 	struct s_list_io_stream	*io;
 
@@ -82,11 +81,13 @@ void	handle_io(struct s_list_cmd *cmd)
 	while (io)
 	{
 		if (io->type == TYPE_HEREDOC)
-			__handle_heredoc(cmd, io);
+			__handle_heredoc(io);
 		else if (io->type == TYPE_FILE)
-			__handle_io_file(cmd, io);
+			if (__handle_io_file(io) < 0)
+				return (-1);
 		io = io->next;
 	}
+	return (0);
 }
 
 void	save_stdin_stdout(struct s_list_cmd *cmd)

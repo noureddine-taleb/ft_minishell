@@ -8,7 +8,9 @@ norm
 exec errors:
 cmd not found || permission denied
 file not found || permission denied
-
+no such file or directory = permission denied = 1
+command not found = 127
+cmd/permission denied = 126
 
 bash semantics
 

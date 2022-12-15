@@ -1,6 +1,6 @@
 LIBFT_DIR := ../libft
 LIBFT := $(LIBFT_DIR)/libft.a
-SRCS := main.c ../exec.c ../env.c ../helpers.c ../io.c ../path.c ../pipe.c ../signal.c
+SRCS := main.c ../exec.c ../env.c ../helpers.c ../io.c ../path.c ../pipe.c ../signal.c ../builtins.c
 TARGET := minishell
 CFLAGS := -g -Wall -Wextra
 

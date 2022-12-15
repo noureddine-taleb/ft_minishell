@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 19:26:55 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 20:02:05 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,19 @@ int	count_processes(struct s_list_cmd *cmd)
 	return (count);
 }
 
-void	die(char *msg, int status)
+int		pr_error(char *msg, int ret)
 {
 	char	*toprint;
 
-	toprint = ft_strjoin("bash: ", msg);
+	toprint = ft_strjoin("minishell: ", msg);
 	perror(toprint);
+	free(toprint);
+	return (ret);
+}
+
+void	die(char *msg, int status)
+{
+	pr_error(msg, status);
 	exit(status);
 }
 
@@ -57,15 +64,15 @@ int	get_append_flag(struct s_list_io_stream *io)
 		return (0);
 }
 
-int	arr_size(char **path)
+int	arr_size(char **arr)
 {
 	int	len;
 
 	len = 0;
-	while (*path)
+	while (*arr)
 	{
 		len++;
-		path++;
+		arr++;
 	}
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 19:13:14 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 20:03:33 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,65 @@ static void	free_path(char **path)
 	free(path);
 }
 
-/**
- * if path is empty look for the exec in the current dir
- * if path is sane look for the exec starting from the first value, if the file
- * 	is found and it is executable, we return a result otherwise throw an error
- * return should be freed
-*/
-// TODO: return the exec if the command could not be found in the path
-char	*find_exec(char *exec)
+int	check_exec(char	*exec)
 {
-	char	**path;
-	int		i;
-	char	*full_path;
-	int		path_len;
+	if (access(exec, F_OK) < 0)
+		return (-ENOENT);
+	if (access(exec, X_OK) < 0)
+		return (-EACCES);
+	return (0);
+}
 
-	if (ft_strchr(exec, '/'))
-		return (ft_strdup(exec));
+/**
+ * this routine looks for the exec following the shell semantics
+ * if the exec is found and is executable it returns the success and the full path is stored in `full_path`
+ * otherwise it prints an error and returns the error code
+ * 
+ * if path is empty look for the exec in the current dir
+ * otherwise look for the exec in path
+ * 
+ * if a file exist but not executable skip it
+ * but remember the first instance that exists but not executable,
+ * this value will be showen in the error message.
+*/
+int	find_exec(char *exec, char **full_path)
+{
+	char	**path; // TODO: this should be freed before return
+	int		i;
+	int		path_len;
+	int		ret;
+	char	*error;
+
 	path = ft_split(get_env("PATH"), ':');
-	path_len = path_size(path);
-	if (!path_len)
-		return (free_path(path), ft_strjoin("./", exec));
+	path_len = arr_size(path);
+	if (ft_strchr(exec, '/') || !path_len)
+	{
+		if (check_exec(exec) < 0)
+			return (pr_error(*full_path, -1));
+		return (free_path(path), *full_path = ft_strdup(exec), 0);
+	}
 	i = 0;
+	error = NULL;
 	while (path[i])
 	{
-		full_path = combine_path_with_exec(path[i], exec);
-		if (!access(full_path, F_OK))
-		{
-			if (!access(full_path, X_OK))
-				return (free_path(path), full_path);
-			else if (!path[i + 1])
-				die(exec, 12);
-		}
-		free(full_path);
+		*full_path = combine_path_with_exec(path[i], exec);
+		if (!access(*full_path, X_OK))
+			return (0);
+		else if (!access(*full_path, F_OK) && !error)
+			error = *full_path;
+		else
+			free(*full_path);
+		if (access(*full_path, F_OK))
+			ret = 127;
+		else
+			ret = 126;
 		i++;
 	}
-	die("command not found", 13);
+	if (ret == 127)
+	{
+		char	*error2;
+		error2 = ft_strjoin(exec, ": command not found");
+		return (pr_error(error2, ret), free(error), free(error2), ret);
+	}
+	return (pr_error(error, ret), free(error), ret);
 }

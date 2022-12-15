@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/13 18:23:47 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/15 20:16:12 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define IO_IN_FILE 1
 # define IO_APPEND 2
 
+struct s_list_cmd;
 typedef int (*builtin_t)(struct s_list_cmd *cmd);
 struct s_list_io_stream
 {
@@ -52,6 +53,7 @@ typedef struct s_list_cmd
 
 extern char **g_env;
 
+int		pr_error(char *msg, int ret);
 void	die(char *msg, int status) __dead2;
 int		count_processes(struct s_list_cmd *cmd);
 int		get_append_flag(struct s_list_io_stream *io);
@@ -64,17 +66,18 @@ char	*get_env(char *name);
 void	print_env(void);
 int		valid_env_name(char *var);
 int		unset_env(char *name);
+int		set_env(char *name_value);
 
 void	init_pipes(int count, int pipes[][2]);
 void	get_pipe(int pipes[][2], int pipe[2], int *i);
 void	close_unused_pipes(int pipe[2], int pipes[][2], int len);
 
 builtin_t	get_builtin(char *cmd);
-char		*find_exec(char *exec);
+int			find_exec(char *exec, char **full_path);
 
 void	handle_pipe(struct s_list_cmd *cmd,
 			int pipe[2], int pipes[][2], int len);
-void	handle_io(struct s_list_cmd *cmd);
+int		handle_io(struct s_list_cmd *cmd);
 void	save_stdin_stdout(struct s_list_cmd *cmd);
 void	restore_stdin_stdout(struct s_list_cmd *cmd);
 
