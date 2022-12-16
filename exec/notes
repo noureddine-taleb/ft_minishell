@@ -1,0 +1,45 @@
+error messages
+parent (minishell) shouldn't exit on error, only children does
+figure out how to handle prev pipe without the prev pointer
+interactive mode, interpreter mode (shiband)
+wait syscall could fail
+norm
+
+bash semantics
+
+pipe means start a new node
+if there is multiple input sources the last one is taken (wether heredoc or file)
+if multiple out files are provided the last one is used but others should be opened(created) as well
+if error encountered when trying to open a file the exec fails
+exit status of pgroup = exit status of last command in the chain
+io takes procsedance over pipe
+if a node doesn't have any command the shell still has to open io streams
+when builtins are in pipeline they run in subshells
+
+sigaction
+sigemptyset
+sigaddset
+kill
+stat
+lstat
+fstat
+unlink
+opendir
+readdir
+closedir
+strerror
+ioctl
+
+ttyname
+isatty
+ttyslot
+
+tcsetattr
+tcgetattr
+
+tgetent
+tgetflag
+tgetnum
+tgetstr
+tgoto
+tputs

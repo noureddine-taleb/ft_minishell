@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:31:10 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 12:41:17 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -64,6 +65,9 @@ typedef struct s_token
 	char	*val;
 }	t_token;
 
+struct s_list_cmd;
+typedef int (*builtin_t)(struct s_list_cmd *cmd);
+
 typedef struct s_list_token
 {
 	t_token				*token;
@@ -82,16 +86,36 @@ typedef struct s_list_cmd
 	char				**cmds_args;
 	t_list_io_stream	*io;
 	struct s_list_cmd	*next;
+
+	struct s_list_cmd			*prev;
+	pid_t						__pid;
+	builtin_t					__builtin;
+	int							__builtin_exit_status;
+	int							__builtin_stdin;
+	int							__builtin_stdout;
+	int							__in_subshell;
 }	t_list_cmd;
 
-int					ft_strlen(char *str);
-char				*ft_strdup(char *src);
 char				*ft_strjoin2(char *string, char c, t_lexer *lexer);
-int					ft_isalpha(int c);
-int					ft_strcmp(char *s1, char *s2);
-char				*ft_strjoin(char *str1, char *str2);
-int					ft_isalnum(int c);
-int					ft_isdigit(int c);
+int	ft_strlen(char *str);
+char	*ft_strdup(char *src);
+int	ft_isalpha(int c);
+int	ft_isdigit(int c);
+int	ft_isalnum(int c);
+int	ft_strcmp(char *s1, char *s2);
+char	*ft_strjoin(char *str1, char *str2);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
+int	ft_atoi_err(char *str, int *error);
+int	ft_strncmp(char *s1, char *s2, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+
+char	*ft_strchr(char *s, int c);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
+void	*ft_memcpy(void *dst, void *src, size_t n);
+void	*ft_memmove(void *dst, void *src, size_t len);
+size_t	ft_strlcat(char *dest, char *src, size_t size);
+char	**ft_split(char *str, char c);
 
 char				*char_convert_string(char c);
 int					skip_whitespace(t_lexer *lexer);
@@ -185,4 +209,44 @@ void				add_node_file(t_list_io_stream **inpt_out_file,
 t_list_io_stream	*get_io_file(int flags, char **name_file);
 int					is_file(int type_token);
 int					find_pipe(t_list_token **list_token);
+
+
+
+// exec
+extern char **g_env;
+
+int		pr_error(char *msg, int ret);
+void	die(char *msg, int status) __dead2;
+int		count_processes(struct s_list_cmd *cmd);
+int		get_append_flag(struct s_list_io_stream *io);
+int		arr_size(char **path);
+void	init_prev(struct s_list_cmd *cmd);
+
+void	handle_signals(void);
+
+char	*get_env(char *name);
+void	print_env(void);
+int		valid_env_name(char *var);
+int		unset_env(char *name);
+int		set_env(char *name_value);
+
+void	init_pipes(int count, int pipes[][2]);
+void	get_pipe(int pipes[][2], int pipe[2], int *i, int pipe_count);
+void	close_unused_pipes(int pipe[2], int pipes[][2], int len);
+
+builtin_t	get_builtin(char *cmd);
+int			find_exec(char *exec, char **full_path);
+
+void	handle_pipe(struct s_list_cmd *cmd,
+			int pipe[2], int pipes[][2], int len);
+int		handle_io(struct s_list_cmd *cmd);
+void	save_stdin_stdout(struct s_list_cmd *cmd);
+void	restore_stdin_stdout(struct s_list_cmd *cmd);
+
+int		create_child(struct s_list_cmd *cmd, int _pipe[2],
+			int pipes[][2], int len);
+int		create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2]);
+int		get_exit_code(int status);
+int		wait_children(struct s_list_cmd *cmd);
+int		exec(struct s_list_cmd *cmd);
 #endif
