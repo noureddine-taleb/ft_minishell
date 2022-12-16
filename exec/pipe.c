@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:53:43 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:54:16 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:55:50 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,23 @@ void	init_pipes(int count, int pipes[][2])
 
 void	get_pipe(int pipes[][2], int pipe[2], int *i, int pipe_count)
 {
+	pipe[0] = -1;
+	pipe[1] = -1;
 	if (pipe_count == 0)
-	{
-		pipe[0] = -1;
-		pipe[1] = -1;
-		return;
-	}
+		return ;
 	if ((*i) == 0)
 	{
-		pipe[0] = -1;
 		pipe[1] = pipes[(*i) / 2][!((*i) % 2)];
 		(*i)++;
+		return ;
 	}
-	else
+	if ((*i) / 2 < pipe_count)
 	{
 		pipe[0] = pipes[(*i) / 2][!((*i) % 2)];
 		(*i)++;
+	}
+	if ((*i) / 2 < pipe_count)
+	{
 		pipe[1] = pipes[(*i) / 2][!((*i) % 2)];
 		(*i)++;
 	}
