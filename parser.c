@@ -3,112 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/09 11:44:15 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 01:04:18 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	check_quote(t_list_token *list_token)
+int	ft_error(t_list_token *list_token, t_data **data)
 {
-	while (list_token)
+	int	i;
+
+	i = 0;
+	if (check_quote_pipe(&list_token))
 	{
-		if (!list_token->token)
-			return (1);
-		list_token = list_token->next;
+		printf("Minishell: syntax error: unexpected end of file\n");
+		return (1);
+	}
+	else if (check_token (&list_token) || check_redirection(&list_token, data))
+	{
+		printf("Minishell: syntax error near unexpected token\n");
+		return (1);
+	}
+	else if (check_ambiguous(&list_token, data))
+	{
+		printf("Minishell: ambiguous redirect\n");
+		return (1);
 	}
 	return (0);
 }
 
-// int	check_pipe(t_list_token *list_token)
-// {
-	
-// }
-
-// int	check_redirection(t_list_token *list_token)
-// {
-	
-// }
+t_data	*init_data(t_data **data)
+{
+	*data = malloc(sizeof(t_data));
+	(*data)->sign_d_s_quote = 0;
+	(*data)->sign_quote = 0;
+	(*data)->sign_find_space = 0;
+	(*data)->sign_expand = 0;
+	(*data)->sign_token = 0;
+	(*data)->sign_expand_2 = 0;
+	return (*data);
+}
 
 int	main(int ac, char **av, char **env)
 {
-	(void) ac;
-	(void) av;
-	g_env = env;
 	t_lexer			*input_commands;
 	t_list_token	*list_token;
 	t_data			*data;
 	t_list_cmd		*list_cmds;
-	// int				i;
 
+	(void) av;
+	(void) ac;
+	g_env = env;
 	list_token = NULL;
-	data = malloc(sizeof(t_data));
-	data->env = env;
-	
+	data = init_data(&data);
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
+		data->sign_for_ambiguous = 0;
 		if (ft_strcmp(input_commands->command_ling, "") != 0)
 		{
 			add_history(input_commands->command_ling);
-			list_token = get_token(input_commands, list_token, &data);
-			if (check_quote(list_token))
-			{
-				printf("syntax error\n");
-				free_list_token(&list_token);
-			}
+			get_token(input_commands, &list_token, &data);
 			convert_type_word(&list_token);
-			list_cmds = get_list_cmd(&list_token, &list_cmds);
-			// while (list_cmds)
-			// {
-			// 	printf("-----> list_cmds == %p\n", list_cmds);
-			// 	i = 4;
-			// 	while (list_cmds->cmds_args && --i)
-			// 		printf("\033[90m arg == %s\n\033[00m", *(list_cmds->cmds_args)++);
-			// 	i = 4;
-			// 	while (list_cmds->file_to_open && --i)
-			// 		printf("\033[91m file_to_open == %s\n\033[00m", *(list_cmds->file_to_open)++);
-			// 	printf("\033[92m file_output == %s\n\033[00m", list_cmds->file_output);
-			// 	printf("\033[93m outflags == %d\n\033[00m", list_cmds->outflags);
-			// 	printf("\033[94m input_source_flag == %d\n\033[00m", list_cmds->input_source_flag);
-			// 	list_cmds = list_cmds->next;
-			// }
-			// char **lines;
-			// while (line = getnextline(0))
-			// {
-			// 	if (strcmp(line, token))
-			// 	{
-			// 		append(line, lines);
-			// 	}
-			// 	else
-			// 	{
-			// 		free(line);
-			// 		break;
-			// 	}
-				
-			// }
-			// strjoin()
-			// printf("@@@@@@@@@%p\n",list_token);
-			// while (list_token && list_token->token)
-			// {
-			// 	printf("\033[92mtype = %d\n", list_token->token->e_type);
-			// 	printf("\033[91mvalue = %s\n\n\033[00m", list_token->token->val);
-			// 	list_token = list_token->next;
-			// }
-			// free_lexer(&input_commands);
+			if (!ft_error(list_token, &data))
+				list_cmds = get_list_cmd(&list_token, &list_cmds,
+						input_commands, &data);
 		}
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
 		input_commands = init_lexer(readline("Minishell$ "));
 	}
-	// char **tmp;
-	// tmp = env;
-	// while (*tmp)
-	// {
-	// 	printf ("%s\n",*tmp);
-	// 	tmp++;
-	// }
 }

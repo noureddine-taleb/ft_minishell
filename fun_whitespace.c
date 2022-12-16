@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fun_util_3.c                                       :+:      :+:    :+:   */
+/*   fun_whitespace.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/27 21:36:50 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/14 10:43:36 by kadjane          ###   ########.fr       */
+/*   Created: 2022/12/16 01:33:25 by kadjane           #+#    #+#             */
+/*   Updated: 2022/12/16 01:34:04 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include"minishell.h"
 
-void	remove_space(char **word)
+int	is_whitespace(char c)
 {
-	char	*tmp;
-	t_lexer	*lexer;
-	char	*word_without_space;
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
 
-	tmp = *word;
-	lexer = NULL;
-	word_without_space = NULL;
-	while (tmp && *tmp && is_whitespace(*tmp))
-		tmp++;
-	while (tmp && *tmp && !is_whitespace(*tmp))
-		word_without_space = ft_strjoin2(word_without_space, *tmp++, lexer);
-	ft_free(word);
-	*word = word_without_space;
+int	skip_whitespace(t_lexer *lexer)
+{
+	if (lexer->c != '\0' && (lexer->c == ' ' || lexer->c == '\t'))
+	{
+		while (lexer->c != '\0' && (lexer->c == ' ' || lexer->c == '\t'))
+			get_next_char(lexer);
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:52:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/03 22:54:16 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/14 14:41:13 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	if (s1 && s2)
+	{
+		while (s1[i] && s2[i] && s1[i] == s2[i])
+			i++;
+		return (s1[i] - s2[i]);
+	}
+	else
+		return (0);
 }
 
 char	*char_convert_string(char c)

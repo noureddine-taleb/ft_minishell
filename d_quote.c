@@ -6,13 +6,13 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 01:57:49 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/04 07:42:23 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 00:33:37 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*d_quote(t_lexer *lexer, t_data **data)
+char	*d_quote(t_lexer *lexer, t_data **data, t_list_token *list_token)
 {
 	char	*string;
 
@@ -20,10 +20,12 @@ char	*d_quote(t_lexer *lexer, t_data **data)
 	if (lexer->c == '"')
 	{
 		get_next_char(lexer);
-		string = d_quote_3(lexer, data, &string);
+		string = d_quote_3(lexer, data, &string, list_token);
 		if (lexer->c == '"')
 		{
-			(*data)->sign_d_quote = 1;
+			(*data)->sign_quote = 1;
+			(*data)->sign_d_s_quote = 1;
+			(*data)->sign_expand_2 = 0;
 			get_next_char(lexer);
 			if (string)
 				return (string);
@@ -61,11 +63,16 @@ char	*d_quote_2(t_lexer *lexer, char *string, t_data **data)
 	return (string);
 }
 
-char	*d_quote_3(t_lexer *lexer, t_data **data, char **string)
+char	*d_quote_3(t_lexer *lexer, t_data **data, char **string,
+	t_list_token *list_token)
 {
+	while (list_token && list_token->next)
+		list_token = list_token->next;
 	while (lexer->c && lexer->c != '"')
 	{
-		if (lexer->c == '$')
+		if ((lexer->c == '$' && list_token
+				&& ft_strcmp(list_token->token->val, "<<"))
+			|| (!list_token && lexer->c == '$'))
 			*string = d_quote_2(lexer, *string, data);
 		else
 			*string = ft_strjoin2(*string, lexer->c, lexer);

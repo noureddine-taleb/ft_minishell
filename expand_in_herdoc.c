@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_in_herdoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/15 17:19:51 by kadjane          ###   ########.fr       */
+/*   Created: 2022/12/11 09:00:35 by kadjane           #+#    #+#             */
+/*   Updated: 2022/12/16 00:35:16 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*expand_digit_2(t_lexer *lexer, char *word)
+char	*expand_digit_herdoc_2(char *string_join, char **string_inp)
 {
 	char	*str;
 	char	*found;
@@ -20,46 +20,45 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 
 	found = NULL;
 	found_digit = NULL;
-	get_next_char(lexer);
-	get_next_char(lexer);
-	while (ft_isdigit(lexer->c))
+	*string_inp = *(string_inp + 2);
+	while (ft_isdigit(**string_inp))
 	{
-		str = char_convert_string(lexer->c);
+		str = char_convert_string(**string_inp);
 		found_digit = ft_strjoin(found_digit, str);
-		get_next_char(lexer);
+		(*string_inp)++;
 		ft_free(&str);
 	}
-	found = ft_strjoin(word, found_digit);
+	found = ft_strjoin(string_join, found_digit);
 	ft_free(&found_digit);
 	return (found);
 }
 
-char	*expand_digit(t_lexer *lexer, char *word, t_data **data)
+char	*expand_digit_herdoc(char *string_join,
+	char **string_inp, t_data **data)
 {
 	char	*ptr;
 
-	ptr = &lexer->command_ling[lexer->index + 1];
+	ptr = *string_inp + 1;
 	if (ft_isdigit(*ptr))
 	{
 		(*data)->sign_exp_digit = 1;
-		return (expand_digit_2(lexer, word));
+		return (expand_digit_herdoc_2(string_join, string_inp));
 	}
 	if (*ptr == '$')
 	{
-		get_next_char(lexer);
-		get_next_char(lexer);
-		return (ft_strjoin(word, "$$"));
+		*string_inp = *string_inp + 2;
+		return (ft_strjoin(string_join, "$$"));
 	}
 	return (NULL);
 }
 
-int	ft_expand_3(t_lexer *lexer, char **str, char **ptr, char **env)
+int	ft_expand_herdoc_3(char **string_inp, char **str, char **ptr, char **env)
 {
 	int	i;
 
 	i = 1;
 	*str = *env;
-	*ptr = &lexer->command_ling[lexer->index + 1];
+	*ptr = *string_inp + 1;
 	while (**ptr && **ptr == **str && **str != '=')
 	{
 		(*ptr)++;
@@ -69,7 +68,7 @@ int	ft_expand_3(t_lexer *lexer, char **str, char **ptr, char **env)
 	return (i);
 }
 
-char	*ft_expand_2(char *word, t_lexer *lexer)
+char	*ft_expand_herdoc_2(char *string_join, char **string_inp)
 {
 	char	*ptr;
 	char	*str;
@@ -79,36 +78,37 @@ char	*ft_expand_2(char *word, t_lexer *lexer)
 	env = g_env;
 	while (env && *env)
 	{
-		i = ft_expand_3(lexer, &str, &ptr, env);
+		i = ft_expand_herdoc_3(string_inp, &str, &ptr, env);
 		if (*str == '=' && !ft_isalnum(*ptr))
 		{
 			str++;
 			while (i--)
-				get_next_char(lexer);
-			return (ft_strjoin(word, str));
+				(*string_inp)++;
+			return (ft_strjoin(string_join, str));
+			break ;
 		}
 		env++;
 	}
 	return (NULL);
 }
 
-char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
+char	*ft_expand_herdoc(char *string_join, char **string_inp, t_data **data)
 {
 	char	*found;
 
 	found = NULL;
-	if (ft_isalnum(lexer->command_ling[lexer->index + 1])
-		|| lexer->command_ling[lexer->index + 1] == '$')
+	if (*string_inp && (*string_inp) + 1
+		&& (ft_isalnum(*(*string_inp + 1)) || **string_inp == '$'))
 	{
-		found = expand_digit(lexer, word, data);
+		found = expand_digit_herdoc(string_join, string_inp, data);
 		if (found)
 			return (found);
 		else
-			return (ft_expand_2(word, lexer));
+			return (ft_expand_herdoc_2(string_join, string_inp));
 	}
 	else
 	{
-		get_next_char(lexer);
-		return (ft_strjoin(word, "$"));
+		(*string_inp)++;
+		return (ft_strjoin(string_join, "$"));
 	}
 }

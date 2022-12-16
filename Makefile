@@ -6,15 +6,19 @@
 #    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/06 06:56:25 by kadjane          ###   ########.fr        #
+#    Updated: 2022/12/16 01:48:26 by kadjane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = parser.c\
 		token.c token_2.c\
-		word_token.c d_quote.c red_squote_pip.c\
-		fuc_util.c fun_util_2.c fun_free.c\
-		lexer.c expand.c node.c get_file.c
+		word_token.c word_token_2.c\
+		d_quote.c red_squote_pip.c\
+		fuc_util.c fun_util_2.c fun_util_3.c fun_free.c\
+		lexer.c node.c fun_error.c fun_whitespace.c\
+		get_file.c get_file_2.c get_file_3.c\
+		expand.c expand_in_herdoc.c \
+		fun_find_space.c fun_herdoc.c 
 
 NAME = minishell
 
@@ -22,7 +26,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
 all: $(NAME)
 
