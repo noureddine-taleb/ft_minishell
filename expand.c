@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/15 17:19:51 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 21:19:25 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*expand_digit_2(t_lexer *lexer, char *word)
 {
-	char	*str;
+	// char	*str;
 	char	*found;
 	char	*found_digit;
 
@@ -24,10 +24,10 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 	get_next_char(lexer);
 	while (ft_isdigit(lexer->c))
 	{
-		str = char_convert_string(lexer->c);
-		found_digit = ft_strjoin(found_digit, str);
+		// str = char_convert_string(lexer->c);
+		found_digit = ft_strjoin(found_digit, &lexer->c);
 		get_next_char(lexer);
-		ft_free(&str);
+		// ft_free(&str);
 	}
 	found = ft_strjoin(word, found_digit);
 	ft_free(&found_digit);

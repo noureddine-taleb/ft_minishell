@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:02:10 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 00:45:08 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 22:07:59 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,22 @@ char	*get_word_token(t_lexer *lexer, t_data **data,
 	t_list_token **list_token)
 {
 	char	*word;
-	char	*str;
 
 	word = NULL;
 	(*data)->sign_find_space = 0;
 	while (lexer->c && !is_whitespace(lexer->c))
 	{
-		str = char_convert_string(lexer->c);
-		if (!is_token(str))
+		// printf("lexer->c == %c\n",lexer->c);
+		if (!is_token(&lexer->c))
 		{
-			ft_free(&str);
 			get_word_token_2(lexer, data, &word, list_token);
 			if ((*data)->sign_find_space)
 				break ;
 		}
 		else
-		{
-			ft_free(&str);
 			break ;
-		}
 	}
+	// printf("word == %s\n", word);
 	return (word);
 }
 
@@ -104,19 +100,12 @@ void	get_word_token_4(t_lexer *lexer, t_data **data, char **word,
 
 void	get_word_token_5(t_lexer *lexer, t_data **data)
 {
-	char	*str;
-
 	if (!(*data)->sign_exp_digit)
 	{
 		get_next_char(lexer);
-		str = char_convert_string(lexer->c);
-		while (lexer->c && ft_isalnum(lexer->c) && !is_token(str)
+		while (lexer->c && ft_isalnum(lexer->c) && !is_token(&lexer->c)
 			&& lexer->c != '$' && !is_whitespace(lexer->c))
-		{
 			get_next_char(lexer);
-			ft_free(&str);
-			str = char_convert_string(lexer->c);
-		}
 	}
 	else
 		(*data)->sign_exp_digit = 0;

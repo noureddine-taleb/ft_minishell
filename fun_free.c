@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:34:08 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 19:52:33 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_list_token(t_list_token **list_token)
 {
 	t_list_token	*tmp;
 
-	while (*list_token && (*list_token)->next)
+	while (*list_token)
 	{
 		ft_free(&(*list_token)->token->val);
 		free((*list_token)->token);
@@ -50,6 +50,7 @@ void	free_list_inp_out_file(t_list_io_stream **inpt_out_file)
 		tmp = *inpt_out_file;
 		*inpt_out_file = (*inpt_out_file)->next;
 		free (tmp);
+		tmp = NULL;
 	}
 }
 

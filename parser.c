@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 13:40:41 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 22:39:34 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ t_data	*init_data(t_data **data)
 	(*data)->sign_expand = 0;
 	(*data)->sign_token = 0;
 	(*data)->sign_expand_2 = 0;
+	(*data)->sign_for_ambiguous = 0;
+	(*data)->join_value = NULL;
+	(*data)->value = NULL;
 	return (*data);
 }
 
@@ -58,10 +61,10 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	g_env = env;
 	list_token = NULL;
-	data = init_data(&data);
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
+		data = init_data(&data);
 		data->sign_for_ambiguous = 0;
 		if (ft_strcmp(input_commands->command_ling, "") != 0)
 		{
@@ -72,11 +75,14 @@ int	main(int ac, char **av, char **env)
 			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
-				exec(list_cmds);
+				// exec(list_cmds);
 			}
 		}
+		free(data);
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
+		free_lexer(&input_commands);
+		system("leaks minishell");
 		input_commands = init_lexer(readline("Minishell$ "));
 	}
 }

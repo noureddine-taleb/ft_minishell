@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
+#    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/16 12:29:28 by ntaleb           ###   ########.fr        #
+#    Updated: 2022/12/16 19:54:16 by kadjane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
 
 all: $(NAME)
 

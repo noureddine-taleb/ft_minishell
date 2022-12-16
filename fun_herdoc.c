@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fun_herdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 13:40:31 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 21:26:10 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,12 @@ void	ft_herdoc_2(char **ret_expand, char **string_join,
 
 void	ft_herdoc_3(char **string_inp, t_data **data)
 {
-	char	*str;
-
 	if (!(*data)->sign_exp_digit)
 	{
 		(*string_inp)++;
-		str = char_convert_string(**string_inp);
 		while (**string_inp && ft_isalnum(**string_inp)
 			&& **string_inp != '$' && !is_whitespace(**string_inp))
-		{
 			(*string_inp)++;
-			ft_free(&str);
-			str = char_convert_string(**string_inp);
-		}
 	}
 	else
 		(*data)->sign_exp_digit = 0;
