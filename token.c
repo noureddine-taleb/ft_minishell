@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:37:47 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 22:38:04 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ char	*get_value(t_lexer *lexer, t_data **data, t_list_token **list_token)
 	char			*word;
 	t_list_token	*tmp_2;
 
-	tmp_2 = *list_token;
-	while (tmp_2 && tmp_2->next)
-		tmp_2 = tmp_2->next;
+	tmp_2 = end_list(list_token);
+	// printf("////////////////\n");
+	if ((*data)->value)
+		ft_free(&(*data)->value);
 	if (lexer->c == '\"')
 		return (d_quote(lexer, data, *list_token));
 	else if (lexer->c == '\'')
@@ -77,6 +78,8 @@ t_list_token	*get_token_2(t_list_token **list_token, t_token **token,
 	{
 		skip_whitespace(lexer);
 		(*data)->value = get_value(lexer, data, list_token);
+		// printf("------->%p\n",(*data)->value);
+		// printf("*******>%s\n",(*data)->value);
 		if ((*data)->value && is_token((*data)->value)
 			&& (*data)->sign_quote)
 			(*data)->sign_token = 1;
@@ -101,8 +104,14 @@ t_list_token	*get_token_2(t_list_token **list_token, t_token **token,
 
 void	get_token_3(t_data **data, t_lexer *lexer)
 {
+	char	*string_for_free_join;
+	char	*string_for_free_value;
+
+	string_for_free_join = (*data)->join_value;
+	string_for_free_value = (*data)->value;
 	if ((*data)->nbr_space == 0 || (*data)->sign_find_space)
 		(*data)->join_value = ft_strjoin((*data)->join_value, (*data)->value);
+	ft_free(&string_for_free_join);
 	if (is_whitespace(lexer->c))
 	{
 		((*data)->nbr_space)++;

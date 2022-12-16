@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 12:41:17 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 21:37:04 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ char	**ft_split(char *str, char c);
 
 char				*char_convert_string(char c);
 int					skip_whitespace(t_lexer *lexer);
-// int					check_quote(t_list_token *list_token);
 int					is_whitespace(char c);
 int					is_token(char *lexer);
 

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 09:00:35 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 00:35:16 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 21:18:43 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*expand_digit_herdoc_2(char *string_join, char **string_inp)
 {
-	char	*str;
+	// char	*str;
 	char	*found;
 	char	*found_digit;
 
@@ -23,10 +23,10 @@ char	*expand_digit_herdoc_2(char *string_join, char **string_inp)
 	*string_inp = *(string_inp + 2);
 	while (ft_isdigit(**string_inp))
 	{
-		str = char_convert_string(**string_inp);
-		found_digit = ft_strjoin(found_digit, str);
+		// str = char_convert_string(**string_inp);
+		found_digit = ft_strjoin(found_digit, &(**string_inp));
 		(*string_inp)++;
-		ft_free(&str);
+		// ft_free(&str);
 	}
 	found = ft_strjoin(string_join, found_digit);
 	ft_free(&found_digit);
