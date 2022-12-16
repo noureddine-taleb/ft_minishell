@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 12:42:15 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 15:22:52 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_append_flag(struct s_list_io_stream *io)
 	if (io->flags == TOKEN_FILE_APPAND)
 		return (O_APPEND);
 	else
-		return (0);
+		return (O_TRUNC);
 }
 
 int	arr_size(char **arr)
