@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 19:50:27 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 10:58:01 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
  * parent: wait for the pocess group to exit
 */
 
-// TODO: this should fail gracefully because it could run in the parent
 int	execute_cmd(struct s_list_cmd *cmd)
 {
 	int		ret;

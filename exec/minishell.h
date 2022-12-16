@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:11:00 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 20:16:12 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 10:58:01 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ struct s_list_io_stream
 	struct s_list_io_stream	*next;
 };
 
-// TODO: io files should be in one structure (exec needs to be aware of the order)
 typedef struct s_list_cmd
 {
 	char						**cmds_args;

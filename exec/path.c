@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 20:03:33 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 10:58:09 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ int	check_exec(char	*exec)
  * if a file exist but not executable skip it
  * but remember the first instance that exists but not executable,
  * this value will be showen in the error message.
+ * 
+ * TODO: this need a rewrite
 */
 int	find_exec(char *exec, char **full_path)
 {
-	char	**path; // TODO: this should be freed before return
+	char	**path;
 	int		i;
 	int		path_len;
 	int		ret;
@@ -83,7 +85,7 @@ int	find_exec(char *exec, char **full_path)
 	{
 		*full_path = combine_path_with_exec(path[i], exec);
 		if (!access(*full_path, X_OK))
-			return (0);
+			return (free_path(path), 0);
 		else if (!access(*full_path, F_OK) && !error)
 			error = *full_path;
 		else
@@ -94,6 +96,7 @@ int	find_exec(char *exec, char **full_path)
 			ret = 126;
 		i++;
 	}
+	free_path(path);
 	if (ret == 127)
 	{
 		char	*error2;

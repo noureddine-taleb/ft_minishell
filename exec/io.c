@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 20:01:19 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 10:58:01 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void	__handle_heredoc(struct s_list_io_stream *io)
 	}
 }
 
-// TODO: this should fail gracefully because it could run in the parent
 int	handle_io(struct s_list_cmd *cmd)
 {
 	struct s_list_io_stream	*io;

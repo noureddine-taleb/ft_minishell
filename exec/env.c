@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 19:57:06 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 10:59:07 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	__set_env(char *name, char *value)
 	}
 	old_value -= ft_strlen(name) + 1;
 	*get_entry_location(old_value) = init_env_entry(name, value);
-	// TODO: old_value_is_leaked
+	// TODO: old value is leaked
 }
 
 /**
@@ -136,12 +136,7 @@ int	unset_env(char *name)
 	if (!value)
 		return (0);
 	value -= ft_strlen(name) + 1;
-	while (*env)
-	{
-		if (*env == value)
-			break ;
-		env++;
-	}
+	env = get_entry_location(value);
 	// TODO: this may not work
 	// free(*env);
 	ft_memmove(env, env + 1, (arr_size(env + 1) + 1) * sizeof (char **));
