@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:57:57 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 12:00:12 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ int	set_env(char *name_value)
 	return (value[-1] = '=', ret);
 }
 
-// TODO: this may not work
-// free(*env);
+/**
+ * TODO: old buffer is leaked
+*/
 int	unset_env(char *name)
 {
 	char	*value;
@@ -100,13 +101,30 @@ int	unset_env(char *name)
 	return (1);
 }
 
-void	print_env(void)
+void	print_env(int export_mode)
 {
 	char	**env;
+	char	*name;
+	char	*value;
 
 	env = g_state.env;
-	while (*env)
-		printf("%s\n", *env++);
+	if (!export_mode)
+	{		
+		while (*env)
+			printf("%s\n", *env++);
+	}
+	else
+	{
+		while (*env)
+		{
+			value = ft_strchr(*env, '=') + 1;
+			value[-1] = 0;
+			name = *env;
+			printf("declare -x %s=\"%s\"\n", name, value);
+			value[-1] = '=';
+			env++;
+		}
+	}
 }
 
 /**

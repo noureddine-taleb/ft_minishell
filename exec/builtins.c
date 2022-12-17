@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:57:50 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 12:00:04 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ int	builtin_export(struct s_list_cmd *cmd)
 {
 	char	**name_values;
 
-	if (arr_size(cmd->cmds_args) < 2)
+	if (arr_size(cmd->cmds_args) == 1)
+	{
+		print_env(1);
 		return (0);
+	}
 	name_values = &cmd->cmds_args[1];
 	while (*name_values)
 	{
