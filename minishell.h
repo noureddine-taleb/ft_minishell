@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 19:07:00 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 20:02:05 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 
 struct s_state {
 	char	**env;
-	int		env_allocated;
 	int		exit_status;
 };
 
@@ -230,6 +229,7 @@ void	init_prev(struct s_list_cmd *cmd);
 
 void	handle_signals(void);
 
+char	**clone_env(char **env);
 char	*get_env(char *name);
 void	print_env(int export_mode);
 int		valid_env_name(char *var);
