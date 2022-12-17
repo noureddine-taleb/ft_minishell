@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 13:36:17 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 15:03:58 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,10 @@ int	main(int ac, char **av, char **env)
 			convert_type_word(&list_token);
 			if (!ft_error(list_token, &data))
 			{
+
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
-				// g_state.exit_status = exec(list_cmds);
+				g_state.exit_status = exec(list_cmds);
 			}
 		}
 		free(data);
