@@ -1,6 +1,5 @@
 norm
 sigint should resets the prompt
-fix TODOS
 wait syscall could fail
 export without arg print env in format `declare -x $name="$value"`
 setup signal handling should be in main

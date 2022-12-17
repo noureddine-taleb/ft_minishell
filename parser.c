@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 18:52:44 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 20:03:20 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 
 	(void) av;
 	(void) ac;
-	g_state.env = env;
+	g_state.env = clone_env(env);
 	list_token = NULL;
 	g_state.exit_status = 0;
 	input_commands = init_lexer(readline("Minishell$ "));
@@ -76,7 +76,6 @@ int	main(int ac, char **av, char **env)
 			convert_type_word(&list_token);
 			if (!ft_error(list_token, &data))
 			{
-
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
 				g_state.exit_status = exec(list_cmds);

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 13:02:43 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 13:03:35 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 19:55:02 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,24 @@ char	**get_entry_location(char *addr)
 		env++;
 	}
 	return (NULL);
+}
+
+char	**clone_env(char **env)
+{
+	int		len;
+	char	**new_env;
+	int		i;
+	int		entry_size;
+
+	i = 0;
+	len = arr_size(env);
+	new_env = ft_calloc(len + 1, sizeof (char **));
+	while (i < len)
+	{
+		entry_size = ft_strlen(env[i]) + 1;
+		new_env[i] = malloc(entry_size);
+		ft_strlcpy(new_env[i], env[i], entry_size);
+		i++;
+	}
+	return (new_env);
 }
