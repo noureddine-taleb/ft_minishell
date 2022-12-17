@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 13:08:27 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 10:55:55 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	execute_cmd(struct s_list_cmd *cmd)
 		return (-ret);
 	free(cmd->cmds_args[0]);
 	cmd->cmds_args[0] = full_path;
-	if (execve(cmd->cmds_args[0], cmd->cmds_args, g_env) < 0)
-		die(cmd->cmds_args[0], 1);
+	if (execve(cmd->cmds_args[0], cmd->cmds_args, g_state.env) < 0)
+		fatal(cmd->cmds_args[0], 1);
 	return (0);
 }
 
@@ -52,14 +52,13 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 {
 	int			ret;
 
-	// printf("root = %p\n", cmd->cmds_args);
 	cmd->__builtin = get_builtin(cmd->cmds_args[0]);
 	cmd->__in_subshell = (!cmd->__builtin || cmd->next || cmd->prev);
 	if (cmd->__in_subshell)
 	{
 		ret = fork();
 		if (ret < 0)
-			die("create_child(fork)", 2);
+			fatal("create_child(fork)", 1);
 		if (ret > 0)
 			return (cmd->__pid = ret, 0);
 	}
@@ -120,7 +119,7 @@ int	wait_children(struct s_list_cmd *cmd)
 		else if (waitpid(cmd->__pid, &status, 0) > 0)
 			status = get_exit_code(status);
 		else
-			die("wait_children(wait)", 8);
+			fatal("wait_children(wait)", 1);
 		cmd = cmd->next;
 	}
 	return (status);

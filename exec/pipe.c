@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:53:43 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 16:53:49 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/16 19:11:31 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_pipes(int count, int pipes[][2])
 	{
 		ret = pipe(pipes[i]);
 		if (ret < 0)
-			die("init_pipes(pipe)", 1);
+			fatal("init_pipes(pipe)", 1);
 		i++;
 	}
 }
@@ -60,10 +60,10 @@ void	close_unused_pipes(int pipe[2], int pipes[][2], int len)
 	{
 		if (pipes[i][0] != pipe[0] && pipes[i][0] != pipe[1])
 			if (close(pipes[i][0]))
-				die("close_unused_pipes(close)", 4);
+				fatal("close_unused_pipes(close)", 1);
 		if (pipes[i][1] != pipe[0] && pipes[i][1] != pipe[1])
 			if (close(pipes[i][1]))
-				die("close_unused_pipes(close)", 4);
+				fatal("close_unused_pipes(close)", 1);
 		len--;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 21:37:04 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 12:35:37 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-char	**g_env;
+struct s_state {
+	char	**env;
+	int		env_allocated;
+	int		exit_status;
+};
+
+extern struct s_state g_state;
 
 typedef struct s_data
 {
@@ -109,6 +115,7 @@ void	ft_putchar_fd(char c, int fd);
 int	ft_atoi_err(char *str, int *error);
 int	ft_strncmp(char *s1, char *s2, size_t n);
 void	*ft_calloc(size_t count, size_t size);
+char	*ft_itoa(int n);
 
 char	*ft_strchr(char *s, int c);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
@@ -211,11 +218,9 @@ int					find_pipe(t_list_token **list_token);
 
 
 
-// exec
-extern char **g_env;
-
-int		pr_error(char *msg, int ret);
-void	die(char *msg, int status) __dead2;
+int		__pr_error(char *cmd, char *arg, char *msg, int ret);
+int		pr_error(char *cmd, char *arg, int ret);
+void	fatal(char *msg, int status) __dead2;
 int		count_processes(struct s_list_cmd *cmd);
 int		get_append_flag(struct s_list_io_stream *io);
 int		arr_size(char **path);

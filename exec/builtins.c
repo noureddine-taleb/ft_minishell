@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 16:09:29 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 11:22:25 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ static int	builtin_echo(struct s_list_cmd *cmd)
 		new_line = 0;
 		argv++;
 	}
-	// printf("printing argv = %s\n", *argv);
 	while (*argv)
 	{
-		// printf("arg=%s", *argv);
 		ft_putstr_fd(*argv++, 1);
 		if (*argv)
 			ft_putchar_fd(' ', 1);
@@ -46,9 +44,10 @@ static int	builtin_cd(struct s_list_cmd *cmd)
 	{
 		path = get_env("HOME");
 		if (!path)
-			die("cd: HOME not set", 1);
+			return (__pr_error("cd", NULL, "HOME not set", 1));
 	}
-	chdir(path);
+	if (chdir(path) < 0)
+		return (pr_error("cd", path, 1));
 	return (0);
 }
 
@@ -75,7 +74,8 @@ static int	builtin_export(struct s_list_cmd *cmd)
 	while (*name_values)
 	{
 		if (set_env(*name_values) < 0)
-			die("export: {*name_values}: not a valid identifier", 1);
+			return (__pr_error("export", *name_values,
+					"not a valid identifier", 1));
 		name_values++;
 	}
 	return (0);
@@ -91,10 +91,7 @@ static int	builtin_unset(struct s_list_cmd *cmd)
 	while (*vars)
 	{
 		if (unset_env(*vars) < 0)
-		{
-			die("unset: {*vars}: not a valid identifier", 1);
-			return (1);
-		}
+			return (__pr_error("unset", *vars, "not a valid identifier", 1));
 		vars++;
 	}
 	return (0);
@@ -115,7 +112,7 @@ static int	builtin_env(struct s_list_cmd *cmd)
  * 
  * if argv[0] is number
  * 	if (argc > 1)
- * 		die("exit: too many arguments", 1)
+ * 		bailout("exit: too many arguments", 1)
  * else
  * 	perror("exit: {argv[0]}: numeric argument required"), exit(255)
 */
@@ -125,27 +122,21 @@ static int	builtin_exit(struct s_list_cmd *cmd)
 	int	error;
 	int	code;
 
-	len = -1;
 	error = 0;
 	ft_putstr_fd("exit\n", 1);
-	while (cmd->cmds_args[len])
-		len++;
+	len = arr_size(cmd->cmds_args) - 1;
 	if (len == 0)
 		exit(0);
 	code = ft_atoi_err(cmd->cmds_args[1], &error);
 	if (!error)
 	{
 		if (len > 1)
-			return (pr_error("exit: too many arguments", 1));
+			return (__pr_error("exit", NULL, "too many arguments", 1));
 		exit(code);
 	}
 	else
 	{
-		exit(pr_error(
-				ft_strjoin(ft_strjoin("exit: ", cmd->cmds_args[1]),
-					": numeric argument required"),
-				255)
-			);
+		exit(__pr_error("exit", cmd->cmds_args[1], "numeric argument required", 255));
 	}
 }
 

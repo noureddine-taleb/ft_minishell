@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 22:39:34 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 12:36:07 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+struct s_state g_state = {0};
 
 int	ft_error(t_list_token *list_token, t_data **data)
 {
@@ -59,8 +61,10 @@ int	main(int ac, char **av, char **env)
 
 	(void) av;
 	(void) ac;
-	g_env = env;
+	g_state.env = env;
 	list_token = NULL;
+	g_state.exit_status = 0;
+	data = init_data(&data);
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
@@ -75,7 +79,7 @@ int	main(int ac, char **av, char **env)
 			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
-				// exec(list_cmds);
+				g_state.exit_status = exec(list_cmds);
 			}
 		}
 		free(data);

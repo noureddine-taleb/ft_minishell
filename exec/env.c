@@ -6,14 +6,12 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 12:26:09 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 10:55:34 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**g_env;
-int		env_allocated = 0;
 
 static int	valid_env_char(char c)
 {
@@ -53,7 +51,7 @@ char	**get_entry_location(char *addr)
 {
 	char	**env;
 
-	env = g_env;
+	env = g_state.env;
 	while (*env)
 	{
 		if (*env == addr)
@@ -80,14 +78,14 @@ void	__set_env(char *name, char *value)
 	old_value = get_env(name);
 	if (!old_value)
 	{
-		new_env = malloc((arr_size(g_env) + 2) * sizeof (char **));
-		ft_memcpy(new_env, g_env, arr_size(g_env) * sizeof (char **));
-		new_env[arr_size(g_env)] = init_env_entry(name, value);
-		new_env[arr_size(g_env) + 1] = NULL;
-		if (env_allocated)
-			free(g_env);
-		g_env = new_env;
-		env_allocated = 1;
+		new_env = malloc((arr_size(g_state.env) + 2) * sizeof (char **));
+		ft_memcpy(new_env, g_state.env, arr_size(g_state.env) * sizeof (char **));
+		new_env[arr_size(g_state.env)] = init_env_entry(name, value);
+		new_env[arr_size(g_state.env) + 1] = NULL;
+		if (g_state.env_allocated)
+			free(g_state.env);
+		g_state.env = new_env;
+		g_state.env_allocated = 1;
 		return ;
 	}
 	if (ft_strlen(value) <= ft_strlen(old_value))
@@ -108,8 +106,9 @@ void	__set_env(char *name, char *value)
 */
 int	set_env(char *name_value)
 {	
-	char *name;
-	char *value;
+	char	*name;
+	char	*value;
+	int		ret;
 
 	value = ft_strchr(name_value, '=');
 	if (!value)
@@ -117,11 +116,13 @@ int	set_env(char *name_value)
 	*value = 0;
 	value++;
 	name = name_value;
-	if (!valid_env_name(name))
-		return (-1);
-	__set_env(name, value);
-	value[-1] = '=';
-	return (0);
+	ret = -1;
+	if (valid_env_name(name))
+	{
+		__set_env(name, value);
+		ret = 0;
+	}
+	return (value[-1] = '=', ret);
 }
 
 int	unset_env(char *name)
@@ -129,7 +130,7 @@ int	unset_env(char *name)
 	char	*value;
 	char	**env;
 
-	env = g_env;
+	env = g_state.env;
 	if (!valid_env_name(name))
 		return (-1);
 	value = get_env(name);
@@ -147,7 +148,7 @@ void	print_env(void)
 {
 	char	**env;
 
-	env = g_env;
+	env = g_state.env;
 	while (*env)
 		printf("%s\n", *env++);
 }
@@ -160,7 +161,7 @@ char	*get_env(char *name)
 	char	**_env;
 	char	*value;
 
-	_env = g_env;
+	_env = g_state.env;
 	value = NULL;
 	name = ft_strjoin(name, "=");
 	while (*_env)
