@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 16:01:36 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 19:07:00 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ void	init_prev(struct s_list_cmd *cmd);
 void	handle_signals(void);
 
 char	*get_env(char *name);
-void	print_env(void);
+void	print_env(int export_mode);
 int		valid_env_name(char *var);
 int		unset_env(char *name);
 int		set_env(char *name_value);
