@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:02:10 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 22:07:59 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 13:00:38 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*get_word_token(t_lexer *lexer, t_data **data,
 	(*data)->sign_find_space = 0;
 	while (lexer->c && !is_whitespace(lexer->c))
 	{
-		// printf("lexer->c == %c\n",lexer->c);
 		if (!is_token(&lexer->c))
 		{
 			get_word_token_2(lexer, data, &word, list_token);
@@ -31,7 +30,6 @@ char	*get_word_token(t_lexer *lexer, t_data **data,
 		else
 			break ;
 	}
-	// printf("word == %s\n", word);
 	return (word);
 }
 

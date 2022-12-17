@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 21:26:10 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 14:00:15 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 char *ft_readline(char *prompt)
 {
-	char *ret;
+	char	*ret;
+	char	*ret_2;
 
 	ret = readline(prompt);
-	ret = ft_strjoin(ret, "\n");
-	return (ret);
+	ret_2 = ft_strjoin(ret, "\n");
+	ft_free (&ret);
+	return (ret_2);
 }
 
 char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 {
 	char	*string_inp;
 	char	*string_join;
-	char	*ret_expand ;
+	char	*ret_expand;
+	char	*tmp;
 
 	ret_expand = NULL;
 	string_join = NULL;
@@ -33,18 +36,22 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
 	{
-		while (string_inp && *string_inp)
+		tmp = string_inp;
+		while (tmp && *tmp)
 		{
-			if (*string_inp == '$' && !(*data)->sign_d_s_quote)
+			if (*tmp == '$' && !(*data)->sign_d_s_quote)
 			{
-				ret_expand = ft_expand_herdoc(string_join, &string_inp, data);
-				ft_herdoc_2(&ret_expand, &string_join, &string_inp, data);
+				ret_expand = ft_expand_herdoc(string_join, &tmp, data);
+				ft_herdoc_2(&ret_expand, &string_join, &tmp, data);
 			}
-			string_join = ft_strjoin2(string_join, *string_inp, lexer);
-			string_inp++;
+			string_join = ft_strjoin2(string_join, *tmp, lexer);
+			tmp++;
 		}
+		ft_free(&string_inp);
 		string_inp = ft_readline("> ");
 	}
+	ft_free (&eof);
+	ft_free(&string_inp);
 	return (string_join);
 }
 

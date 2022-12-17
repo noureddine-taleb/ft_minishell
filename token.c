@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 22:38:04 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 12:55:50 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,16 @@ t_list_token	*get_token_2(t_list_token **list_token, t_token **token,
 void	get_token_3(t_data **data, t_lexer *lexer)
 {
 	char	*string_for_free_join;
-	char	*string_for_free_value;
+	// char	*string_for_free_value;
 
 	string_for_free_join = (*data)->join_value;
-	string_for_free_value = (*data)->value;
+	// string_for_free_value = (*data)->value;
+	// printf("data->value 1 == %p\n", (*data)->value);
+	// printf("data->join_value 1 == %p\n", (*data)->join_value);
 	if ((*data)->nbr_space == 0 || (*data)->sign_find_space)
 		(*data)->join_value = ft_strjoin((*data)->join_value, (*data)->value);
+	// printf("data->value == %p\n", (*data)->value);
+	// printf("data->join_value == %p\n", (*data)->join_value);
 	ft_free(&string_for_free_join);
 	if (is_whitespace(lexer->c))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 12:36:07 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 13:36:17 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	main(int ac, char **av, char **env)
 	g_state.env = env;
 	list_token = NULL;
 	g_state.exit_status = 0;
-	data = init_data(&data);
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
@@ -79,7 +78,7 @@ int	main(int ac, char **av, char **env)
 			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
-				g_state.exit_status = exec(list_cmds);
+				// g_state.exit_status = exec(list_cmds);
 			}
 		}
 		free(data);

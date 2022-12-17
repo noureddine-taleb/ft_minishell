@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:05:26 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 22:39:29 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 12:57:11 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	add_token_2(t_list_token **list_token, t_data **data)
 		remove_space(&(*data)->join_value);
 	type_token = get_type_token((*data)->join_value, data);
 	token = init_token(type_token, (*data)->join_value);
+	add_node(list_token, node(&token));
 	if ((*data)->join_value)
 		ft_free (&((*data)->join_value));
-	add_node(list_token, node(&token));
 	if ((*data)->value)
 		ft_free(&(*data)->value);
 	(*data)->nbr_space = 0;

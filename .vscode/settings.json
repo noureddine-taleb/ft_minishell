@@ -3,6 +3,7 @@
 		"APPAND",
 		"HERDOC",
 		"inpt",
+		"putstr",
 		"REDI"
 	],
 	"files.associations": {
