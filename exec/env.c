@@ -6,60 +6,15 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 10:55:34 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 15:41:46 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-static int	valid_env_char(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
-
-int	valid_env_name(char *var)
-{
-	if (!ft_strlen(var))
-		return (0);
-	if (ft_isdigit(*var))
-		return (0);
-	while (*var)
-	{
-		if (!valid_env_char(*var))
-			return (0);
-		var++;
-	}
-	return (1);
-}
-
-char	*init_env_entry(char *name, char *value)
-{
-	char	*slot;
-	int		size;
-
-	size = ft_strlen(name) + ft_strlen(value) + 2;
-	slot = malloc(size);
-	slot[0] = 0;
-	ft_strlcat(slot, name, size);
-	ft_strlcat(slot, "=", size);
-	ft_strlcat(slot, value, size);
-	return (slot);
-}
-
-char	**get_entry_location(char *addr)
-{
-	char	**env;
-
-	env = g_state.env;
-	while (*env)
-	{
-		if (*env == addr)
-			return env;
-		env++;
-	}
-	return (NULL);
-}
+int		valid_env_name(char *var);
+char	*init_env_entry(char *name, char *value);
+char	**get_entry_location(char *addr);
 
 /**
  * if (env_doesnt_exist)
@@ -68,7 +23,10 @@ char	**get_entry_location(char *addr)
  * 	if (old_spot_can_hold_new_value)
  * 		overwrite_old_value
  * else
- * 	allocate_new_spot && free_old_one_if_applicable
+ * 	allocate_new_entry && free_old_one_if_applicable--
+ * 
+ * TODO: old value is leaked if the new value is larger
+ * 
 */
 void	__set_env(char *name, char *value)
 {
@@ -79,7 +37,8 @@ void	__set_env(char *name, char *value)
 	if (!old_value)
 	{
 		new_env = malloc((arr_size(g_state.env) + 2) * sizeof (char **));
-		ft_memcpy(new_env, g_state.env, arr_size(g_state.env) * sizeof (char **));
+		ft_memcpy(new_env, g_state.env,
+			arr_size(g_state.env) * sizeof (char **));
 		new_env[arr_size(g_state.env)] = init_env_entry(name, value);
 		new_env[arr_size(g_state.env) + 1] = NULL;
 		if (g_state.env_allocated)
@@ -90,13 +49,11 @@ void	__set_env(char *name, char *value)
 	}
 	if (ft_strlen(value) <= ft_strlen(old_value))
 	{
-		ft_strlcpy(old_value, value, ft_strlen(old_value));
-		old_value[ft_strlen(value)] = 0;
+		ft_strlcpy(old_value, value, ft_strlen(old_value) + 1);
 		return ;
 	}
 	old_value -= ft_strlen(name) + 1;
-	*get_entry_location(old_value) = init_env_entry(name, value);
-	// TODO: old value is leaked
+	(*get_entry_location(old_value)) = init_env_entry(name, value);
 }
 
 /**
@@ -125,12 +82,13 @@ int	set_env(char *name_value)
 	return (value[-1] = '=', ret);
 }
 
+// TODO: this may not work
+// free(*env);
 int	unset_env(char *name)
 {
 	char	*value;
 	char	**env;
 
-	env = g_state.env;
 	if (!valid_env_name(name))
 		return (-1);
 	value = get_env(name);
@@ -138,9 +96,7 @@ int	unset_env(char *name)
 		return (0);
 	value -= ft_strlen(name) + 1;
 	env = get_entry_location(value);
-	// TODO: this may not work
-	// free(*env);
-	ft_memmove(env, env + 1, (arr_size(env + 1) + 1) * sizeof (char **));
+	ft_memmove(env, env + 1, (arr_size(env)) * sizeof (char **));
 	return (1);
 }
 
@@ -154,24 +110,24 @@ void	print_env(void)
 }
 
 /**
- * result need not be freed
+ * result should not be freed
 */
 char	*get_env(char *name)
 {
-	char	**_env;
+	char	**env;
 	char	*value;
 
-	_env = g_state.env;
+	env = g_state.env;
 	value = NULL;
 	name = ft_strjoin(name, "=");
-	while (*_env)
+	while (*env)
 	{
-		if (!ft_strncmp(*_env, name, ft_strlen(name)))
+		if (!ft_strncmp(*env, name, ft_strlen(name)))
 		{
-			value = ft_strchr(*_env, '=') + 1;
+			value = ft_strchr(*env, '=') + 1;
 			break ;
 		}
-		_env++;
+		env++;
 	}
 	free(name);
 	return (value);

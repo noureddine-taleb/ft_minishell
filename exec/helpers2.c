@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   helpers2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 15:19:51 by ntaleb           ###   ########.fr       */
+/*   Created: 2022/12/17 13:38:13 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/12/17 14:54:01 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
 
-void	handle_signals(void)
+int	get_append_flag(struct s_list_io_stream *io)
 {
-	struct sigaction	sa;
+	if (io->flags == TOKEN_FILE_APPAND)
+		return (O_APPEND);
+	else
+		return (O_TRUNC);
+}
 
-	sa = (struct sigaction){.sa_handler = SIG_IGN};
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		fatal("handle_signals(sigaction)", 1);
+int	arr_size(char **arr)
+{
+	int	len;
+
+	len = 0;
+	if (!arr)
+		return (0);
+	while (*arr)
+	{
+		len++;
+		arr++;
+	}
+	return (len);
 }

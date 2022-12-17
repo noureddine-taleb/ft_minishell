@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 15:03:58 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 16:01:42 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	main(int ac, char **av, char **env)
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
 		free_lexer(&input_commands);
-		system("leaks minishell");
 		input_commands = init_lexer(readline("Minishell$ "));
 	}
 }

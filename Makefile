@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
+#    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/17 15:02:45 by kadjane          ###   ########.fr        #
+#    Updated: 2022/12/17 16:01:55 by ntaleb           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ SRCS = parser.c\
 		lexer.c node.c fun_error.c fun_whitespace.c\
 		get_file.c get_file_2.c get_file_3.c\
 		expand.c expand_in_herdoc.c ft_itoa.c \
-		fun_find_space.c fun_herdoc.c exec/builtins.c exec/env.c exec/helpers.c exec/io.c exec/path.c exec/pipe.c exec/signal.c exec/exec.c
+		fun_find_space.c fun_herdoc.c exec/builtins.c exec/builtins2.c \
+		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
+		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
+		exec/pipe.c exec/signal.c
 
 NAME = minishell
 

@@ -1,11 +1,10 @@
-wait syscall could fail
 norm
 sigint should resets the prompt
-test wait with sigint
-
-interactive mode, interpreter mode (shiband)
-
+fix TODOS
+wait syscall could fail
 export without arg print env in format `declare -x $name="$value"`
+setup signal handling should be in main
+empty PATH && ls
 errors + check exit status:
 		cd home not set(1)
 		cd to unknowen dir(1)
@@ -20,7 +19,7 @@ errors + check exit status:
 find memory leaks (MallocStackLogging)
 
 
-bash semantics
+bash semantics:
 
 pipe means start a new node
 if there is multiple input sources the last one is taken (wether heredoc or file)
