@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 12:55:50 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 14:51:05 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*get_value(t_lexer *lexer, t_data **data, t_list_token **list_token)
 	t_list_token	*tmp_2;
 
 	tmp_2 = end_list(list_token);
-	// printf("////////////////\n");
 	if ((*data)->value)
 		ft_free(&(*data)->value);
 	if (lexer->c == '\"')

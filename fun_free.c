@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 13:45:32 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 15:01:13 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	free_list_token(t_list_token **list_token)
 
 	while (*list_token)
 	{
-		ft_free(&(*list_token)->token->val);
+		if((*list_token)->token)
+			ft_free(&(*list_token)->token->val);
 		free((*list_token)->token);
 		(*list_token)->token = NULL;
 		tmp = *list_token;
