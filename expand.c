@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 21:19:25 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/17 12:35:20 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ char	*expand_digit(t_lexer *lexer, char *word, t_data **data)
 		get_next_char(lexer);
 		return (ft_strjoin(word, "$$"));
 	}
+	if (*ptr == '?')
+	{
+		get_next_char(lexer);
+		get_next_char(lexer);
+		return (ft_strjoin(word, ft_itoa(g_state.exit_status)));
+	}
 	return (NULL);
 }
 
@@ -76,7 +82,7 @@ char	*ft_expand_2(char *word, t_lexer *lexer)
 	char	**env;
 	int		i;
 
-	env = g_env;
+	env = g_state.env;
 	while (env && *env)
 	{
 		i = ft_expand_3(lexer, &str, &ptr, env);
@@ -98,7 +104,8 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 
 	found = NULL;
 	if (ft_isalnum(lexer->command_ling[lexer->index + 1])
-		|| lexer->command_ling[lexer->index + 1] == '$')
+		|| lexer->command_ling[lexer->index + 1] == '$'
+		||  lexer->command_ling[lexer->index + 1] == '?')
 	{
 		found = expand_digit(lexer, word, data);
 		if (found)

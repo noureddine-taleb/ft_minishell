@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:54:00 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:57:14 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	free_path(char **path)
 int	check_exec(char	*exec)
 {
 	if (access(exec, F_OK) < 0)
-		return (-ENOENT);
+		return (-127);
 	if (access(exec, X_OK) < 0)
-		return (-EACCES);
+		return (-126);
 	return (0);
 }
 
@@ -75,8 +75,9 @@ int	find_exec(char *exec, char **full_path)
 	path_len = arr_size(path);
 	if (ft_strchr(exec, '/') || !path_len)
 	{
-		if (check_exec(exec) < 0)
-			return (pr_error(*full_path, -1));
+		ret = check_exec(exec);
+		if (ret < 0)
+			return (pr_error(exec, NULL, ret));
 		return (free_path(path), *full_path = ft_strdup(exec), 0);
 	}
 	i = 0;
@@ -86,22 +87,19 @@ int	find_exec(char *exec, char **full_path)
 		*full_path = combine_path_with_exec(path[i], exec);
 		if (!access(*full_path, X_OK))
 			return (free_path(path), 0);
-		else if (!access(*full_path, F_OK) && !error)
+		if (access(*full_path, F_OK))
+			ret = -127;
+		else
+			ret = -126;
+		if (!access(*full_path, F_OK) && !error)
 			error = *full_path;
 		else
 			free(*full_path);
-		if (access(*full_path, F_OK))
-			ret = 127;
-		else
-			ret = 126;
 		i++;
 	}
 	free_path(path);
-	if (ret == 127)
-	{
-		char	*error2;
-		error2 = ft_strjoin(exec, ": command not found");
-		return (pr_error(error2, ret), free(error), free(error2), ret);
-	}
-	return (pr_error(error, ret), free(error), ret);
+	if (ret == -127)
+		return (__pr_error(exec, NULL, "command not found", ret),
+			free(error), ret);
+	return (pr_error(error, NULL, ret), free(error), ret);
 }

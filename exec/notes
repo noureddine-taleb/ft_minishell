@@ -1,9 +1,24 @@
-error messages
-parent (minishell) shouldn't exit on error, only children does
-figure out how to handle prev pipe without the prev pointer
-interactive mode, interpreter mode (shiband)
 wait syscall could fail
 norm
+sigint should resets the prompt
+test wait with sigint
+
+interactive mode, interpreter mode (shiband)
+
+export without arg print env in format `declare -x $name="$value"`
+errors + check exit status:
+		cd home not set(1)
+		cd to unknowen dir(1)
+		export invalid identifier(1)
+		unset invalid identifier(1)
+		exit too many arguments(1)
+		exit numeric arg required(255)
+		open non existant file(1)
+		permission denied on a file(1)
+		local bin: perm(126)/noent(127)
+		path: cmd not found(127) / perm(126)
+find memory leaks (MallocStackLogging)
+
 
 bash semantics
 
