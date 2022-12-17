@@ -6,7 +6,7 @@
 #    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/17 16:01:55 by ntaleb           ###   ########.fr        #
+#    Updated: 2022/12/17 18:27:18 by ntaleb           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
 all: $(NAME)
 

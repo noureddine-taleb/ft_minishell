@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:14:49 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 15:15:33 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/17 18:28:44 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	free_path(char **path)
 	int	i;
 
 	i = 0;
+	if (!path)
+		return ;
 	while (path[i])
 	{
 		free(path[i]);
