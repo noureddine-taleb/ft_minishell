@@ -6,12 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:57:03 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:58:32 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
 void	handle_pipe(struct s_list_cmd *cmd, int pipe[2],
 			int pipes[][2], int len)
@@ -90,24 +89,4 @@ int	handle_io(struct s_list_cmd *cmd)
 		io = io->next;
 	}
 	return (0);
-}
-
-void	save_stdin_stdout(struct s_list_cmd *cmd)
-{
-	cmd->__builtin_stdin = dup(STDIN_FILENO);
-	if (cmd->__builtin_stdin < 0)
-		fatal("dup(save_stdin_stdout)", 1);
-	cmd->__builtin_stdout = dup(STDOUT_FILENO);
-	if (cmd->__builtin_stdout < 0)
-		fatal("dup(save_stdin_stdout)", 1);
-}
-
-void	restore_stdin_stdout(struct s_list_cmd *cmd)
-{
-	if (dup2(cmd->__builtin_stdin, STDIN_FILENO) < 0)
-		fatal("dup2(restore_stdin_stdout)", 1);
-	if (dup2(cmd->__builtin_stdout, STDOUT_FILENO) < 0)
-		fatal("dup2(restore_stdin_stdout)", 1);
-	close(cmd->__builtin_stdin);
-	close(cmd->__builtin_stdout);
 }

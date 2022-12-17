@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   path2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:58:53 by ntaleb           ###   ########.fr       */
+/*   Created: 2022/12/17 15:14:49 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/12/17 15:15:33 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
 
-void	handle_signals(void)
+/**
+ * result should be freed
+*/
+char	*combine_path_with_exec(char *path, char *exec)
 {
-	struct sigaction	sa;
+	char	*full_path;
 
-	sa = (struct sigaction){.sa_handler = SIG_IGN};
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		fatal("handle_signals(sigaction)", 1);
+	if (path[ft_strlen(path) - 1] == '/')
+		return (ft_strjoin(path, exec));
+	path = ft_strjoin(path, "/");
+	full_path = ft_strjoin(path, exec);
+	free(path);
+	return (full_path);
+}
+
+void	free_path(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
 }

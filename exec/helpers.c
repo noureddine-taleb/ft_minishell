@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:56:53 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:58:22 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ int	count_processes(struct s_list_cmd *cmd)
 	int	count;
 
 	count = 0;
-	// printf("counting process count\n");
 	while (cmd)
 	{
-		// printf("cmd = %s\n", cmd->cmds_args[0]);
 		cmd = cmd->next;
 		count++;
 	}
@@ -73,25 +71,4 @@ int	pr_error(char *cmd, char *arg, int ret)
 void	fatal(char *msg, int status)
 {
 	exit(pr_error(msg, NULL, status));
-}
-
-int	get_append_flag(struct s_list_io_stream *io)
-{
-	if (io->flags == TOKEN_FILE_APPAND)
-		return (O_APPEND);
-	else
-		return (O_TRUNC);
-}
-
-int	arr_size(char **arr)
-{
-	int	len;
-
-	len = 0;
-	while (*arr)
-	{
-		len++;
-		arr++;
-	}
-	return (len);
 }

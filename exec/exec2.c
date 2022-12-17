@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:58:53 by ntaleb           ###   ########.fr       */
+/*   Created: 2022/12/17 13:08:02 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/12/17 13:17:21 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
 
-void	handle_signals(void)
+int	get_exit_code(int status)
 {
-	struct sigaction	sa;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	return (0);
+}
 
-	sa = (struct sigaction){.sa_handler = SIG_IGN};
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		fatal("handle_signals(sigaction)", 1);
+int	give_birth(struct s_list_cmd *cmd)
+{
+	int	ret;
+
+	ret = fork();
+	if (ret < 0)
+		fatal("create_child(fork)", 1);
+	if (ret > 0)
+		cmd->__pid = ret;
+	return (ret);
 }
