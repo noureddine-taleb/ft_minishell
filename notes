@@ -1,6 +1,6 @@
-read env from global variable
-echo oooo <<h | <<k : no execution
-ambiguous redirect
+line full of spaces
+heredoc use get_next_line instead of readline
+spaces == \n == empty
 
 norm
 memory leaks
