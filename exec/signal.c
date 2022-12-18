@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 20:06:25 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 22:29:12 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 void	sigint_handler(int sig)
 {
 	(void)sig;
+	printf("\n");
+	rl_on_new_line(); // behave like we have a new line
+	rl_replace_line("", 1); // reset input
+	rl_redisplay();   // redisplys the prompt
 }
 
 void	handle_signals(void)
