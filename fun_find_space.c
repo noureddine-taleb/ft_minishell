@@ -68,13 +68,11 @@ void	ft_find_space_2(char **tmp, int *i, char **arg)
 void	ft_find_space(char **word, t_list_token **list_token, t_data **data)
 {
 	char	*tmp;
-	char	*tmp_2;
 	char	*arg;
 	int		i;
 
 	i = 0;
 	tmp = *word;
-	tmp_2 = *word;
 	arg = NULL;
 	if (nbr_word(*word) > 1)
 	{

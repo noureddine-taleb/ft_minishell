@@ -14,7 +14,6 @@
 
 void	print_cmd_list(t_list_cmd *list_cmds)
 {
-	t_list_cmd				*tmp_2;
 	struct s_list_io_stream	*io;
 	int						j;
 

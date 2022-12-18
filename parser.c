@@ -16,9 +16,6 @@ struct s_state	g_state = {0};
 
 int	ft_error(t_list_token *list_token, t_data **data)
 {
-	int	i;
-
-	i = 0;
 	if (check_quote_pipe(&list_token))
 	{
 		printf("Minishell: syntax error: unexpected end of file\n");
