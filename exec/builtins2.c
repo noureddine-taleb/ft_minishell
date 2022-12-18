@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 12:40:57 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 19:07:16 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 15:08:20 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	builtin_unset(struct s_list_cmd *cmd);
 int	builtin_env(struct s_list_cmd *cmd);
 int	builtin_exit(struct s_list_cmd *cmd);
 
-builtin_t	get_builtin(char *cmd)
+t_builtin	get_builtin(char *cmd)
 {
 	if (!cmd)
 		return (NULL);

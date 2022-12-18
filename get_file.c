@@ -6,19 +6,40 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 04:40:29 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 20:03:42 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 15:04:24 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+void	print_cmd_list(t_list_cmd *list_cmds)
+{
+	t_list_cmd				*tmp_2;
+	struct s_list_io_stream	*io;
+	int						j;
+
+	while (list_cmds)
+	{
+		j = 0;
+		while (list_cmds->cmds_args[j])
+			printf("\033[90m arg == '%s'\n\033[00m", list_cmds->cmds_args[j++]);
+		io = list_cmds->io;
+		while (io)
+		{
+			printf("\033[92m file_flage == %d\n\033[00m", io->flags);
+			printf("\033[91m file_name  == %s\n\033[00m", io->target);
+			io = io->next;
+		}
+		printf("------------------------------------------------\n");
+		list_cmds = list_cmds->next;
+	}
+}
 
 t_list_cmd	*get_list_cmd(t_list_token **list_token,
 	t_list_cmd **list_cmds, t_lexer *lexer, t_data **data)
 {
 	t_list_cmd		*new_cmd;
 	t_list_token	*tmp;
-	// t_list_cmd		*tmp_2;
-	// int				j;
 
 	tmp = *list_token;
 	while (tmp)
@@ -28,22 +49,7 @@ t_list_cmd	*get_list_cmd(t_list_token **list_token,
 		if (tmp)
 			tmp = tmp->next;
 	}
-	// tmp_2 = *list_cmds;
-	// while (tmp_2)
-	// {
-	// 	j = 0;
-	// 	while (tmp_2->cmds_args && tmp_2->cmds_args[j])
-	// 		printf("\033[90m arg == '%s'\n\033[00m", tmp_2->cmds_args[j++]);
-	// 	while (tmp_2->io)
-	// 	{
-	// 		printf("\033[92m file_flage == %d\n\033[00m", tmp_2->io->flags);
-	// 		printf("\033[91m file_name  == %s\n\033[00m", tmp_2->io->target);
-	// 		// ft_putstr_fd(tmp_2->io->target, 1);
-	// 		tmp_2->io = tmp_2->io->next;
-	// 	}
-	// 	// printf("------------------------------------------------\n");
-	// 	tmp_2 = tmp_2->next;
-	// }
+	print_cmd_list(*list_cmds);
 	return (*list_cmds);
 }
 

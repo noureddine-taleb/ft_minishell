@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 20:02:05 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 15:37:30 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include <stdlib.h>
 # include <errno.h>
 # include <readline/readline.h>
@@ -27,7 +27,7 @@ struct s_state {
 	int		exit_status;
 };
 
-extern struct s_state g_state;
+extern struct s_state	g_state;
 
 typedef struct s_data
 {
@@ -72,8 +72,8 @@ typedef struct s_token
 	char	*val;
 }	t_token;
 
-struct s_list_cmd;
-typedef int (*builtin_t)(struct s_list_cmd *cmd);
+struct	s_list_cmd;
+typedef int	(*t_builtin)(struct s_list_cmd *);
 
 typedef struct s_list_token
 {
@@ -90,13 +90,13 @@ typedef struct s_list_io_stream
 
 typedef struct s_list_cmd
 {
-	char				**cmds_args;
-	t_list_io_stream	*io;
-	struct s_list_cmd	*next;
+	char						**cmds_args;
+	t_list_io_stream			*io;
+	struct s_list_cmd			*next;
 
 	struct s_list_cmd			*prev;
 	pid_t						__pid;
-	builtin_t					__builtin;
+	t_builtin					__builtin;
 	int							__builtin_exit_status;
 	int							__builtin_stdin;
 	int							__builtin_stdout;
@@ -117,6 +117,7 @@ int					ft_atoi_err(char *str, int *error);
 int					ft_strncmp(char *s1, char *s2, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_itoa(int n);
+void				*ft_memset(void *dest, int v, size_t len);
 
 char				*ft_strchr(char *s, int c);
 size_t				ft_strlcpy(char *dst, char *src, size_t size);
@@ -217,42 +218,42 @@ t_list_io_stream	*get_io_file(int flags, char **name_file);
 int					is_file(int type_token);
 int					find_pipe(t_list_token **list_token);
 
+int					__pr_error(char *cmd, char *arg, char *msg, int ret);
+int					pr_error(char *cmd, char *arg, int ret);
+void				fatal(char *msg, int status);
+int					count_processes(struct s_list_cmd *cmd);
+int					get_append_flag(struct s_list_io_stream *io);
+int					arr_size(char **path);
+void				init_prev(struct s_list_cmd *cmd);
 
+void				handle_signals(void);
 
-int		__pr_error(char *cmd, char *arg, char *msg, int ret);
-int		pr_error(char *cmd, char *arg, int ret);
-void	fatal(char *msg, int status) __dead2;
-int		count_processes(struct s_list_cmd *cmd);
-int		get_append_flag(struct s_list_io_stream *io);
-int		arr_size(char **path);
-void	init_prev(struct s_list_cmd *cmd);
+char				**clone_env(char **env);
+char				*get_env(char *name);
+void				print_env(int export_mode);
+int					valid_env_name(char *var);
+int					unset_env(char *name);
+int					set_env(char *name_value);
 
-void	handle_signals(void);
+void				init_pipes(int count, int pipes[][2]);
+void				get_pipe(int pipes[][2], int pipe[2],
+						int *i, int pipe_count);
+void				close_unused_pipes(int pipe[2], int pipes[][2], int len);
 
-char	**clone_env(char **env);
-char	*get_env(char *name);
-void	print_env(int export_mode);
-int		valid_env_name(char *var);
-int		unset_env(char *name);
-int		set_env(char *name_value);
+t_builtin			get_builtin(char *cmd);
+int					find_exec(char *exec, char **full_path);
 
-void	init_pipes(int count, int pipes[][2]);
-void	get_pipe(int pipes[][2], int pipe[2], int *i, int pipe_count);
-void	close_unused_pipes(int pipe[2], int pipes[][2], int len);
+void				handle_pipe(struct s_list_cmd *cmd,
+						int pipe[2], int pipes[][2], int len);
+int					handle_io(struct s_list_cmd *cmd);
+void				save_stdin_stdout(struct s_list_cmd *cmd);
+void				restore_stdin_stdout(struct s_list_cmd *cmd);
 
-builtin_t	get_builtin(char *cmd);
-int			find_exec(char *exec, char **full_path);
-
-void	handle_pipe(struct s_list_cmd *cmd,
-			int pipe[2], int pipes[][2], int len);
-int		handle_io(struct s_list_cmd *cmd);
-void	save_stdin_stdout(struct s_list_cmd *cmd);
-void	restore_stdin_stdout(struct s_list_cmd *cmd);
-
-int		create_child(struct s_list_cmd *cmd, int _pipe[2],
-			int pipes[][2], int len);
-int		create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2]);
-int		get_exit_code(int status);
-int		wait_children(struct s_list_cmd *cmd);
-int		exec(struct s_list_cmd *cmd);
+int					create_child(struct s_list_cmd *cmd, int _pipe[2],
+						int pipes[][2], int len);
+int					create_children(struct s_list_cmd *cmd,
+						int pipe_count, int pipes[][2]);
+int					get_exit_code(int status);
+int					wait_children(struct s_list_cmd *cmd);
+int					exec(struct s_list_cmd *cmd);
 #endif

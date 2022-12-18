@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:22:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 12:35:20 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 14:35:46 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*expand_digit_2(t_lexer *lexer, char *word)
 {
-	// char	*str;
 	char	*found;
 	char	*found_digit;
 
@@ -24,10 +23,8 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 	get_next_char(lexer);
 	while (ft_isdigit(lexer->c))
 	{
-		// str = char_convert_string(lexer->c);
 		found_digit = ft_strjoin(found_digit, &lexer->c);
 		get_next_char(lexer);
-		// ft_free(&str);
 	}
 	found = ft_strjoin(word, found_digit);
 	ft_free(&found_digit);
@@ -105,7 +102,7 @@ char	*ft_expand(char *word, t_lexer *lexer, t_data **data)
 	found = NULL;
 	if (ft_isalnum(lexer->command_ling[lexer->index + 1])
 		|| lexer->command_ling[lexer->index + 1] == '$'
-		||  lexer->command_ling[lexer->index + 1] == '?')
+		|| lexer->command_ling[lexer->index + 1] == '?')
 	{
 		found = expand_digit(lexer, word, data);
 		if (found)
