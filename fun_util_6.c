@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   fun_util_6.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 23:26:21 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 15:15:25 by ntaleb           ###   ########.fr       */
+/*   Created: 2022/12/18 14:49:21 by ntaleb            #+#    #+#             */
+/*   Updated: 2022/12/18 14:49:40 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer	*init_lexer(char *ling_command)
+void	ft_bzero(void *s, size_t len)
 {
-	t_lexer	*lexer;
-
-	if (!ling_command)
-		exit(0);
-	lexer = malloc(sizeof(t_lexer));
-	if (!lexer)
-		return (NULL);
-	lexer->command_ling = ling_command;
-	lexer->index = 0;
-	lexer->c = lexer->command_ling[lexer->index];
-	return (lexer);
+	ft_memset(s, 0, len);
 }
 
-void	get_next_char(t_lexer *lexer)
+void	*ft_calloc(size_t count, size_t size)
 {
-	if (lexer && lexer->c)
-	{
-		lexer->index += 1;
-		lexer->c = lexer->command_ling[lexer->index];
-	}
+	void	*buf;
+
+	buf = malloc(count * size);
+	if (!buf)
+		return (NULL);
+	ft_bzero(buf, count * size);
+	return (buf);
 }

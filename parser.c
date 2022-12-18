@@ -6,13 +6,13 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 20:03:20 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/18 15:30:26 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-struct s_state g_state = {0};
+struct s_state	g_state = {0};
 
 int	ft_error(t_list_token *list_token, t_data **data)
 {
@@ -85,6 +85,7 @@ int	main(int ac, char **av, char **env)
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
 		free_lexer(&input_commands);
+		system("leaks minishell");
 		input_commands = init_lexer(readline("Minishell$ "));
 	}
 }

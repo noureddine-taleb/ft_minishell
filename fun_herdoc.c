@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fun_herdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 14:00:15 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/18 14:37:15 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char *ft_readline(char *prompt)
+char	*ft_readline(char *prompt)
 {
 	char	*ret;
 	char	*ret_2;
