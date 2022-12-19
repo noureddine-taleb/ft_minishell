@@ -250,6 +250,8 @@ void				close_unused_pipes(int pipe[2], int pipes[][2], int len);
 t_builtin			get_builtin(char *cmd);
 int					find_exec(char *exec, char **full_path);
 
+int					arg_equal_flag(char *arg, char flag);
+
 void				handle_pipe(struct s_list_cmd *cmd,
 						int pipe[2], int pipes[][2], int len);
 int					handle_io(struct s_list_cmd *cmd);

@@ -6,7 +6,7 @@
 #    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/18 14:50:58 by ntaleb           ###   ########.fr        #
+#    Updated: 2022/12/19 17:45:27 by ntaleb           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = parser.c\
 		exec/builtins.c exec/builtins2.c \
 		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
-		exec/pipe.c exec/signal.c get_next_line.c 
+		exec/pipe.c exec/signal.c exec/flags.c get_next_line.c 
 		
 
 OBJS = $(SRCS:.c=.o) 
