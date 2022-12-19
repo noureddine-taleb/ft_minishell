@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 			add_history(input_commands->command_ling);
 			get_token(input_commands, &list_token, &data);
 			convert_type_word(&list_token);
-			if (!ft_error(list_token))
+			if (!ft_error(list_token) && list_token)
 			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
