@@ -1,4 +1,3 @@
-wait syscall could fail
 ambiguous redirection
 
 errors + check exit status:
