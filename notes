@@ -1,10 +1,2 @@
-spaces == \n == empty
-ambiguous redirection == null cmd:
-heredoc handle free resources and bail out
-
-expand exit status in heredoc
-ctrl + d = sigquit
 
 norm
-memory leaks
-merge

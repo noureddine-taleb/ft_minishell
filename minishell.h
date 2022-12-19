@@ -48,6 +48,9 @@ typedef struct s_data
 	int		sign_for_ambiguous;
 	int		nbr_arg;
 	int		index;
+	char	*buff;
+	char	*ling;
+
 }	t_data;
 
 typedef struct s_lexer
@@ -127,7 +130,7 @@ int					ft_search(char *ligne);
 char				*ft_ligne(char *buff, int position, int n);
 char				*ft_save(char *save, int n);
 char				*ft_get_line(char *ligne, char **save, int n);
-char				*get_next_line(int fd);
+char				*get_next_line(int fd, t_data **data);
 
 char				*ft_strchr(char *s, int c);
 size_t				ft_strlcpy(char *dst, char *src, size_t size);
@@ -194,7 +197,7 @@ t_list_cmd			*get_list_cmd(t_list_token **list_token,
 void				add_node_cmd(t_list_cmd **list_cmds, t_list_cmd *new_cmd);
 void				init_node(t_list_cmd **new_cmd);
 t_list_cmd			*node_list(t_list_token **list_token,
-						t_lexer *lexer, t_data **data);
+						t_lexer *lexer, t_data **data, t_list_cmd **list_cmd);
 int					nbr_args(t_list_token *list_token);
 
 char				*ft_expand_herdoc(char *string_join,
@@ -216,7 +219,7 @@ void				check_ambiguous(t_list_token **list_token, t_data **data);
 int					check_redirection(t_list_token **list_token);
 int					is_token_2(int type_token);
 
-char				*ft_herdoc(char *eof, t_data **data, t_lexer *lexer);
+char				*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd);
 void				ft_herdoc_2(char **ret_expand, char **string_join,
 						char **string_inp, t_data **data);
 void				ft_herdoc_3(char **string_inp, t_data **data);
@@ -267,4 +270,6 @@ int					create_children(struct s_list_cmd *cmd,
 int					get_exit_code(int status);
 int					wait_children(struct s_list_cmd *cmd);
 int					exec(struct s_list_cmd *cmd);
+void 				free_all_data(t_data **data, t_list_token **list_token,
+						t_list_cmd **list_cmds, t_lexer **input_commands);
 #endif

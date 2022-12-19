@@ -65,11 +65,16 @@ void	add_token_2(t_list_token **list_token, t_data **data)
 {
 	t_token	*token;
 	int		type_token;
+	t_list_token	*tmp;
 
+	tmp = end_list(list_token);
+	// printf("tmp->token->e_type == %s\n",tmp->token->val);
 	if ((*data)->sign_find_space)
 		remove_space(&(*data)->join_value);
-	if (!(*data)->join_value)
-		type_token =TOKEN_AMBIGUOUS_REDIRECTION;
+	if (!(*data)->join_value && tmp && (tmp->token->e_type == TOKEN_REDI_OUTPUT
+		|| tmp->token->e_type == TOKEN_APPAND
+		|| tmp->token->e_type == TOKEN_REDI_INPUT))
+		type_token = TOKEN_AMBIGUOUS_REDIRECTION;
 	else
 		type_token = get_type_token((*data)->join_value, data);
 	token = init_token(type_token, (*data)->join_value);

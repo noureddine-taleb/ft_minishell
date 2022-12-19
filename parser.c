@@ -89,17 +89,14 @@ int	main(int ac, char **av, char **env)
 				convert_type_word(&list_token);
 				if (!ft_error(list_token) && list_token)
 				{
-					list_cmds = get_list_cmd(&list_token, &list_cmds,
-							input_commands, &data);
-					g_state.exit_status = exec(list_cmds);
+					if (get_list_cmd(&list_token, &list_cmds,
+							input_commands, &data))
+						g_state.exit_status = exec(list_cmds);
 				}
 			}
 		}
-		free(data);
-		free_list_token(&list_token);
-		free_list_cmds(&list_cmds);
-		free_lexer(&input_commands);
-		// system("leaks minishell");
+		free_all_data(&data, &list_token, &list_cmds, &input_commands);
+		system("leaks minishell");
 		input_commands = init_lexer(ft_readline("Minishell$ "));
 	}
 }

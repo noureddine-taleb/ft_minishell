@@ -12,19 +12,19 @@
 
 #include"minishell.h"
 
-int	ft_search(char *ligne)
+int	ft_search(char *ling)
 {
 	int	position;
 
 	position = 0;
-	if (!ligne)
+	if (!ling)
 		return (0);
-	while (*ligne)
+	while (*ling)
 	{
 		position++;
-		if (*ligne == '\n')
+		if (*ling == '\n')
 			return (position);
-		ligne++;
+		ling++;
 	}
 	return (0);
 }
@@ -76,36 +76,35 @@ char	*ft_get_line(char *ligne, char **save, int n)
 
 	tmp = ft_ligne(ligne, ft_search(ligne), n);
 	*save = ft_save(ligne, n);
-	free(ligne);
+	ft_free(&ligne);
 	return (tmp);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, t_data **data)
 {
-	char		*buff;
-	char		*ligne;
 	static char	*save[OPEN_MAX];
 	int			n;
+	char		*tmp;
 
 	if (fd < 0 || read (fd, NULL, 0) < 0)
 		return (NULL);
 	if (!save[fd])
 		save[fd] = ft_strdup ("");
-	ligne = ft_strdup(save[fd]);
-	free(save[fd]);
-	save[fd] = NULL;
-	buff = malloc(256);
-	if (!buff)
+	(*data)->ling = ft_strdup(save[fd]);
+	ft_free(&save[fd]);
+	(*data)->buff = malloc(256);
+	if (!(*data)->buff)
 		return (NULL);
 	n = 1;
-	while (n && ft_search(ligne) == 0)
+	while (n && ft_search((*data)->ling) == 0)
 	{
-		n = read(fd, buff, 255);
+		n = read(fd, (*data)->buff, 255);
 		if (n == -1)
-			return(NULL);
-		*(buff + n) = '\0';
-		ligne = ft_strjoin(ligne, buff);
+			return (ft_free(&(*data)->ling), ft_free(&(*data)->buff), NULL);
+		*((*data)->buff + n) = '\0';
+		tmp = (*data)->ling;
+		(*data)->ling = ft_strjoin((*data)->ling, (*data)->buff);
+		ft_free (&tmp);
 	}
-	free(buff);
-	return (ft_get_line(ligne, &save[fd], n));
+	return (ft_free(&(*data)->buff), ft_get_line((*data)->ling, &save[fd], n));
 }
