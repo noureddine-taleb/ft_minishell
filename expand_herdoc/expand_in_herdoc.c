@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 char	*expand_digit_herdoc_2(char *string_join, char **string_inp)
 {
