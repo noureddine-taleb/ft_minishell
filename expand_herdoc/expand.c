@@ -34,6 +34,8 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 char	*expand_digit(t_lexer *lexer, char *word, t_data **data)
 {
 	char	*ptr;
+	char	*str;
+	char	*str_2;
 
 	ptr = &lexer->command_ling[lexer->index + 1];
 	if (ft_isdigit(*ptr))
@@ -51,7 +53,9 @@ char	*expand_digit(t_lexer *lexer, char *word, t_data **data)
 	{
 		get_next_char(lexer);
 		get_next_char(lexer);
-		return (ft_strjoin(word, ft_itoa(g_state.exit_status)));
+		str = ft_itoa(g_state.exit_status);
+		str_2 = ft_strjoin(word, str);
+		return (free(str), str_2);
 	}
 	return (NULL);
 }
