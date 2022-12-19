@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 20:22:53 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 21:42:30 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,4 @@ void	handle_signals(void)
 		.sa_flags = 0};
 	if (sigaction(SIGQUIT, &sa, NULL) < 0)
 		fatal("sigaction", 1);
-	printf("pid = %d\n", getpid());
 }

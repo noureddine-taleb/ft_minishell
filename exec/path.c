@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 18:26:36 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 21:39:02 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	free_path(char **path);
 
 int	check_exec(char	*exec)
 {
-	if (access(exec, F_OK) < 0)
+	struct stat	sb;
+
+	stat(exec, &sb);
+	if (access(exec, F_OK) < 0 || !(sb.st_mode & S_IFREG))
 		return (-127);
 	if (access(exec, X_OK) < 0)
 		return (-126);
