@@ -26,7 +26,7 @@
 struct s_state {
 	char	**env;
 	int		exit_status;
-	int		in_heredoc;
+	int		readline_done;
 };
 
 extern struct s_state	g_state;

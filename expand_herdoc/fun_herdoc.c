@@ -6,25 +6,19 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 14:37:15 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 16:36:52 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-char	*ft_readline(char *prompt)
+static char	*ft_readline(char *prompt)
 {
 	char	*ret;
-	// char	*ret_2;
 
 	ft_putstr_fd(prompt, 1);
 	ret = get_next_line(0);
 	return (ret);
-
-	// ret = readline(prompt);
-	// ret_2 = ft_strjoin(ret, "\n");
-	// ft_free (&ret);
-	// return (ret_2);
 }
 
 char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
@@ -36,7 +30,6 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 
 	ret_expand = NULL;
 	string_join = NULL;
-	g_state.in_heredoc = 1;
 	string_inp = ft_readline("> ");
 	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
@@ -57,7 +50,6 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 	}
 	ft_free (&eof);
 	ft_free(&string_inp);
-	g_state.in_heredoc = 0;
 	return (string_join);
 }
 
