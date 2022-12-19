@@ -22,6 +22,7 @@ void	print_cmd_list(t_list_cmd *list_cmds)
 		j = 0;
 		while (list_cmds->cmds_args[j])
 			printf("\033[90m arg == '%s'\n\033[00m", list_cmds->cmds_args[j++]);
+		
 		io = list_cmds->io;
 		while (io)
 		{

@@ -3,6 +3,8 @@ ambiguous redirection == null cmd:
 
 ambiguous redirection = set cmd to [NULL] and stop parsing subsequent redirections in the current node
 
+expand exit status in heredoc
+
 norm
 memory leaks
 merge

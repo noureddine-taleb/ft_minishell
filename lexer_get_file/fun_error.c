@@ -16,8 +16,8 @@ int	is_token_2(int type_token)
 {
 	if (type_token == TOKEN_REDI_OUTPUT || type_token == TOKEN_APPAND
 		|| type_token == TOKEN_REDI_INPUT || type_token == TOKEN_HERDOC)
-		return (g_state.exit_status = 1);
-	return (g_state.exit_status = 0);
+		return (1);
+	return (0);
 }
 
 int	check_quote_pipe(t_list_token **list_token)
@@ -63,37 +63,14 @@ int	check_token(t_list_token **list_token)
 	return (g_state.exit_status = 0);
 }
 
-int	check_ambiguous(t_list_token **list_token, t_data **data)
-{
-	t_list_token	*tmp;
-
-	tmp = *list_token;
-	while (tmp)
-	{
-		if (((tmp->token->e_type == TOKEN_FILE_OUT
-					|| tmp->token->e_type == TOKEN_FILE_INP
-					|| tmp->token->e_type == TOKEN_FILE_APPAND)
-				&& (*data)->sign_expand)
-			|| (*data)->sign_for_ambiguous)
-		{
-				(*data)->sign_expand = 0;
-				(*data)->sign_for_ambiguous = 0;
-			return (g_state.exit_status = 1);
-		}
-		tmp = tmp->next;
-	}
-	return (g_state.exit_status = 0);
-}
-
-int	check_redirection(t_list_token **list_token, t_data **data)
+int	check_redirection(t_list_token **list_token)
 {
 	t_list_token	*tmp;
 
 	tmp = *list_token;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
-	if (tmp && tmp->token && is_token_2(tmp->token->e_type)
-		&& !(*data)->sign_for_ambiguous)
+	if (tmp && tmp->token && is_token_2(tmp->token->e_type))
 		return (g_state.exit_status = 258);
 	return (g_state.exit_status = 0);
 }

@@ -16,7 +16,7 @@ int	get_type_token(char *value, t_data **data)
 {
 	if (!value)
 		return (-1);
-	if (!(*data)->sign_quote)
+	if (!(*data)->sign_quote && !(*data)->sign_for_ambiguous)
 	{
 		if (!ft_strcmp(value, ">"))
 			return (TOKEN_REDI_OUTPUT);
@@ -28,6 +28,11 @@ int	get_type_token(char *value, t_data **data)
 			return (TOKEN_APPAND);
 		if (!ft_strcmp(value, "|"))
 			return (TOKEN_PIPE);
+	}
+	else if ((*data)->sign_for_ambiguous)
+	{
+		(*data)->sign_for_ambiguous = 0;
+		return (TOKEN_AMBIGUOUS_REDIRECTION);
 	}
 	return (TOKEN_WORD);
 }

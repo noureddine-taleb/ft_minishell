@@ -88,11 +88,17 @@ void	get_word_token_4(t_lexer *lexer, t_data **data, char **word,
 	if (!tmp || (tmp && ft_strcmp(tmp->token->val, ">")
 			&& ft_strcmp(tmp->token->val, ">>")
 			&& ft_strcmp(tmp->token->val, "<")))
-	{
-		ft_find_space(word, list_token, data);
-		find_space_in_word(word, data);
-	}
-	if (nbr_word(*word) == 1 && (!lexer->c || is_whitespace(lexer->c)))
+		{
+			ft_find_space(word, list_token, data);
+			find_space_in_word(word, data);
+		}
+
+
+	else if (tmp && (!ft_strcmp(tmp->token->val, ">")
+			|| !ft_strcmp(tmp->token->val, ">>")
+			|| !ft_strcmp(tmp->token->val, "<")) && nbr_word(*word) > 1)
+			(*data)->sign_for_ambiguous++;
+	else if (nbr_word(*word) == 1 && (!lexer->c || is_whitespace(lexer->c)))
 		remove_space(word);
 }
 
