@@ -24,7 +24,7 @@ SRCS = parser.c\
 		exec/builtins.c exec/builtins2.c \
 		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
-		exec/pipe.c exec/signal.c #get_next_line.c 
+		exec/pipe.c exec/signal.c get_next_line.c 
 		
 
 OBJS = $(SRCS:.c=.o) 

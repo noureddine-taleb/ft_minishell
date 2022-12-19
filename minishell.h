@@ -21,10 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 struct s_state {
 	char	**env;
 	int		exit_status;
+	int		in_heredoc;
 };
 
 extern struct s_state	g_state;
@@ -58,6 +60,8 @@ typedef struct s_token
 {
 	enum
 	{
+		TOKEN_AMBIGUOUS_REDIRECTION,
+		TOKEN_WORD,
 		TOKEN_REDI_OUTPUT,
 		TOKEN_FILE_OUT,
 		TOKEN_APPAND,
@@ -66,7 +70,6 @@ typedef struct s_token
 		TOKEN_FILE_INP,
 		TOKEN_HERDOC,
 		TOKEN_FILE_HERDOC,
-		TOKEN_WORD,
 		TOKEN_PIPE,
 	} e_type;
 	char	*val;
@@ -118,6 +121,11 @@ int					ft_strncmp(char *s1, char *s2, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_itoa(int n);
 void				*ft_memset(void *dest, int v, size_t len);
+int					ft_search(char *ligne);
+char				*ft_ligne(char *buff, int position, int n);
+char				*ft_save(char *save, int n);
+char				*ft_get_line(char *ligne, char **save, int n);
+char				*get_next_line(int fd);
 
 char				*ft_strchr(char *s, int c);
 size_t				ft_strlcpy(char *dst, char *src, size_t size);
@@ -194,7 +202,6 @@ void				ft_find_space(char **word, t_list_token **list_token,
 						t_data **data);
 int					nbr_word(char *str);
 int					len_list(t_list_token **list_cmd);
-int					is_token_2(int type_token);
 void				find_space_in_word(char **word, t_data **data);
 t_list_token		*end_list(t_list_token **list_token);
 void				check_space_in_word(char **word, t_list_token *tmp,
@@ -203,8 +210,8 @@ int					found_quote(t_lexer *lexer);
 
 int					check_quote_pipe(t_list_token **list_token);
 int					check_token(t_list_token **list_token);
-int					check_ambiguous(t_list_token **list_token, t_data **data);
-int					check_redirection(t_list_token **list_token, t_data **data);
+void				check_ambiguous(t_list_token **list_token, t_data **data);
+int					check_redirection(t_list_token **list_token);
 int					is_token_2(int type_token);
 
 char				*ft_herdoc(char *eof, t_data **data, t_lexer *lexer);
