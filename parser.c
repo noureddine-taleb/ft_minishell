@@ -54,6 +54,15 @@ static char	*ft_readline(char *prompt)
 	return (ret);
 }
 
+int	is_cmd_whitespaces(char *str)
+{
+	if (!str || !ft_strlen(str))
+		return (0);
+	while (*str && is_whitespace(*str))
+		str++;
+	return (!*str);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_lexer			*input_commands;
@@ -71,17 +80,19 @@ int	main(int ac, char **av, char **env)
 	while (input_commands)
 	{
 		data = init_data(&data);
-		data->sign_for_ambiguous = 0;
-		if (ft_strcmp(input_commands->command_ling, "") != 0)
+		if (ft_strcmp(input_commands->command_ling, ""))
 		{
 			add_history(input_commands->command_ling);
-			get_token(input_commands, &list_token, &data);
-			convert_type_word(&list_token);
-			if (!ft_error(list_token) && list_token)
+			if (!is_cmd_whitespaces(input_commands->command_ling))
 			{
-				list_cmds = get_list_cmd(&list_token, &list_cmds,
-						input_commands, &data);
-				g_state.exit_status = exec(list_cmds);
+				get_token(input_commands, &list_token, &data);
+				convert_type_word(&list_token);
+				if (!ft_error(list_token) && list_token)
+				{
+					list_cmds = get_list_cmd(&list_token, &list_cmds,
+							input_commands, &data);
+					g_state.exit_status = exec(list_cmds);
+				}
 			}
 		}
 		free(data);
