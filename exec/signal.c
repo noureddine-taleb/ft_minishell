@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 16:35:51 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 18:14:46 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
+void	sigquit_handler(int sig)
+{
+	(void)sig;
+	rl_redisplay();
+}
+
 void	handle_signals(void)
 {
 	struct sigaction	sa;
@@ -37,6 +43,12 @@ void	handle_signals(void)
 		.sa_flags = 0};
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		fatal("handle_signals(sigaction)", 1);
+
+	sa = (struct sigaction){.sa_handler = sigquit_handler,
+		.sa_flags = 0};
+	if (sigaction(SIGQUIT, &sa, NULL) < 0)
+		fatal("handle_signals(sigaction)", 1);
+	printf("pid = %d\n", getpid());
 }
 
 
