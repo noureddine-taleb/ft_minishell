@@ -34,6 +34,8 @@ char	*expand_digit_herdoc(char *string_join,
 	char **string_inp, t_data **data)
 {
 	char	*ptr;
+	char	*str;
+	char	*str_2;
 
 	ptr = *string_inp + 1;
 	if (ft_isdigit(*ptr))
@@ -45,6 +47,13 @@ char	*expand_digit_herdoc(char *string_join,
 	{
 		*string_inp = *string_inp + 2;
 		return (ft_strjoin(string_join, "$$"));
+	}
+	if (*ptr == '?')
+	{
+		*string_inp = *string_inp + 2;
+		str = ft_itoa(g_state.exit_status);
+		str_2 = ft_strjoin(string_join, str);
+		return (free(str), str_2);
 	}
 	return (NULL);
 }

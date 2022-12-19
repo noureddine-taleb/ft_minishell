@@ -68,7 +68,10 @@ void	add_token_2(t_list_token **list_token, t_data **data)
 
 	if ((*data)->sign_find_space)
 		remove_space(&(*data)->join_value);
-	type_token = get_type_token((*data)->join_value, data);
+	if (!(*data)->join_value)
+		type_token =TOKEN_AMBIGUOUS_REDIRECTION;
+	else
+		type_token = get_type_token((*data)->join_value, data);
 	token = init_token(type_token, (*data)->join_value);
 	add_node(list_token, node(&token));
 	if ((*data)->join_value)
