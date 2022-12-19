@@ -1,8 +1,3 @@
-fork resource unvailable should not quit the shell (and the whole class of these errors)
-""
-
-
-
 errors + check exit status:
 		cd home not set(1)
 		cd to unknowen dir(1)
