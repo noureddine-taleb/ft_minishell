@@ -107,7 +107,7 @@ void	get_word_token_5(t_lexer *lexer, t_data **data)
 	if (!(*data)->sign_exp_digit)
 	{
 		get_next_char(lexer);
-		while (lexer->c && ft_isalnum(lexer->c) && !is_token(&lexer->c)
+		while (lexer->c && ft_isalnum(lexer->c) && !is_token((char []){lexer->c, 0})
 			&& lexer->c != '$' && !is_whitespace(lexer->c))
 			get_next_char(lexer);
 	}

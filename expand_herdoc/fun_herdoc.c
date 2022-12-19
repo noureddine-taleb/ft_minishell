@@ -12,16 +12,16 @@
 
 #include"../minishell.h"
 
-static char	*ft_readline(char *prompt)
+static char	*ft_readline(char *prompt, t_data **data)
 {
 	char	*ret;
 
 	ft_putstr_fd(prompt, 1);
-	ret = get_next_line(0);
+	ret = get_next_line(0, data);
 	return (ret);
 }
 
-char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
+char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd)
 {
 	char	*string_inp;
 	char	*string_join;
@@ -30,7 +30,9 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 
 	ret_expand = NULL;
 	string_join = NULL;
-	string_inp = ft_readline("> ");
+	string_inp = ft_readline("> ", data);
+	if (!string_inp)
+		return (free_list_cmds(list_cmd), NULL);
 	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
 	{
@@ -46,7 +48,9 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 			tmp++;
 		}
 		ft_free(&string_inp);
-		string_inp = ft_readline("> ");
+		string_inp = ft_readline("> ", data);
+		if (!string_inp)
+			return(free_list_cmds(list_cmd), ft_free(&string_join), ft_free(&eof), NULL);
 	}
 	ft_free (&eof);
 	ft_free(&string_inp);

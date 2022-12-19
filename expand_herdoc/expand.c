@@ -23,7 +23,7 @@ char	*expand_digit_2(t_lexer *lexer, char *word)
 	get_next_char(lexer);
 	while (ft_isdigit(lexer->c))
 	{
-		found_digit = ft_strjoin(found_digit, &lexer->c);
+		found_digit = ft_strjoin(found_digit, (char []){lexer->c, 0});
 		get_next_char(lexer);
 	}
 	found = ft_strjoin(word, found_digit);

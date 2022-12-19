@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-SRCS = parser.c\
+SRCS = parser.c get_next_line.c free_all.c\
 		token/token.c token/token_2.c\
 		token/word_token.c token/word_token_2.c\
 		token/d_quote.c token/red_squote_pip.c\
@@ -24,7 +24,7 @@ SRCS = parser.c\
 		exec/builtins.c exec/builtins2.c \
 		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
-		exec/pipe.c exec/signal.c exec/flags.c get_next_line.c 
+		exec/pipe.c exec/signal.c exec/flags.c 
 		
 
 OBJS = $(SRCS:.c=.o) 

@@ -43,12 +43,14 @@ t_list_cmd	*get_list_cmd(t_list_token **list_token,
 	tmp = *list_token;
 	while (tmp)
 	{
-		new_cmd = node_list(&tmp, lexer, data);
+		new_cmd = node_list(&tmp, lexer, data, list_cmds);
+		if (!list_cmds)
+			break ;
 		add_node_cmd(list_cmds, new_cmd);
 		if (tmp)
 			tmp = tmp->next;
 	}
-	print_cmd_list(*list_cmds);
+	// print_cmd_list(*list_cmds);
 	return (*list_cmds);
 }
 
@@ -68,7 +70,7 @@ void	add_node_cmd(t_list_cmd **list_cmds, t_list_cmd *new_cmd)
 }
 
 void	node_list_2(t_list_token **list_token, t_list_cmd **new_cmd,
-	t_data **data, t_lexer *lexer)
+	t_data **data, t_lexer *lexer, t_list_cmd **list_cmd)
 {
 	char				*herdoc;
 	t_list_io_stream	*new_file;
@@ -85,13 +87,13 @@ void	node_list_2(t_list_token **list_token, t_list_cmd **new_cmd,
 	else if (*list_token && (*list_token)->token
 		&& (*list_token)->token->e_type == TOKEN_FILE_HERDOC)
 	{
-		herdoc = ft_herdoc((*list_token)->token->val, data, lexer);
+		herdoc = ft_herdoc((*list_token)->token->val, data, lexer, list_cmd);
 		new_file = get_io_file((*list_token)->token->e_type, &herdoc);
 		add_node_file(&((*new_cmd)->io), new_file);
 	}
 }
 
-t_list_cmd	*node_list(t_list_token **list_token, t_lexer *lexer, t_data **data)
+t_list_cmd	*node_list(t_list_token **list_token, t_lexer *lexer, t_data **data, t_list_cmd **list_cmd)
 {
 	int					nbr_arg;
 	t_list_cmd			*new_cmd;
@@ -107,7 +109,7 @@ t_list_cmd	*node_list(t_list_token **list_token, t_lexer *lexer, t_data **data)
 		return (NULL);
 	while (!find_pipe(list_token))
 	{
-		node_list_2(list_token, &new_cmd, data, lexer);
+		node_list_2(list_token, &new_cmd, data, lexer, list_cmd);
 		(*list_token) = (*list_token)->next;
 	}
 	new_cmd->cmds_args[(*data)->index] = NULL;
