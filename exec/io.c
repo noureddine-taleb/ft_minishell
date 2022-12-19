@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 17:08:00 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 20:22:02 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	handle_pipe(struct s_list_cmd *cmd, int pipe[2],
 {
 	if (cmd->next)
 		if (dup2(pipe[1], STDOUT_FILENO) < 0)
-			fatal("create_child(dup2 outpipe)", 1);
+			fatal("dup2", 1);
 	if (cmd->prev)
 		if (dup2(pipe[0], STDIN_FILENO) < 0)
-			fatal("create_child(dup2 inpipe)", 1);
+			fatal("dup2", 1);
 	close_unused_pipes(pipe, pipes, len);
 }
 
@@ -41,7 +41,7 @@ static int	__handle_io_file(struct s_list_io_stream *io)
 	else
 		ret = dup2(file, STDOUT_FILENO);
 	if (ret < 0)
-		fatal("__handle_io_file(dup2)", 1);
+		fatal("dup2", 1);
 	return (0);
 }
 
@@ -51,21 +51,21 @@ static void	__handle_heredoc(struct s_list_io_stream *io)
 	int	ret;
 
 	if (pipe(local_pipe) < 0)
-		fatal("__handle_heredoc(pipe)", 1);
+		fatal("pipe", 1);
 	ret = fork();
 	if (ret < 0)
-		fatal("__handle_heredoc(fork)", 1);
+		fatal("fork", 1);
 	else if (ret > 0)
 	{
 		close(local_pipe[1]);
 		if (dup2(local_pipe[0], STDIN_FILENO) < 0)
-			fatal("__handle_heredoc(dup2)", 1);
+			fatal("dup2", 1);
 	}
 	else
 	{
 		close(local_pipe[0]);
 		if (dup2(local_pipe[1], STDOUT_FILENO) < 0)
-			fatal("__handle_heredoc(dup2)", 1);
+			fatal("dup2", 1);
 		write(STDOUT_FILENO, io->target, ft_strlen(io->target));
 		exit(0);
 	}

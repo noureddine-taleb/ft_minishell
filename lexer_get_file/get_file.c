@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 04:40:29 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 15:04:24 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 21:15:36 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	print_cmd_list(t_list_cmd *list_cmds)
 		j = 0;
 		while (list_cmds->cmds_args[j])
 			printf("\033[90m arg == '%s'\n\033[00m", list_cmds->cmds_args[j++]);
-		
 		io = list_cmds->io;
 		while (io)
 		{
@@ -99,7 +98,7 @@ t_list_cmd	*node_list(t_list_token **list_token, t_lexer *lexer, t_data **data)
 
 	(*data)->index = 0;
 	nbr_arg = nbr_args(*list_token);
-	new_cmd = malloc(sizeof(t_list_cmd));
+	new_cmd = ft_calloc(1, sizeof(t_list_cmd));
 	if (!new_cmd)
 		return (NULL);
 	init_node(&new_cmd);
