@@ -44,11 +44,7 @@ char	*get_value(t_lexer *lexer, t_data **data, t_list_token **list_token)
 	{
 		word = get_word_token(lexer, data, list_token);
 		if (!word)
-		{
 			(*data)->sign_expand_2 = 1;
-			if (tmp_2 && is_token_2(tmp_2->token->e_type))
-				(*data)->sign_for_ambiguous = 1;
-		}
 		return (word);
 	}
 }

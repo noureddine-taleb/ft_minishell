@@ -14,21 +14,16 @@
 
 struct s_state	g_state = {0};
 
-int	ft_error(t_list_token *list_token, t_data **data)
+int	ft_error(t_list_token *list_token)
 {
 	if (check_quote_pipe(&list_token))
 	{
 		printf("Minishell: syntax error: unexpected end of file\n");
 		return (1);
 	}
-	else if (check_token (&list_token) || check_redirection(&list_token, data))
+	else if (check_token (&list_token) || check_redirection(&list_token))
 	{
 		printf("Minishell: syntax error near unexpected token\n");
-		return (1);
-	}
-	else if (check_ambiguous(&list_token, data))
-	{
-		printf("Minishell: ambiguous redirect\n");
 		return (1);
 	}
 	return (0);
@@ -61,7 +56,6 @@ int	main(int ac, char **av, char **env)
 	g_state.env = clone_env(env);
 	list_token = NULL;
 	g_state.exit_status = 0;
-	handle_signals();
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
@@ -72,7 +66,7 @@ int	main(int ac, char **av, char **env)
 			add_history(input_commands->command_ling);
 			get_token(input_commands, &list_token, &data);
 			convert_type_word(&list_token);
-			if (!ft_error(list_token, &data))
+			if (!ft_error(list_token))
 			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
@@ -83,7 +77,7 @@ int	main(int ac, char **av, char **env)
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
 		free_lexer(&input_commands);
-		system("leaks minishell");
+		// system("leaks minishell");
 		input_commands = init_lexer(readline("Minishell$ "));
 	}
 }
