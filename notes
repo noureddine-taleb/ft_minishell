@@ -1,9 +1,10 @@
 spaces == \n == empty
 ambiguous redirection == null cmd:
-
+$? is leaked
 ambiguous redirection = set cmd to [NULL] and stop parsing subsequent redirections in the current node
 
 expand exit status in heredoc
+ctrl + d = sigquit
 
 norm
 memory leaks

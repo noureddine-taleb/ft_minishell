@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 15:30:26 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 16:27:01 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ t_data	*init_data(t_data **data)
 	return (*data);
 }
 
+static char	*ft_readline(char *prompt)
+{
+	char	*ret;
+
+	g_state.readline_done = 0;
+	ret = readline(prompt);
+	g_state.readline_done = 1;
+	return (ret);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_lexer			*input_commands;
@@ -56,7 +66,8 @@ int	main(int ac, char **av, char **env)
 	g_state.env = clone_env(env);
 	list_token = NULL;
 	g_state.exit_status = 0;
-	input_commands = init_lexer(readline("Minishell$ "));
+	handle_signals();
+	input_commands = init_lexer(ft_readline("Minishell$ "));
 	while (input_commands)
 	{
 		data = init_data(&data);
@@ -78,6 +89,6 @@ int	main(int ac, char **av, char **env)
 		free_list_cmds(&list_cmds);
 		free_lexer(&input_commands);
 		// system("leaks minishell");
-		input_commands = init_lexer(readline("Minishell$ "));
+		input_commands = init_lexer(ft_readline("Minishell$ "));
 	}
 }

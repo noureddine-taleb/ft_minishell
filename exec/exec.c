@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 18:52:35 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 16:04:59 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,22 @@ int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
 int	wait_children(struct s_list_cmd *cmd)
 {
 	int	status;
+	int	ret;
 
 	while (cmd)
 	{
-		if (!cmd->__in_subshell)
-			status = cmd->__builtin_exit_status;
-		else if (waitpid(cmd->__pid, &status, 0) > 0)
-			status = get_exit_code(status);
+		if (cmd->__in_subshell)
+		{
+			ret = waitpid(cmd->__pid, &status, 0);
+			while (ret < 0)
+				ret = waitpid(cmd->__pid, &status, 0);
+			if (ret >= 0)
+				status = get_exit_code(status);
+			else
+				fatal("wait_children(wait)", 1);
+		}
 		else
-			fatal("wait_children(wait)", 1);
+			status = cmd->__builtin_exit_status;
 		cmd = cmd->next;
 	}
 	return (status);
