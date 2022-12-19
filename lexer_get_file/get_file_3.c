@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 void	add_node_file(t_list_io_stream **inpt_out_file,
 	t_list_io_stream *new_file)

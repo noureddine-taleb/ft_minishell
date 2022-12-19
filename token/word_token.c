@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 char	*get_word_token(t_lexer *lexer, t_data **data,
 	t_list_token **list_token)

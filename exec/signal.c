@@ -31,3 +31,5 @@ void	handle_signals(void)
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		fatal("handle_signals(sigaction)", 1);
 }
+
+

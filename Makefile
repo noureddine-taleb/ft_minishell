@@ -10,32 +10,36 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME = minishell
+
 SRCS = parser.c\
-		token.c token_2.c\
-		word_token.c word_token_2.c\
-		d_quote.c red_squote_pip.c\
-		fuc_util.c fun_util_2.c fun_util_3.c fun_util_4.c fun_util_5.c fun_util_6.c fun_free.c\
-		lexer.c node.c fun_error.c fun_whitespace.c\
-		get_file.c get_file_2.c get_file_3.c\
-		expand.c expand_in_herdoc.c ft_itoa.c \
-		fun_find_space.c fun_herdoc.c ft_atoi_err.c ft_split.c exec/builtins.c exec/builtins2.c \
+		token/token.c token/token_2.c\
+		token/word_token.c token/word_token_2.c\
+		token/d_quote.c token/red_squote_pip.c\
+		utils/fuc_util.c utils/fun_util_2.c utils/fun_util_3.c utils/fun_util_4.c utils/fun_util_5.c utils/fun_util_6.c\
+		utils/fun_whitespace.c utils/fun_find_space.c utils/ft_atoi_err.c utils/ft_split.c utils/ft_itoa.c \
+		expand_herdoc/expand.c expand_herdoc/expand_in_herdoc.c expand_herdoc/fun_herdoc.c\
+		lexer_get_file/fun_free.c lexer_get_file/lexer.c lexer_get_file/node.c lexer_get_file/fun_error.c\
+		lexer_get_file/get_file.c lexer_get_file/get_file_2.c lexer_get_file/get_file_3.c\
+		exec/builtins.c exec/builtins2.c \
 		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
-		exec/pipe.c exec/signal.c
-
-NAME = minishell
+		exec/pipe.c exec/signal.c #get_next_line.c 
+		
 
 OBJS = $(SRCS:.c=.o) 
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+LDFLAGS = -lreadline -L $(HOME)/.brew/opt/readline/lib
+CFLAGS = -Wall -Wextra -Werror -I $(HOME)/.brew/opt/readline/include #-fsanitize=address -g3
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) -o $(NAME) -lreadline
-clean : 
+	$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
+
+clean :
 	@rm -f **/*.o *.o
 fclean : clean
 	@rm -f $(NAME)

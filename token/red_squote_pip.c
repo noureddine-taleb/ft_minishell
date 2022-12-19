@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 void	get_redirection_token_2(t_lexer *lexer, char **string)
 {

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ../minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -93,7 +93,6 @@ typedef struct s_list_cmd
 	char						**cmds_args;
 	t_list_io_stream			*io;
 	struct s_list_cmd			*next;
-
 	struct s_list_cmd			*prev;
 	pid_t						__pid;
 	t_builtin					__builtin;
@@ -102,6 +101,7 @@ typedef struct s_list_cmd
 	int							__builtin_stdout;
 	int							__in_subshell;
 }	t_list_cmd;
+
 
 char				*ft_strjoin2(char *string, char c, t_lexer *lexer);
 int					ft_strlen(char *str);

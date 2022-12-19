@@ -61,6 +61,7 @@ int	main(int ac, char **av, char **env)
 	g_state.env = clone_env(env);
 	list_token = NULL;
 	g_state.exit_status = 0;
+	handle_signals();
 	input_commands = init_lexer(readline("Minishell$ "));
 	while (input_commands)
 	{
