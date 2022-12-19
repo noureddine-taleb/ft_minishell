@@ -82,10 +82,8 @@ void	add_token_2(t_list_token **list_token, t_data **data)
 
 int	is_token(char *lexer)
 {
-	if (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
+	return (lexer && (!ft_strcmp(lexer, ">") || !ft_strcmp(lexer, ">>")
 			|| !ft_strcmp(lexer, "<") || !ft_strcmp(lexer, "<<")
 			|| !ft_strcmp(lexer, "|") || !ft_strcmp(lexer, "'")
-			|| !ft_strcmp(lexer, "\"")))
-		return (1);
-	return (0);
+			|| !ft_strcmp(lexer, "\"")));
 }
