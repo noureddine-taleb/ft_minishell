@@ -42,7 +42,7 @@ t_list_io_stream	*get_io_file(int flags, char **name_file)
 int	is_file(int type_token)
 {
 	if (type_token == TOKEN_FILE_APPAND || type_token == TOKEN_FILE_INP
-		|| type_token == TOKEN_FILE_OUT)
+		|| type_token == TOKEN_FILE_OUT || type_token == TOKEN_AMBIGUOUS_REDIRECTION)
 		return (1);
 	return (0);
 }
