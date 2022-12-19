@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 19:01:36 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 21:09:10 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,14 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 
 	cmd->__builtin = get_builtin(cmd->cmds_args[0]);
 	cmd->__in_subshell = !(cmd->__builtin && !cmd->next && !cmd->prev);
-	if (cmd->__in_subshell && give_birth(cmd))
-		return (0);
+	if (cmd->__in_subshell)
+	{
+		ret = give_birth(cmd);
+		if (ret > 0)
+			return (0);
+		else if (ret < 0)
+			return (ret);
+	}
 	save_stdin_stdout(cmd);
 	handle_pipe(cmd, _pipe, pipes, len);
 	ret = handle_io(cmd);
@@ -79,7 +85,8 @@ int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
 	while (cmd)
 	{
 		get_pipe(pipes, pipe, &pipe_i, pipe_count);
-		create_child(cmd, pipe, pipes, pipe_count);
+		if (create_child(cmd, pipe, pipes, pipe_count) < 0)
+			return (-1);
 		cmd = cmd->next;
 		i++;
 	}
@@ -95,13 +102,15 @@ int	wait_children(struct s_list_cmd *cmd)
 	{
 		if (cmd->__in_subshell)
 		{
+			if (!cmd->__is_created)
+				return (1);
 			ret = waitpid(cmd->__pid, &status, 0);
-			while (ret < 0)
+			while (ret < 0 && errno == EINTR)
 				ret = waitpid(cmd->__pid, &status, 0);
 			if (ret >= 0)
 				status = get_exit_code(status);
 			else
-				fatal("wait_children(wait)", 1);
+				fatal("wait", 1);
 		}
 		else
 			status = cmd->__builtin_exit_status;

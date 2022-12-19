@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 13:08:02 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 13:17:21 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 20:48:39 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ int	give_birth(struct s_list_cmd *cmd)
 
 	ret = fork();
 	if (ret < 0)
-		fatal("create_child(fork)", 1);
+		return (pr_error("fork", NULL, -1));
 	if (ret > 0)
+	{
 		cmd->__pid = ret;
+		cmd->__is_created = 1;
+	}
 	return (ret);
 }
