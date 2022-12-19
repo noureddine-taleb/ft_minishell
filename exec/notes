@@ -17,6 +17,8 @@ errors + check exit status:
 		path: cmd not found(127) / perm(126)
 find memory leaks (MallocStackLogging)
 
+fork resource unvailable should not quit the shell (and the whole class of these errors)
+ctrl + \
 
 bash semantics:
 
