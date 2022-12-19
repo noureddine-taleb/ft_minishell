@@ -16,10 +16,12 @@
 void	sigint_handler(int sig)
 {
 	(void)sig;
+	if (g_state.in_heredoc)
+		return;
 	printf("\n");
 	rl_on_new_line(); // behave like we have a new line
 	rl_replace_line("", 1); // reset input
-	rl_redisplay();   // redisplys the prompt
+	rl_redisplay();   // redisplay the prompt
 }
 
 void	handle_signals(void)
@@ -27,7 +29,7 @@ void	handle_signals(void)
 	struct sigaction	sa;
 
 	sa = (struct sigaction){.sa_handler = sigint_handler,
-		.sa_flags = SA_RESTART};
+		.sa_flags = 0};
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		fatal("handle_signals(sigaction)", 1);
 }
