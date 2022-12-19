@@ -21,7 +21,7 @@ char	*get_word_token(t_lexer *lexer, t_data **data,
 	(*data)->sign_find_space = 0;
 	while (lexer->c && !is_whitespace(lexer->c))
 	{
-		if (!is_token(&lexer->c))
+		if (!is_token((char []){lexer->c, 0}))
 		{
 			get_word_token_2(lexer, data, &word, list_token);
 			if ((*data)->sign_find_space)
