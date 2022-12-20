@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 15:31:21 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 19:16:52 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_list_token	*get_token_2(t_list_token **list_token, t_token **token,
 			if (!((*data)->value) && !(*data)->nbr_space
 				&& !(*data)->sign_expand_2)
 			{
+				ft_free(&(*data)->join_value);
 				add_node(list_token, node(token));
 				return (*list_token);
 			}
@@ -108,4 +109,5 @@ void	get_token_3(t_data **data, t_lexer *lexer)
 		((*data)->nbr_space)++;
 		skip_whitespace(lexer);
 	}
+	system("leaks minishell");
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
+#    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/20 17:39:34 by ntaleb           ###   ########.fr        #
+#    Updated: 2022/12/20 20:04:22 by kadjane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ CFLAGS = -Wall -Wextra -Werror -I $(HOME)/.brew/opt/readline/include #-fsanitize
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	stty -echoctl
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(NAME)
 
 clean :
