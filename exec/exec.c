@@ -6,13 +6,16 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 21:09:10 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:48:19 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	give_birth(struct s_list_cmd *cmd);
+int		give_birth(struct s_list_cmd *cmd);
+void	init_cmd_attr(struct s_list_cmd *cmd);
+int		init_cmd_fd(struct s_list_cmd *cmd, int pipe[2],
+			int pipes[][2], int len);
 
 /**
  * steps:
@@ -47,8 +50,7 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 {
 	int	ret;
 
-	cmd->__builtin = get_builtin(cmd->cmds_args[0]);
-	cmd->__in_subshell = !(cmd->__builtin && !cmd->next && !cmd->prev);
+	init_cmd_attr(cmd);
 	if (cmd->__in_subshell)
 	{
 		ret = give_birth(cmd);
@@ -57,9 +59,7 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 		else if (ret < 0)
 			return (ret);
 	}
-	save_stdin_stdout(cmd);
-	handle_pipe(cmd, _pipe, pipes, len);
-	ret = handle_io(cmd);
+	ret = init_cmd_fd(cmd, _pipe, pipes, len);
 	if (ret < 0)
 	{
 		if (cmd->__in_subshell)
@@ -93,7 +93,7 @@ int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
 	return (0);
 }
 
-int	wait_children(struct s_list_cmd *cmd)
+int	fetch_exit_status(struct s_list_cmd *cmd)
 {
 	int	status;
 	int	ret;
@@ -105,7 +105,7 @@ int	wait_children(struct s_list_cmd *cmd)
 			if (!cmd->__is_created)
 				return (1);
 			ret = waitpid(cmd->__pid, &status, 0);
-			while (ret < 0 && errno == EINTR)
+			while (ret < 0)
 				ret = waitpid(cmd->__pid, &status, 0);
 			if (ret >= 0)
 				status = get_exit_code(status);
@@ -134,7 +134,7 @@ int	exec(struct s_list_cmd *cmd)
 	create_children(cmd, pipe_count, pipes);
 	close_unused_pipes((int [2]){-1, -1}, pipes, pipe_count);
 	free(pipes);
-	status = wait_children(cmd);
+	status = fetch_exit_status(cmd);
 	if (status == 131)
 		printf("Quit: 3\n");
 	return (status);

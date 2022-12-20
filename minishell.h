@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/19 21:37:37 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:01:00 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int					create_child(struct s_list_cmd *cmd, int _pipe[2],
 int					create_children(struct s_list_cmd *cmd,
 						int pipe_count, int pipes[][2]);
 int					get_exit_code(int status);
-int					wait_children(struct s_list_cmd *cmd);
+int					fetch_exit_status(struct s_list_cmd *cmd);
 int					exec(struct s_list_cmd *cmd);
 void 				free_all_data(t_data **data, t_list_token **list_token,
 						t_list_cmd **list_cmds, t_lexer **input_commands);
