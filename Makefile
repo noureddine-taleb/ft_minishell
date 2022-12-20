@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
+#    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/20 13:34:58 by kadjane          ###   ########.fr        #
+#    Updated: 2022/12/20 17:39:34 by ntaleb           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = parser.c get_next_line.c fill_free_all.c\
 		exec/init.c exec/builtins.c exec/builtins2.c \
 		exec/env.c exec/env2.c exec/env3.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
-		exec/pipe.c  exec/flags.c exec/signal.c
+		exec/pipe.c  exec/flags.c exec/signal.c exec/helpers3.c
 		
 
 OBJS = $(SRCS:.c=.o) 

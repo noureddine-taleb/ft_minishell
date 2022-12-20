@@ -2,10 +2,30 @@
 @REM cd set OLDPWD, PWD, handle -
 @REM exit without arg use last exit status
 @REM if command is a directory
-use stty -echoctl
-export without =
-export continue on entry error
+@REM use stty -echoctl
+@REM export continue on entry error
 
+export:
+	handle local through env
+	set_env(name, value):
+		if (get_local(name))
+			unset_local(name)
+		...
+	unset_env(name):
+		if (get_local(name))
+			unset_local(name)
+		...
+
+	if (is_name(exp) && !get_env(exp))
+	{
+		set_local(name);
+	}
+	else if (is_name_value(exp))
+	{
+		set_env(exp);
+		if (get_local(name))
+			unset_local(name);
+	}
 
 errors + check exit status:
 		cd home not set(1)

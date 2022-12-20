@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 14:07:08 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 17:35:35 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 struct s_state {
 	char	**env;
+	char	**local;
 	int		exit_status;
 	int		readline_done;
 };
@@ -113,7 +114,6 @@ typedef struct s_list_cmd
 	int							__in_subshell;
 	int							__is_created;
 }	t_list_cmd;
-
 
 char				*ft_strjoin2(char *string, char c, t_lexer *lexer);
 int					ft_strlen(char *str);
@@ -240,6 +240,11 @@ void				fatal(char *msg, int status);
 int					count_processes(struct s_list_cmd *cmd);
 int					get_append_flag(struct s_list_io_stream *io);
 int					arr_size(char **path);
+char				**get_entry_location(char *addr, char **arr);
+void				__set_local(char *name);
+int					__unset_local(char *name);
+char				*get_local(char *name);
+
 int					init_shell(void);
 
 void				handle_signals(void);
@@ -252,6 +257,7 @@ int					unset_env(char *name);
 void				__set_env(char *name, char *value);
 int					__unset_env(char *name);
 int					set_env(char *name_value);
+int					valid_env_name(char *var);
 void				init_prev(struct s_list_cmd *cmd);
 
 void				init_pipes(int count, int pipes[][2]);
