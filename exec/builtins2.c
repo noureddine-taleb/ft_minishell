@@ -46,7 +46,7 @@ static int	builtin_exit(struct s_list_cmd *cmd)
 	if (!error)
 	{
 		if (len > 1)
-			return (__pr_error("exit", NULL, "too many arguments", 1));
+			return (__pr_error("exit", NULL, "too many arguments", -1));
 		exit(code);
 	}
 	else
