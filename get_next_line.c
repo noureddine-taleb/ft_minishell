@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 14:43:41 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 12:47:05 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 14:54:02 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,33 +80,31 @@ char	*ft_get_line(char *ligne, char **save, int n)
 	return (tmp);
 }
 
-char	*get_next_line(int fd, t_data **data)
+char	*get_next_line(int fd, t_data **d)
 {
 	static char	*save[OPEN_MAX];
-	int			n;
 	char		*tmp;
 
 	if (fd < 0 || read (fd, NULL, 0) < 0)
 		return (NULL);
 	if (!save[fd])
 		save[fd] = ft_strdup ("");
-	(*data)->ling = ft_strdup(save[fd]);
+	(*d)->ling = ft_strdup(save[fd]);
 	ft_free(&save[fd]);
-	(*data)->buff = malloc(256);
-	if (!(*data)->buff)
+	(*d)->buff = malloc(256);
+	if (!(*d)->buff)
 		return (NULL);
-		
-	while (!ft_search((*data)->ling))
+	while (!ft_search((*d)->ling))
 	{
-		n = read(fd, (*data)->buff, 255);
-		if (!n && !ft_strlen((*data)->ling))
+		(*d)->n = read(fd, (*d)->buff, 255);
+		if (!(*d)->n && !ft_strlen((*d)->ling))
 			break ;
-		if (n == -1)
-			return (ft_free(&(*data)->ling), ft_free(&(*data)->buff), GNL_INTERRUPT);
-		*((*data)->buff + n) = '\0';
-		tmp = (*data)->ling;
-		(*data)->ling = ft_strjoin((*data)->ling, (*data)->buff);
+		if ((*d)->n == -1)
+			return (ft_free(&(*d)->ling), ft_free(&(*d)->buff), GNL_INTERRUPT);
+		*((*d)->buff + (*d)->n) = '\0';
+		tmp = (*d)->ling;
+		(*d)->ling = ft_strjoin((*d)->ling, (*d)->buff);
 		ft_free (&tmp);
 	}
-	return (ft_free(&(*data)->buff), ft_get_line((*data)->ling, &save[fd], n));
+	return (ft_free(&(*d)->buff), ft_get_line((*d)->ling, &save[fd], (*d)->n));
 }

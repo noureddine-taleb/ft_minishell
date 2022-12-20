@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 02:05:26 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 12:57:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 14:36:30 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,16 @@ void	add_token(t_list_token **list_token, t_data **data)
 
 void	add_token_2(t_list_token **list_token, t_data **data)
 {
-	t_token	*token;
-	int		type_token;
+	t_token			*token;
+	int				type_token;
 	t_list_token	*tmp;
 
 	tmp = end_list(list_token);
-	// printf("tmp->token->e_type == %s\n",tmp->token->val);
 	if ((*data)->sign_find_space)
 		remove_space(&(*data)->join_value);
 	if (!(*data)->join_value && tmp && (tmp->token->e_type == TOKEN_REDI_OUTPUT
-		|| tmp->token->e_type == TOKEN_APPAND
-		|| tmp->token->e_type == TOKEN_REDI_INPUT))
+			|| tmp->token->e_type == TOKEN_APPAND
+			|| tmp->token->e_type == TOKEN_REDI_INPUT))
 		type_token = TOKEN_AMBIGUOUS_REDIRECTION;
 	else
 		type_token = get_type_token((*data)->join_value, data);

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:17:42 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:28:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 17:46:49 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_list_io_stream	*get_io_file(int flags, char **name_file)
 	t_list_io_stream	*new_file;
 
 	new_file = malloc(sizeof(t_list_io_stream));
+	if (!new_file)
+		return (NULL);
 	new_file->flags = flags;
 	new_file->target = *name_file;
 	new_file->next = NULL;
@@ -42,7 +44,8 @@ t_list_io_stream	*get_io_file(int flags, char **name_file)
 int	is_file(int type_token)
 {
 	if (type_token == TOKEN_FILE_APPAND || type_token == TOKEN_FILE_INP
-		|| type_token == TOKEN_FILE_OUT || type_token == TOKEN_AMBIGUOUS_REDIRECTION)
+		|| type_token == TOKEN_FILE_OUT
+		|| type_token == TOKEN_AMBIGUOUS_REDIRECTION)
 		return (1);
 	return (0);
 }

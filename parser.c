@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 13:35:32 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 17:37:20 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	ft_error(t_list_token *list_token)
 t_data	*init_data(t_data **data)
 {
 	*data = malloc(sizeof(t_data));
+	if (!(*data))
+		return (NULL);
 	(*data)->sign_d_s_quote = 0;
 	(*data)->sign_quote = 0;
 	(*data)->sign_find_space = 0;
@@ -84,11 +86,10 @@ int	main(int ac, char **av, char **env)
 		if (ft_strcmp(input_commands->command_ling, ""))
 		{
 			add_history(input_commands->command_ling);
-
 			fill_and_execute(&input_commands, &list_token, &list_cmds, &data);
 		}
 		free_all_data(&data, &list_token, &list_cmds, &input_commands);
-		// system("leaks minishell");
+		system("leaks minishell");
 		input_commands = init_lexer(ft_readline("Minishell$ "));
 	}
 }

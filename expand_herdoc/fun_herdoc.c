@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 12:59:13 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 17:29:29 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,44 @@ static char	*ft_readline(char *prompt, t_data **data)
 	return (ret);
 }
 
-char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd)
+char	*ft_herdoc_4(char **string_join, t_data **data,
+	char *string_inp, t_lexer *lexer)
+{
+	char	*ret_expand;
+
+	ret_expand = NULL;
+	while (string_inp && *string_inp)
+	{
+		if (*string_inp == '$' && !(*data)->sign_d_s_quote)
+		{
+			ret_expand = ft_expand_herdoc(*string_join, &string_inp, data);
+			ft_herdoc_2(&ret_expand, string_join, &string_inp, data);
+		}
+		*string_join = ft_strjoin2(*string_join, *string_inp, lexer);
+		string_inp++;
+	}
+	return (*string_join);
+}
+
+char	*ft_herdoc(char *eof, t_data **data,
+	t_lexer *lexer, t_list_cmd **list_cmd)
 {
 	char	*string_inp;
 	char	*string_join;
-	char	*ret_expand;
-	char	*tmp;
 
-	ret_expand = NULL;
 	string_join = NULL;
 	string_inp = ft_readline("> ", data);
 	if (string_inp == GNL_INTERRUPT)
-		return (free_list_cmds(list_cmd), NULL);
+		return (printf("\n"), free_list_cmds(list_cmd), GNL_INTERRUPT);
 	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
 	{
-		tmp = string_inp;
-		while (tmp && *tmp)
-		{
-			if (*tmp == '$' && !(*data)->sign_d_s_quote)
-			{
-				ret_expand = ft_expand_herdoc(string_join, &tmp, data);
-				ft_herdoc_2(&ret_expand, &string_join, &tmp, data);
-			}
-			string_join = ft_strjoin2(string_join, *tmp, lexer);
-			tmp++;
-		}
+		string_join = ft_herdoc_4(&string_join, data, string_inp, lexer);
 		ft_free(&string_inp);
 		string_inp = ft_readline("> ", data);
 		if (string_inp == GNL_INTERRUPT)
-			return(free_list_cmds(list_cmd), ft_free(&string_join), ft_free(&eof), NULL);
+			return (printf("\n"), free_list_cmds(list_cmd),
+				ft_free(&string_join), ft_free(&eof), GNL_INTERRUPT);
 	}
 	ft_free (&eof);
 	ft_free(&string_inp);
