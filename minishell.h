@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 17:58:15 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 18:12:30 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_token
 	char	*val;
 }	t_token;
 
-struct	s_list_cmd;
-typedef int	(*t_builtin)(struct s_list_cmd *);
+struct					s_list_cmd;
+typedef int				(*t_builtin)(struct s_list_cmd *);
 
 typedef struct s_list_token
 {

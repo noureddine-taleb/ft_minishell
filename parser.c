@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 17:37:20 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 18:14:18 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int ac, char **av, char **env)
 			fill_and_execute(&input_commands, &list_token, &list_cmds, &data);
 		}
 		free_all_data(&data, &list_token, &list_cmds, &input_commands);
-		system("leaks minishell");
 		input_commands = init_lexer(ft_readline("Minishell$ "));
 	}
 }
