@@ -1,9 +1,4 @@
-@REM echo -n -n -n -n -n
-@REM cd set OLDPWD, PWD, handle -
-@REM exit without arg use last exit status
-@REM if command is a directory
-@REM use stty -echoctl
-@REM export continue on entry error
+bash: /tmp/bla: is a directory
 
 export:
 	handle local through env
