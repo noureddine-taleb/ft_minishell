@@ -6,7 +6,7 @@
 #    By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 18:43:49 by kadjane           #+#    #+#              #
-#    Updated: 2022/12/19 17:45:27 by ntaleb           ###   ########.fr        #
+#    Updated: 2022/12/20 13:16:42 by ntaleb           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ SRCS = parser.c get_next_line.c free_all.c\
 		expand_herdoc/expand.c expand_herdoc/expand_in_herdoc.c expand_herdoc/fun_herdoc.c\
 		lexer_get_file/fun_free.c lexer_get_file/lexer.c lexer_get_file/node.c lexer_get_file/fun_error.c\
 		lexer_get_file/get_file.c lexer_get_file/get_file_2.c lexer_get_file/get_file_3.c\
-		exec/builtins.c exec/builtins2.c \
-		exec/env.c exec/env2.c exec/exec.c exec/exec2.c exec/helpers.c \
+		exec/init.c exec/builtins.c exec/builtins2.c \
+		exec/env.c exec/env2.c exec/env3.c exec/exec.c exec/exec2.c exec/helpers.c \
 		exec/helpers2.c exec/io.c exec/io2.c exec/path.c exec/path2.c \
 		exec/pipe.c exec/signal.c exec/flags.c 
 		

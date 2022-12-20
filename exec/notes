@@ -1,6 +1,6 @@
-echo -n -n -n -n -n
+@REM echo -n -n -n -n -n
 export without =
-cd set OLDPWD, handle -
+cd set OLDPWD, PWD, handle -
 export continue on entry error
 if command is a directory
 exit without arg use last exit status

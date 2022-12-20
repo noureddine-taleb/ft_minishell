@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/19 16:27:01 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 12:56:55 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int ac, char **av, char **env)
 	g_state.env = clone_env(env);
 	list_token = NULL;
 	g_state.exit_status = 0;
+	init_shell();
 	handle_signals();
 	input_commands = init_lexer(ft_readline("Minishell$ "));
 	while (input_commands)
