@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 13:02:43 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 19:55:02 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 15:17:06 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,6 @@ char	*init_env_entry(char *name, char *value)
 	ft_strlcat(slot, "=", size);
 	ft_strlcat(slot, value, size);
 	return (slot);
-}
-
-char	**get_entry_location(char *addr)
-{
-	char	**env;
-
-	env = g_state.env;
-	while (*env)
-	{
-		if (*env == addr)
-			return (env);
-		env++;
-	}
-	return (NULL);
 }
 
 char	**clone_env(char **env)
