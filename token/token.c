@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:03:45 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 19:16:52 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 20:16:24 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,4 @@ void	get_token_3(t_data **data, t_lexer *lexer)
 		((*data)->nbr_space)++;
 		skip_whitespace(lexer);
 	}
-	system("leaks minishell");
 }
