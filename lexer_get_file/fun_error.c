@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fun_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 00:55:11 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 11:40:17 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 13:49:41 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_quote_pipe(t_list_token **list_token)
 			return (g_state.exit_status = 258);
 		tmp_2 = tmp_2->next;
 	}
-	return (g_state.exit_status = 0);
+	return (0);
 }
 
 int	check_token(t_list_token **list_token)
@@ -60,7 +60,7 @@ int	check_token(t_list_token **list_token)
 			return (g_state.exit_status = 258);
 		tmp = tmp->next;
 	}
-	return (g_state.exit_status = 0);
+	return (0);
 }
 
 int	check_redirection(t_list_token **list_token)
@@ -72,5 +72,5 @@ int	check_redirection(t_list_token **list_token)
 		tmp = tmp->next;
 	if (tmp && tmp->token && is_token_2(tmp->token->e_type))
 		return (g_state.exit_status = 258);
-	return (g_state.exit_status = 0);
+	return (0);
 }
