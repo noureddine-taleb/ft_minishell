@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 14:43:41 by kadjane           #+#    #+#             */
-/*   Updated: 2022/02/19 17:10:25 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 12:47:05 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ char	*get_next_line(int fd, t_data **data)
 	(*data)->buff = malloc(256);
 	if (!(*data)->buff)
 		return (NULL);
-	n = 1;
-	while (n && ft_search((*data)->ling) == 0)
+		
+	while (!ft_search((*data)->ling))
 	{
 		n = read(fd, (*data)->buff, 255);
+		if (!n && !ft_strlen((*data)->ling))
+			break ;
 		if (n == -1)
 			return (ft_free(&(*data)->ling), ft_free(&(*data)->buff), GNL_INTERRUPT);
 		*((*data)->buff + n) = '\0';

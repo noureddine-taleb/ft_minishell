@@ -88,12 +88,10 @@ void	get_word_token_4(t_lexer *lexer, t_data **data, char **word,
 	if (!tmp || (tmp && ft_strcmp(tmp->token->val, ">")
 			&& ft_strcmp(tmp->token->val, ">>")
 			&& ft_strcmp(tmp->token->val, "<")))
-		{
-			ft_find_space(word, list_token, data);
-			find_space_in_word(word, data);
-		}
-
-
+	{
+		ft_find_space(word, list_token, data);
+		find_space_in_word(word, data);
+	}
 	else if (tmp && (!ft_strcmp(tmp->token->val, ">")
 			|| !ft_strcmp(tmp->token->val, ">>")
 			|| !ft_strcmp(tmp->token->val, "<")) && nbr_word(*word) > 1)
@@ -107,7 +105,8 @@ void	get_word_token_5(t_lexer *lexer, t_data **data)
 	if (!(*data)->sign_exp_digit)
 	{
 		get_next_char(lexer);
-		while (lexer->c && ft_isalnum(lexer->c) && !is_token((char []){lexer->c, 0})
+		while (lexer->c && ft_isalnum(lexer->c)
+			&& !is_token((char []){lexer->c, 0})
 			&& lexer->c != '$' && !is_whitespace(lexer->c))
 			get_next_char(lexer);
 	}

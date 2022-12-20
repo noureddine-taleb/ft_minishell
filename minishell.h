@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 13:03:10 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:35:26 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <limits.h>
+#include <signal.h>
 
 # define GNL_EOF (NULL)
 # define GNL_INTERRUPT ((char *)1)
@@ -218,7 +219,6 @@ int					found_quote(t_lexer *lexer);
 
 int					check_quote_pipe(t_list_token **list_token);
 int					check_token(t_list_token **list_token);
-void				check_ambiguous(t_list_token **list_token, t_data **data);
 int					check_redirection(t_list_token **list_token);
 int					is_token_2(int type_token);
 
@@ -279,4 +279,8 @@ int					fetch_exit_status(struct s_list_cmd *cmd);
 int					exec(struct s_list_cmd *cmd);
 void				free_all_data(t_data **data, t_list_token **list_token,
 						t_list_cmd **list_cmds, t_lexer **input_commands);
+					int	is_cmd_whitespaces(char *str);
+int					ft_error(t_list_token *list_token);
+void				fill_and_execute(t_lexer **input_commands, t_list_token **list_token,
+						t_list_cmd **list_cmds, t_data **data);
 #endif

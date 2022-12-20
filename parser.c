@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 12:56:55 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:35:32 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,8 @@ int	main(int ac, char **av, char **env)
 		if (ft_strcmp(input_commands->command_ling, ""))
 		{
 			add_history(input_commands->command_ling);
-			if (!is_cmd_whitespaces(input_commands->command_ling))
-			{
-				get_token(input_commands, &list_token, &data);
-				convert_type_word(&list_token);
-				if (!ft_error(list_token) && list_token)
-				{
-					if (get_list_cmd(&list_token, &list_cmds,
-							input_commands, &data))
-						g_state.exit_status = exec(list_cmds);
-				}
-			}
+
+			fill_and_execute(&input_commands, &list_token, &list_cmds, &data);
 		}
 		free_all_data(&data, &list_token, &list_cmds, &input_commands);
 		// system("leaks minishell");

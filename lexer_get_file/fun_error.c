@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 00:55:11 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/17 14:42:31 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 11:40:17 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_quote_pipe(t_list_token **list_token)
 	{
 		if (!tmp_2->token || (tmp->token && !ft_strcmp(tmp->token->val, "|")
 				&& tmp->token->e_type == TOKEN_PIPE))
-			return (g_state.exit_status = 1);
+			return (g_state.exit_status = 258);
 		tmp_2 = tmp_2->next;
 	}
 	return (g_state.exit_status = 0);
