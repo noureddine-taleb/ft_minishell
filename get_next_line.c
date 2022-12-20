@@ -100,7 +100,7 @@ char	*get_next_line(int fd, t_data **data)
 	{
 		n = read(fd, (*data)->buff, 255);
 		if (n == -1)
-			return (ft_free(&(*data)->ling), ft_free(&(*data)->buff), NULL);
+			return (ft_free(&(*data)->ling), ft_free(&(*data)->buff), GNL_INTERRUPT);
 		*((*data)->buff + n) = '\0';
 		tmp = (*data)->ling;
 		(*data)->ling = ft_strjoin((*data)->ling, (*data)->buff);

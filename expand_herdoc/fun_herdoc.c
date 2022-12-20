@@ -31,7 +31,7 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd)
 	ret_expand = NULL;
 	string_join = NULL;
 	string_inp = ft_readline("> ", data);
-	if (!string_inp)
+	if (string_inp == GNL_INTERRUPT)
 		return (free_list_cmds(list_cmd), NULL);
 	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
@@ -49,7 +49,7 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd)
 		}
 		ft_free(&string_inp);
 		string_inp = ft_readline("> ", data);
-		if (!string_inp)
+		if (string_inp == GNL_INTERRUPT)
 			return(free_list_cmds(list_cmd), ft_free(&string_join), ft_free(&eof), NULL);
 	}
 	ft_free (&eof);
