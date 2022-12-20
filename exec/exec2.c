@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 13:08:02 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 10:48:08 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:09:24 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ int	init_cmd_fd(struct s_list_cmd *cmd, int pipe[2],
 	handle_pipe(cmd, pipe, pipes, len);
 	ret = handle_io(cmd);
 	return (ret);
+}
+
+void	print_trailer(int exit_status)
+{
+	if (exit_status == (128 + SIGQUIT))
+		printf("^\\Quit: 3\n");
+	if (exit_status == (128 + SIGINT))
+		printf("^C\n");
 }
