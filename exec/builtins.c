@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 13:12:12 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:12:50 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	builtin_pwd(struct s_list_cmd *cmd)
 int	builtin_export(struct s_list_cmd *cmd)
 {
 	char	**name_values;
+	int		ret;
 
 	if (arr_size(cmd->cmds_args) == 1)
 	{
@@ -81,14 +82,15 @@ int	builtin_export(struct s_list_cmd *cmd)
 		return (0);
 	}
 	name_values = &cmd->cmds_args[1];
+	ret = 0;
 	while (*name_values)
 	{
 		if (set_env(*name_values) < 0)
-			return (__pr_error("export", *name_values,
-					"not a valid identifier", -1));
+			ret = __pr_error("export", *name_values,
+					"not a valid identifier", -1);
 		name_values++;
 	}
-	return (0);
+	return (ret);
 }
 
 int	builtin_unset(struct s_list_cmd *cmd)
