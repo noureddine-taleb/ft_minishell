@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fun_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 21:57:59 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 14:37:01 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 17:24:15 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,22 @@ void	free_list_token(t_list_token **list_token)
 {
 	t_list_token	*tmp;
 
-	while (*list_token)
+	if (list_token)
 	{
-		if ((*list_token)->token)
-			ft_free(&(*list_token)->token->val);
-		free((*list_token)->token);
-		(*list_token)->token = NULL;
-		tmp = *list_token;
-		*list_token = (*list_token)->next;
-		free (tmp);
-		tmp = NULL;
+		while (*list_token)
+		{
+			if ((*list_token)->token)
+				ft_free(&(*list_token)->token->val);
+			free((*list_token)->token);
+			(*list_token)->token = NULL;
+			tmp = *list_token;
+			*list_token = (*list_token)->next;
+			free (tmp);
+			tmp = NULL;
+		}
+		free(*list_token);
+		*list_token = NULL;
 	}
-	free(*list_token);
-	*list_token = NULL;
 }
 
 void	free_list_inp_out_file(t_list_io_stream **inpt_out_file)

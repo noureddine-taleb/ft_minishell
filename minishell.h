@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 17:35:35 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 17:58:15 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <limits.h>
-#include <signal.h>
+# include <signal.h>
 
 # define GNL_EOF (NULL)
 # define GNL_INTERRUPT ((char *)1)
@@ -36,6 +36,13 @@ struct s_state {
 };
 
 extern struct s_state	g_state;
+
+typedef struct s_lexer
+{
+	char	*command_ling;
+	int		index;
+	char	c;
+}	t_lexer;
 
 typedef struct s_data
 {
@@ -55,15 +62,10 @@ typedef struct s_data
 	int		index;
 	char	*buff;
 	char	*ling;
+	int		n;
+	t_lexer	*lexer;
 
 }	t_data;
-
-typedef struct s_lexer
-{
-	char	*command_ling;
-	int		index;
-	char	c;
-}	t_lexer;
 
 typedef struct s_token
 {
@@ -210,7 +212,7 @@ void				remove_space(char **word);
 void				ft_find_space(char **word, t_list_token **list_token,
 						t_data **data);
 int					nbr_word(char *str);
-int					len_list(t_list_token **list_cmd);
+// int					len_list(t_list_cmd **list_cmd);
 void				find_space_in_word(char **word, t_data **data);
 t_list_token		*end_list(t_list_token **list_token);
 void				check_space_in_word(char **word, t_list_token *tmp,
@@ -289,6 +291,8 @@ void				free_all_data(t_data **data, t_list_token **list_token,
 int					is_cmd_whitespaces(char *str);
 int					ft_error(t_list_token *list_token);
 void				fill_and_execute(t_lexer **input_commands,
-						t_list_token **list_token, t_list_cmd **list_cmds,
-						t_data **data);
+						t_list_token **list_token,
+						t_list_cmd **list_cmds, t_data **data);
+void				free_list_inp_out_file(t_list_io_stream **inpt_out_file);
+void				free_if_ctl_c(t_list_cmd **new_cmd);
 #endif
