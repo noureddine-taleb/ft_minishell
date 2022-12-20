@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 12:40:57 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/18 15:08:20 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:45:59 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	builtin_exit(struct s_list_cmd *cmd)
 	ft_putstr_fd("exit\n", 1);
 	len = arr_size(cmd->cmds_args) - 1;
 	if (len == 0)
-		exit(0);
+		exit(g_state.exit_status);
 	code = ft_atoi_err(cmd->cmds_args[1], &error);
 	if (!error)
 	{

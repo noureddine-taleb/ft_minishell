@@ -1,9 +1,9 @@
 @REM echo -n -n -n -n -n
-export without =
-cd set OLDPWD, PWD, handle -
-export continue on entry error
+@REM cd set OLDPWD, PWD, handle -
+@REM exit without arg use last exit status
 if command is a directory
-exit without arg use last exit status
+export without =
+export continue on entry error
 use stty -echoctl
 
 
