@@ -47,7 +47,7 @@ int	builtin_cd(struct s_list_cmd *cmd)
 			return (__pr_error("cd", NULL, "HOME not set", 1));
 	}
 	if (chdir(path) < 0)
-		return (pr_error("cd", path, 1));
+		return (pr_error("cd", path, -1));
 	return (0);
 }
 
@@ -57,6 +57,8 @@ int	builtin_pwd(struct s_list_cmd *cmd)
 
 	(void)cmd;
 	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (pr_error("pwd", NULL, -1));
 	ft_putstr_fd(pwd, 1);
 	ft_putchar_fd('\n', 1);
 	free(pwd);
@@ -77,7 +79,7 @@ int	builtin_export(struct s_list_cmd *cmd)
 	{
 		if (set_env(*name_values) < 0)
 			return (__pr_error("export", *name_values,
-					"not a valid identifier", 1));
+					"not a valid identifier", -1));
 		name_values++;
 	}
 	return (0);
@@ -93,7 +95,7 @@ int	builtin_unset(struct s_list_cmd *cmd)
 	while (*vars)
 	{
 		if (unset_env(*vars) < 0)
-			return (__pr_error("unset", *vars, "not a valid identifier", 1));
+			return (__pr_error("unset", *vars, "not a valid identifier", -1));
 		vars++;
 	}
 	return (0);
