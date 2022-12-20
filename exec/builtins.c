@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 17:44:56 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:53:19 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_echo(struct s_list_cmd *cmd)
 
 	new_line = 1;
 	argv = &cmd->cmds_args[1];
-	if (*argv && arg_equal_flag(*argv, 'n'))
+	while (*argv && arg_equal_flag(*argv, 'n'))
 	{
 		new_line = 0;
 		argv++;
