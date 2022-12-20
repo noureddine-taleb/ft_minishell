@@ -1,10 +1,10 @@
 @REM echo -n -n -n -n -n
 @REM cd set OLDPWD, PWD, handle -
 @REM exit without arg use last exit status
-if command is a directory
+@REM if command is a directory
+use stty -echoctl
 export without =
 export continue on entry error
-use stty -echoctl
 
 
 errors + check exit status:

@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 12:24:33 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 14:07:39 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ int	exec(struct s_list_cmd *cmd)
 	close_unused_pipes((int [2]){-1, -1}, pipes, pipe_count);
 	free(pipes);
 	status = fetch_exit_status(cmd);
-	if (status == 131)
-		printf("Quit: 3\n");
+	print_trailer(status);
 	return (status);
 }

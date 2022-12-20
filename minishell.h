@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 13:35:26 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/20 14:07:08 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,11 +276,13 @@ int					create_children(struct s_list_cmd *cmd,
 						int pipe_count, int pipes[][2]);
 int					get_exit_code(int status);
 int					fetch_exit_status(struct s_list_cmd *cmd);
+void				print_trailer(int exit_status);
 int					exec(struct s_list_cmd *cmd);
 void				free_all_data(t_data **data, t_list_token **list_token,
 						t_list_cmd **list_cmds, t_lexer **input_commands);
-					int	is_cmd_whitespaces(char *str);
+int					is_cmd_whitespaces(char *str);
 int					ft_error(t_list_token *list_token);
-void				fill_and_execute(t_lexer **input_commands, t_list_token **list_token,
-						t_list_cmd **list_cmds, t_data **data);
+void				fill_and_execute(t_lexer **input_commands,
+						t_list_token **list_token, t_list_cmd **list_cmds,
+						t_data **data);
 #endif
