@@ -96,7 +96,7 @@ int	main(int ac, char **av, char **env)
 			}
 		}
 		free_all_data(&data, &list_token, &list_cmds, &input_commands);
-		system("leaks minishell");
+		// system("leaks minishell");
 		input_commands = init_lexer(ft_readline("Minishell$ "));
 	}
 }

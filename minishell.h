@@ -24,6 +24,9 @@
 # include <sys/stat.h>
 # include <limits.h>
 
+# define GNL_EOF (NULL)
+# define GNL_INTERRUPT ((char *)1)
+
 struct s_state {
 	char	**env;
 	int		exit_status;
