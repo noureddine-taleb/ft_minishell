@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/17 20:02:35 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 12:14:05 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ int	set_env(char *name_value)
 	return (value[-1] = '=', ret);
 }
 
-int	unset_env(char *name)
+int	__unset_env(char *name)
 {
 	char	*value;
 	char	**env;
 
-	if (!valid_env_name(name))
-		return (-1);
 	value = get_env(name);
 	if (!value)
 		return (0);
@@ -97,30 +95,11 @@ int	unset_env(char *name)
 	return (1);
 }
 
-void	print_env(int export_mode)
+int	unset_env(char *name)
 {
-	char	**env;
-	char	*name;
-	char	*value;
-
-	env = g_state.env;
-	if (!export_mode)
-	{		
-		while (*env)
-			printf("%s\n", *env++);
-	}
-	else
-	{
-		while (*env)
-		{
-			value = ft_strchr(*env, '=') + 1;
-			value[-1] = 0;
-			name = *env;
-			printf("declare -x %s=\"%s\"\n", name, value);
-			value[-1] = '=';
-			env++;
-		}
-	}
+	if (!valid_env_name(name))
+		return (-1);
+	return (__unset_env(name));
 }
 
 /**

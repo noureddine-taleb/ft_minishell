@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 10:01:00 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:03:10 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,8 @@ void				check_ambiguous(t_list_token **list_token, t_data **data);
 int					check_redirection(t_list_token **list_token);
 int					is_token_2(int type_token);
 
-char				*ft_herdoc(char *eof, t_data **data, t_lexer *lexer, t_list_cmd **list_cmd);
+char				*ft_herdoc(char *eof, t_data **data, t_lexer *lexer,
+						t_list_cmd **list_cmd);
 void				ft_herdoc_2(char **ret_expand, char **string_join,
 						char **string_inp, t_data **data);
 void				ft_herdoc_3(char **string_inp, t_data **data);
@@ -239,7 +240,7 @@ void				fatal(char *msg, int status);
 int					count_processes(struct s_list_cmd *cmd);
 int					get_append_flag(struct s_list_io_stream *io);
 int					arr_size(char **path);
-void				init_prev(struct s_list_cmd *cmd);
+int					init_shell(void);
 
 void				handle_signals(void);
 
@@ -248,7 +249,10 @@ char				*get_env(char *name);
 void				print_env(int export_mode);
 int					valid_env_name(char *var);
 int					unset_env(char *name);
+void				__set_env(char *name, char *value);
+int					__unset_env(char *name);
 int					set_env(char *name_value);
+void				init_prev(struct s_list_cmd *cmd);
 
 void				init_pipes(int count, int pipes[][2]);
 void				get_pipe(int pipes[][2], int pipe[2],
@@ -273,6 +277,6 @@ int					create_children(struct s_list_cmd *cmd,
 int					get_exit_code(int status);
 int					fetch_exit_status(struct s_list_cmd *cmd);
 int					exec(struct s_list_cmd *cmd);
-void 				free_all_data(t_data **data, t_list_token **list_token,
+void				free_all_data(t_data **data, t_list_token **list_token,
 						t_list_cmd **list_cmds, t_lexer **input_commands);
 #endif

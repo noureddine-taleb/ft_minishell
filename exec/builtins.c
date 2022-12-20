@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 10:53:19 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/20 13:12:12 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	builtin_echo(struct s_list_cmd *cmd)
 
 int	builtin_cd(struct s_list_cmd *cmd)
 {
-	char	*path;
+	char		*path;
 
 	path = cmd->cmds_args[1];
 	if (!path)
@@ -46,22 +46,28 @@ int	builtin_cd(struct s_list_cmd *cmd)
 		if (!path)
 			return (__pr_error("cd", NULL, "HOME not set", 1));
 	}
+	else if (!ft_strcmp(path, "-"))
+	{
+		path = get_env("OLDPWD");
+		if (!path)
+			return (__pr_error("cd", NULL, "OLDPWD not set", 1));
+	}
 	if (chdir(path) < 0)
 		return (pr_error("cd", path, -1));
-	return (0);
+	else
+	{
+		path = getcwd(NULL, 0);
+		__set_env("OLDPWD", get_env("PWD"));
+		__set_env("PWD", path);
+		free(path);
+		return (0);
+	}
 }
 
 int	builtin_pwd(struct s_list_cmd *cmd)
 {
-	char	*pwd;
-
 	(void)cmd;
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		return (pr_error("pwd", NULL, -1));
-	ft_putstr_fd(pwd, 1);
-	ft_putchar_fd('\n', 1);
-	free(pwd);
+	printf("%s\n", get_env("PWD"));
 	return (0);
 }
 
