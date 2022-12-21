@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/19 21:39:02 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/21 08:42:14 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 char	*combine_path_with_exec(char *path, char *exec);
 void	free_path(char **path);
 
-int	check_exec(char	*exec)
+int	is_file_type(char *path, int type)
 {
 	struct stat	sb;
 
-	stat(exec, &sb);
-	if (access(exec, F_OK) < 0 || !(sb.st_mode & S_IFREG))
+	stat(path, &sb);
+	return (sb.st_mode & type);
+}
+
+int	check_exec(char	*exec)
+{
+	if (access(exec, F_OK) < 0 || !is_file_type(exec, S_IFREG))
 		return (-127);
 	if (access(exec, X_OK) < 0)
 		return (-126);
@@ -82,7 +87,11 @@ int	find_exec(char *exec, char **full_path)
 	{
 		ret = check_exec(exec);
 		if (ret < 0)
+		{
+			if (is_file_type(exec, S_IFDIR))
+				return (__pr_error(exec, NULL, "is a directory", ret));
 			return (pr_error(exec, NULL, ret));
+		}
 		if (!ft_strchr(exec, '/'))
 			*full_path = ft_strjoin("./", exec);
 		else
