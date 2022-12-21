@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 16:12:56 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/21 08:45:26 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,17 @@ int	builtin_export(struct s_list_cmd *cmd)
 int	builtin_unset(struct s_list_cmd *cmd)
 {
 	char	**vars;
+	int		ret;
 
 	vars = &cmd->cmds_args[1];
 	if (!*vars)
 		return (0);
+	ret = 0;
 	while (*vars)
 	{
 		if (unset_env(*vars) < 0)
-			return (__pr_error("unset", *vars, "not a valid identifier", -1));
+			ret = __pr_error("unset", *vars, "not a valid identifier", -1);
 		vars++;
 	}
-	return (0);
+	return (ret);
 }
