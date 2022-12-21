@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 23:26:21 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/18 15:15:25 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/21 08:40:18 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_lexer	*init_lexer(char *ling_command)
 	t_lexer	*lexer;
 
 	if (!ling_command)
-		exit(0);
+		exit(g_state.exit_status);
 	lexer = malloc(sizeof(t_lexer));
 	if (!lexer)
 		return (NULL);
