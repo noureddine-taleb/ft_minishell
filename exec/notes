@@ -1,4 +1,5 @@
 bash: /tmp/bla: is a directory
+unset doesn't stop
 
 export:
 	handle local through env
