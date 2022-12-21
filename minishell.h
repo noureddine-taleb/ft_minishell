@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:45:22 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 18:12:30 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/21 08:45:13 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ void				remove_space(char **word);
 void				ft_find_space(char **word, t_list_token **list_token,
 						t_data **data);
 int					nbr_word(char *str);
-// int					len_list(t_list_cmd **list_cmd);
 void				find_space_in_word(char **word, t_data **data);
 t_list_token		*end_list(t_list_token **list_token);
 void				check_space_in_word(char **word, t_list_token *tmp,

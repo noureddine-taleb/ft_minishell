@@ -6,33 +6,11 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 04:40:29 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 17:23:17 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/21 08:44:17 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
-
-void	print_cmd_list(t_list_cmd *list_cmds)
-{
-	struct s_list_io_stream	*io;
-	int						j;
-
-	while (list_cmds)
-	{
-		j = 0;
-		while (list_cmds->cmds_args[j])
-			printf("\033[90m arg == '%s'\n\033[00m", list_cmds->cmds_args[j++]);
-		io = list_cmds->io;
-		while (io)
-		{
-			printf("\033[92m file_flage == %d\n\033[00m", io->flags);
-			printf("\033[91m file_name  == %s\n\033[00m", io->target);
-			io = io->next;
-		}
-		printf("------------------------------------------------\n");
-		list_cmds = list_cmds->next;
-	}
-}
 
 t_list_cmd	*get_list_cmd(t_list_token **list_token,
 	t_list_cmd **list_cmds, t_lexer *lexer, t_data **data)
@@ -50,7 +28,6 @@ t_list_cmd	*get_list_cmd(t_list_token **list_token,
 		if (tmp)
 			tmp = tmp->next;
 	}
-	print_cmd_list(*list_cmds);
 	return (*list_cmds);
 }
 

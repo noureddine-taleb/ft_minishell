@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:16:26 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/20 17:27:00 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/21 08:45:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,36 +65,6 @@ int	nbr_args(t_list_token *list_token)
 	}
 	return (i);
 }
-
-// int	len_list(t_list_token **list_cmd)
-// {
-// 	t_list_token	*tmp;
-// 	int				i;
-
-// 	i = 0;
-// 	tmp = *list_cmd;
-// 	while (tmp)
-// 	{
-// 		i++;
-// 		tmp = tmp->next;
-// 	}
-// 	return (i);
-// }
-
-// int	len_list(t_list_cmd **list_cmd)
-// {
-// 	t_list_cmd		*tmp;
-// 	int				i;
-
-// 	i = 0;
-// 	tmp = *list_cmd;
-// 	while (tmp)
-// 	{
-// 		i++;
-// 		tmp = tmp->next;
-// 	}
-// 	return (i);
-// }
 
 void	init_node(t_list_cmd **new_cmd)
 {
