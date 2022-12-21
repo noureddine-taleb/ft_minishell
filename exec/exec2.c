@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 13:08:02 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/20 14:09:24 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/21 09:05:39 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	init_cmd_fd(struct s_list_cmd *cmd, int pipe[2],
 void	print_trailer(int exit_status)
 {
 	if (exit_status == (128 + SIGQUIT))
-		printf("^\\Quit: 3\n");
+		printf("Quit: 3\n");
 	if (exit_status == (128 + SIGINT))
-		printf("^C\n");
+		printf("\n");
 }
