@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   fun_herdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 01:18:32 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:28:46 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 13:40:31 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+char *ft_readline(char *prompt)
+{
+	char *ret;
+
+	ret = readline(prompt);
+	ret = ft_strjoin(ret, "\n");
+	return (ret);
+}
 
 char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 {
@@ -20,11 +29,10 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 
 	ret_expand = NULL;
 	string_join = NULL;
-	string_inp = readline("> ");
+	string_inp = ft_readline("> ");
+	eof = ft_strjoin(eof, "\n");
 	while (string_inp && ft_strcmp(string_inp, eof))
 	{
-		if (string_join || !(*string_inp))
-			string_join = ft_strjoin(string_join, "\n");
 		while (string_inp && *string_inp)
 		{
 			if (*string_inp == '$' && !(*data)->sign_d_s_quote)
@@ -35,7 +43,7 @@ char	*ft_herdoc(char *eof, t_data **data, t_lexer *lexer)
 			string_join = ft_strjoin2(string_join, *string_inp, lexer);
 			string_inp++;
 		}
-		string_inp = readline("> ");
+		string_inp = ft_readline("> ");
 	}
 	return (string_join);
 }

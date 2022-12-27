@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 04:40:29 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:27:34 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 13:40:24 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_list_cmd	*get_list_cmd(t_list_token **list_token,
 {
 	t_list_cmd		*new_cmd;
 	t_list_token	*tmp;
-	t_list_cmd		*tmp_2;
-	int				j;
+	// t_list_cmd		*tmp_2;
+	// int				j;
 
 	tmp = *list_token;
 	while (tmp)
@@ -28,21 +28,22 @@ t_list_cmd	*get_list_cmd(t_list_token **list_token,
 		if (tmp)
 			tmp = tmp->next;
 	}
-	tmp_2 = *list_cmds;
-	while (tmp_2)
-	{
-		j = 0;
-		while (tmp_2->cmds_args && tmp_2->cmds_args[j])
-			printf("\033[90m arg == '%s'\n\033[00m", tmp_2->cmds_args[j++]);
-		while (tmp_2->io)
-		{
-			printf("\033[92m file_flage == %d\n\033[00m", tmp_2->io->flags);
-			printf("\033[91m file_name  == {%s}\n\033[00m", tmp_2->io->target);
-			tmp_2->io = tmp_2->io->next;
-		}
-		printf("------------------------------------------------\n");
-		tmp_2 = tmp_2->next;
-	}
+	// tmp_2 = *list_cmds;
+	// while (tmp_2)
+	// {
+	// 	j = 0;
+	// 	while (tmp_2->cmds_args && tmp_2->cmds_args[j])
+	// 		printf("\033[90m arg == '%s'\n\033[00m", tmp_2->cmds_args[j++]);
+	// 	while (tmp_2->io)
+	// 	{
+	// 		printf("\033[92m file_flage == %d\n\033[00m", tmp_2->io->flags);
+	// 		printf("\033[91m file_name  == %s\n\033[00m", tmp_2->io->target);
+	// 		// ft_putstr_fd(tmp_2->io->target, 1);
+	// 		tmp_2->io = tmp_2->io->next;
+	// 	}
+	// 	// printf("------------------------------------------------\n");
+	// 	tmp_2 = tmp_2->next;
+	// }
 	return (*list_cmds);
 }
 
@@ -96,18 +97,14 @@ t_list_cmd	*node_list(t_list_token **list_token, t_lexer *lexer, t_data **data)
 	if (!new_cmd)
 		return (NULL);
 	init_node(&new_cmd);
-	if (nbr_arg)
-	{
-		new_cmd->cmds_args = malloc(sizeof (char **) * (nbr_arg + 1));
-		if (!new_cmd->cmds_args)
-			return (NULL);
-	}
+	new_cmd->cmds_args = malloc(sizeof (char **) * (nbr_arg + 1));
+	if (!new_cmd->cmds_args)
+		return (NULL);
 	while (!find_pipe(list_token))
 	{
 		node_list_2(list_token, &new_cmd, data, lexer);
 		(*list_token) = (*list_token)->next;
 	}
-	if (new_cmd->cmds_args)
-		new_cmd->cmds_args[(*data)->index] = NULL;
+	new_cmd->cmds_args[(*data)->index] = NULL;
 	return (new_cmd);
 }

@@ -84,14 +84,26 @@ typedef struct s_list_cmd
 	struct s_list_cmd	*next;
 }	t_list_cmd;
 
-int					ft_strlen(char *str);
-char				*ft_strdup(char *src);
 char				*ft_strjoin2(char *string, char c, t_lexer *lexer);
-int					ft_isalpha(int c);
-int					ft_strcmp(char *s1, char *s2);
-char				*ft_strjoin(char *str1, char *str2);
-int					ft_isalnum(int c);
-int					ft_isdigit(int c);
+int	ft_strlen(char *str);
+char	*ft_strdup(char *src);
+int	ft_isalpha(int c);
+int	ft_isdigit(int c);
+int	ft_isalnum(int c);
+int	ft_strcmp(char *s1, char *s2);
+char	*ft_strjoin(char *str1, char *str2);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
+int	ft_atoi_err(char *str, int *error);
+int	ft_strncmp(char *s1, char *s2, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+
+char	*ft_strchr(char *s, int c);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
+void	*ft_memcpy(void *dst, void *src, size_t n);
+void	*ft_memmove(void *dst, void *src, size_t len);
+size_t	ft_strlcat(char *dest, char *src, size_t size);
+char	**ft_split(char *str, char c);
 
 char				*char_convert_string(char c);
 int					skip_whitespace(t_lexer *lexer);
