@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:46:38 by kadjane           #+#    #+#             */
-/*   Updated: 2022/12/16 01:04:18 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/12/16 13:40:41 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ int	main(int ac, char **av, char **env)
 			get_token(input_commands, &list_token, &data);
 			convert_type_word(&list_token);
 			if (!ft_error(list_token, &data))
+			{
 				list_cmds = get_list_cmd(&list_token, &list_cmds,
 						input_commands, &data);
+				exec(list_cmds);
+			}
 		}
 		free_list_token(&list_token);
 		free_list_cmds(&list_cmds);
