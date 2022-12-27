@@ -6,7 +6,7 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/27 11:58:32 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/19 17:08:00 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,12 @@ int	handle_io(struct s_list_cmd *cmd)
 			|| io->flags == TOKEN_FILE_INP
 			|| io->flags == TOKEN_FILE_OUT
 		)
+		{
 			if (__handle_io_file(io) < 0)
 				return (-1);
+		}
+		else if (io->flags == TOKEN_AMBIGUOUS_REDIRECTION)
+			return (__pr_error(io->target, NULL, "ambiguous redirect", -1));
 		io = io->next;
 	}
 	return (0);
