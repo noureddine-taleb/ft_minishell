@@ -3,6 +3,15 @@
 		"unistd.h": "c",
 		"signal.h": "c",
 		"cdefs.h": "c",
-		"_types.h": "c"
+		"_types.h": "c",
+		"stdio.h": "c",
+		"minishell.h": "c",
+		"wait.h": "c",
+		"libft.h": "c",
+		"stdlib.h": "c",
+		"readline.h": "c",
+		"history.h": "c",
+		"errno.h": "c",
+		"_errno_t.h": "c"
 	}
 }

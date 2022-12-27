@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:50:59 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/14 17:58:38 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:54:26 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <signal.h>
 
 void	handle_signals(void)

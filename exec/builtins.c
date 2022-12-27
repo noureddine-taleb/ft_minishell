@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 09:34:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 20:28:00 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:51:55 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	builtin_echo(struct s_list_cmd *cmd)
 {
@@ -19,13 +19,15 @@ static int	builtin_echo(struct s_list_cmd *cmd)
 
 	new_line = 1;
 	argv = &cmd->cmds_args[1];
-	if (*argv && ft_strcmp(*argv, "-n"))
+	if (*argv && !ft_strcmp(*argv, "-n"))
 	{
 		new_line = 0;
 		argv++;
 	}
+	// printf("printing argv = %s\n", *argv);
 	while (*argv)
 	{
+		// printf("arg=%s", *argv);
 		ft_putstr_fd(*argv++, 1);
 		if (*argv)
 			ft_putchar_fd(' ', 1);
@@ -149,6 +151,8 @@ static int	builtin_exit(struct s_list_cmd *cmd)
 
 builtin_t	get_builtin(char *cmd)
 {
+	if (!cmd)
+		return (NULL);
 	if (!ft_strcmp(cmd, "echo"))
 		return (builtin_echo);
 	if (!ft_strcmp(cmd, "cd"))

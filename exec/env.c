@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:58:22 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 10:59:07 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:52:12 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	**g_env;
 int		env_allocated = 0;
@@ -149,7 +149,7 @@ void	print_env(void)
 
 	env = g_env;
 	while (*env)
-		ft_printf("%s\n", *env++);
+		printf("%s\n", *env++);
 }
 
 /**

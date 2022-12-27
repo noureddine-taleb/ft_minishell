@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:55:05 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 10:58:09 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:54:00 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /**
  * result should be freed

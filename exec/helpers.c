@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:51:32 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/15 20:02:05 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:53:07 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -32,8 +32,10 @@ int	count_processes(struct s_list_cmd *cmd)
 	int	count;
 
 	count = 0;
+	// printf("counting process count\n");
 	while (cmd)
 	{
+		// printf("cmd = %s\n", cmd->cmds_args[0]);
 		cmd = cmd->next;
 		count++;
 	}
@@ -58,7 +60,7 @@ void	die(char *msg, int status)
 
 int	get_append_flag(struct s_list_io_stream *io)
 {
-	if (io->flags & IO_APPEND)
+	if (io->flags == TOKEN_FILE_APPAND)
 		return (O_APPEND);
 	else
 		return (0);

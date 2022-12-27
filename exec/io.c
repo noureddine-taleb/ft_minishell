@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:02:47 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 10:58:01 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:53:40 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <fcntl.h>
 
 void	handle_pipe(struct s_list_cmd *cmd, int pipe[2],
@@ -30,14 +30,14 @@ static int	__handle_io_file(struct s_list_io_stream *io)
 	int	file;
 	int	ret;
 
-	if (io->flags & IO_IN_FILE)
+	if (io->flags == TOKEN_FILE_INP)
 		file = open(io->target, O_RDONLY);
 	else
 		file = open(io->target, O_CREAT | O_WRONLY | get_append_flag(io),
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file < 0)
 		return (pr_error(io->target, -1));
-	if (io->flags & IO_IN_FILE)
+	if (io->flags == TOKEN_FILE_INP)
 		ret = dup2(file, STDIN_FILENO);
 	else
 		ret = dup2(file, STDOUT_FILENO);
@@ -79,9 +79,12 @@ int	handle_io(struct s_list_cmd *cmd)
 	io = cmd->io;
 	while (io)
 	{
-		if (io->type == TYPE_HEREDOC)
+		if (io->flags == TOKEN_FILE_HERDOC)
 			__handle_heredoc(io);
-		else if (io->type == TYPE_FILE)
+		else if (io->flags == TOKEN_FILE_APPAND
+				|| io->flags == TOKEN_FILE_INP
+				|| io->flags == TOKEN_FILE_OUT
+				 )
 			if (__handle_io_file(io) < 0)
 				return (-1);
 		io = io->next;

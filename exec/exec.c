@@ -6,11 +6,11 @@
 /*   By: ntaleb <ntaleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:08:23 by ntaleb            #+#    #+#             */
-/*   Updated: 2022/12/16 10:58:01 by ntaleb           ###   ########.fr       */
+/*   Updated: 2022/12/27 11:52:49 by ntaleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <sys/wait.h>
 #include <stdio.h>
 
@@ -52,6 +52,7 @@ int	create_child(struct s_list_cmd *cmd, int _pipe[2], int pipes[][2], int len)
 {
 	int			ret;
 
+	// printf("root = %p\n", cmd->cmds_args);
 	cmd->__builtin = get_builtin(cmd->cmds_args[0]);
 	cmd->__in_subshell = (!cmd->__builtin || cmd->next || cmd->prev);
 	if (cmd->__in_subshell)
@@ -91,7 +92,7 @@ int	create_children(struct s_list_cmd *cmd, int pipe_count, int pipes[][2])
 	pipe_i = 0;
 	while (cmd)
 	{
-		get_pipe(pipes, pipe, &pipe_i);
+		get_pipe(pipes, pipe, &pipe_i, pipe_count);
 		create_child(cmd, pipe, pipes, pipe_count);
 		cmd = cmd->next;
 		i++;
@@ -135,6 +136,7 @@ int	exec(struct s_list_cmd *cmd)
 	handle_signals();
 	init_prev(cmd);
 	process_count = count_processes(cmd);
+	// printf("process count = %d\n", process_count);
 	pipe_count = process_count - 1;
 	pipes = malloc(pipe_count * sizeof (int [2]));
 	init_pipes(pipe_count, pipes);
@@ -142,5 +144,6 @@ int	exec(struct s_list_cmd *cmd)
 	close_unused_pipes((int [2]){-1, -1}, pipes, pipe_count);
 	free(pipes);
 	status = wait_children(cmd);
+	// printf("status = %d\n", status);
 	return (status);
 }
